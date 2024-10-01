@@ -28,7 +28,6 @@ KE_TEST(Random)
 		"Pz]HZ\"=_<[",
 		"I-=VXV^^Iu"
 	};
-
 	std::array<std::string, 10> correct_strings2 = {
 		"jlXuScxszD",
 		"WeQdWUokbS",

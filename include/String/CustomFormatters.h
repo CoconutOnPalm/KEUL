@@ -4,6 +4,8 @@
 #include <vector>
 #include <array>
 
+// TODO: Remove this when range formatting is supported
+
 // std::vector<T> formatter (until range formatting is supported)
 template <typename T, typename CharT>
 struct std::formatter<std::vector<T>, CharT>
