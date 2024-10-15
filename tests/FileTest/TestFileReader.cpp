@@ -54,13 +54,19 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 */
 
+#ifdef PROJECT_SOURCE_DIR
+const std::string source_dir = PROJECT_SOURCE_DIR;
+#else
+const std::string source_dir = "";
+#endif
 
 
 KE_TEST(FileReader)
 {
-	if (!std::filesystem::exists("tests/assets/Basic.txt"))
+	if (!std::filesystem::exists(source_dir + "tests/assets/Basic.txt"))
 	{
 		ke::_internal::EngineLog::Warning("Basic.txt does not exist. Skipping FileReader tests.");
+		ke::_internal::EngineLog::Info("Current directory: {}", std::filesystem::current_path().string());
 		return;
 	}
 
@@ -77,7 +83,7 @@ KE_TEST(FileReader)
 
 	ke::SimpleLogger::SetLayer(ke::LogLayer::Debug);
 
-	ASSERT_TRUE(reader.open("tests/assets/Basic.txt"));
+	ASSERT_TRUE(reader.open(source_dir + "tests/assets/Basic.txt"));
 	ASSERT_TRUE(reader.isOpen());
 
 
@@ -106,9 +112,10 @@ KE_TEST(FileReader)
 
 	reader.close();
 
-	if (!reader.open("tests/assets/Unicode.txt"))
+	if (!reader.open(source_dir + "tests/assets/Unicode.txt"))
 	{
 		ke::_internal::EngineLog::Warning("Unicode.txt does not exist. Skipping FileReader tests.");
+		ke::_internal::EngineLog::Info("Current directory: {}", std::filesystem::current_path().string());
 		return;
 	}
 
@@ -147,9 +154,10 @@ KE_TEST(FileReader)
 
 	// check if no-BOM works
 
-	if (!reader.open("tests/assets/LoremIpsum.txt"))
+	if (!reader.open(source_dir + "tests/assets/LoremIpsum.txt"))
 	{
 		ke::_internal::EngineLog::Warning("LoremIpsum.txt does not exist. Skipping FileReader tests.");
+		ke::_internal::EngineLog::Info("Current directory: {}", std::filesystem::current_path().string());
 		return;
 	}
 	

@@ -288,6 +288,12 @@ namespace ke
 		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiter);
 	}
 
+	template <template <class, class> class ContainerType>
+	inline auto splitStringToPair(std::string_view str, char delimiter)
+	{
+		return _impl::splitString_impl<ContainerType<std::string, std::string>>(str, delimiter);
+	}
+
 
 	/**
 	 * @brief Deletes whitespaces from both ends of a text.

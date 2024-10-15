@@ -172,6 +172,13 @@ namespace ke
 		};
 
 
+		template<class Container>
+		concept _StringPairTypeConcept = requires(Container& c) {
+			{ c.first } -> std::convertible_to<std::string>;
+			{ c.second } -> std::convertible_to<std::string>;
+		};
+
+
 		/**
 		 * @brief Splits a string into a container based on specified delimiters.
 		 *
@@ -466,6 +473,24 @@ namespace ke
 			}
 
 			return output;
+		}
+
+
+		template <_StringPairTypeConcept ContainerType>
+		inline auto splitString_impl(std::string_view text, const char delimiter)
+		{
+			if (text.empty())
+				return ContainerType("", "");
+
+			for (int i = 0; i < text.size(); i++)
+			{
+				if (text[i] == delimiter)
+				{
+					return ContainerType(std::string(text.begin(), text.begin() + i), std::string(text.begin() + i + 1, text.end()));
+				}
+			}
+
+			return ContainerType(std::string(text), "");
 		}
 
 
