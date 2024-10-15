@@ -58,7 +58,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 KE_TEST(FileReader)
 {
-	if (!std::filesystem::exists("Basic.txt"))
+	if (!std::filesystem::exists("tests/assets/Basic.txt"))
 	{
 		ke::_internal::EngineLog::Warning("Basic.txt does not exist. Skipping FileReader tests.");
 		return;
@@ -77,7 +77,7 @@ KE_TEST(FileReader)
 
 	ke::SimpleLogger::SetLayer(ke::LogLayer::Debug);
 
-	ASSERT_TRUE(reader.open("Basic.txt"));
+	ASSERT_TRUE(reader.open("tests/assets/Basic.txt"));
 	ASSERT_TRUE(reader.isOpen());
 
 
@@ -106,7 +106,7 @@ KE_TEST(FileReader)
 
 	reader.close();
 
-	if (!reader.open("Unicode.txt"))
+	if (!reader.open("tests/assets/Unicode.txt"))
 	{
 		ke::_internal::EngineLog::Warning("Unicode.txt does not exist. Skipping FileReader tests.");
 		return;
@@ -147,7 +147,12 @@ KE_TEST(FileReader)
 
 	// check if no-BOM works
 
-	reader.open("LoremIpsum.txt");
+	if (!reader.open("tests/assets/LoremIpsum.txt"))
+	{
+		ke::_internal::EngineLog::Warning("LoremIpsum.txt does not exist. Skipping FileReader tests.");
+		return;
+	}
+	
 	data = reader.readAll();
 
 	ASSERT_EQUAL(data.size(), 1);
