@@ -28,7 +28,7 @@ struct std::formatter<std::vector<T>, CharT>
 			elements.pop_back();
 		}
 
-		return std::format_to(ctx.out(), "({})", elements);
+		return std::format_to(ctx.out(), "[{}]", elements);
 	}
 };
 
@@ -55,6 +55,24 @@ struct std::formatter<std::array<T, _Size>, CharT>
 			elements.pop_back();
 		}
 
+		return std::format_to(ctx.out(), "[{}]", elements);
+	}
+};
+
+
+// std::pair<T1, T2> formatter (until range formatting is supported)
+template <typename T1, typename T2,  typename CharT>
+struct std::formatter<std::pair<T1, T2>, CharT>
+{
+	constexpr auto parse(std::basic_format_parse_context<CharT>& ctx)
+	{
+		return ctx.begin();
+	}
+
+	template <typename FormatContext>
+	auto format(const std::pair<T1, T2>& range, FormatContext& ctx) const
+	{
+		std::string elements = std::format("{}, {}", range.first, range.second);
 		return std::format_to(ctx.out(), "({})", elements);
 	}
 };
