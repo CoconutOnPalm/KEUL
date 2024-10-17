@@ -241,11 +241,11 @@ namespace ke
 	using SLog = SimpleLogger;
 
 
-#define KE_LOGINFO(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Info, __FILE__, ke::toString(__LINE__), format_str, __VA_ARGS__);
-#define KE_LOGDEBUG(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Debug, __FILE__, ke::toString(__LINE__), format_str, __VA_ARGS__);
-#define KE_LOGWARNING(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Warning, __FILE__, ke::toString(__LINE__), format_str, __VA_ARGS__);
-#define KE_LOGERROR(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Error, __FILE__, ke::toString(__LINE__), format_str, __VA_ARGS__);
-#define KE_LOGCRITICAL(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Critical, __FILE__, ke::toString(__LINE__), format_str, __VA_ARGS__);
+#define KE_LOGINFO(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Info, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGDEBUG(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Debug, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGWARNING(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Warning, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGERROR(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Error, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGCRITICAL(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Critical, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
 
 
 } // namespace ke
