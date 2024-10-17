@@ -83,7 +83,7 @@ namespace ke::test::_internal
 
 				for (auto& test : instance.m_tests)
 					if (test->m_summary.failure_count > 0)
-						ke::println("[f]| [0;f;r] > [0;br]\"{}\"[0;r] FAILED", test->m_name);
+						ke::println("[f;l]| [0;f;r] > [0;br]\"{}\"[0;r] FAILED", test->m_name);
 				
 			}
 
