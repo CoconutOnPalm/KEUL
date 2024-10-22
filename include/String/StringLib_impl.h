@@ -477,16 +477,21 @@ namespace ke
 
 
 		template <_StringPairTypeConcept ContainerType>
-		inline auto splitString_impl(std::string_view text, const char delimiter)
+		inline auto splitStringToPair_impl(std::string_view text, const char delimiter, size_t split_index = 0)
 		{
 			if (text.empty())
 				return ContainerType("", "");
+
+			size_t occurences = 0;
 
 			for (int i = 0; i < text.size(); i++)
 			{
 				if (text[i] == delimiter)
 				{
-					return ContainerType(std::string(text.begin(), text.begin() + i), std::string(text.begin() + i + 1, text.end()));
+					occurences++;
+
+					if (occurences > split_index)
+						return ContainerType(std::string(text.begin(), text.begin() + i), std::string(text.begin() + i + 1, text.end()));
 				}
 			}
 

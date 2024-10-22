@@ -3,11 +3,9 @@
 #include <string>
 #include <map>
 #include <print>
+#include <functional>
 
-#include "../Error/ErrorDef.h"
-#include "StringLib.h"
-//#include "../Range.h"
-
+#include "CustomFormattingFunctions.h"
 
 namespace ke
 {
@@ -19,6 +17,8 @@ namespace ke
 
 	namespace _impl
 	{
+
+		constexpr bool enable_error_logging = true;
 
 		/**
 		 * @brief ke::format implementation; formats a string with ANSI codes using [ ] format syntax.
@@ -32,7 +32,7 @@ namespace ke
 		 * @param sequece ANSI code string
 		 * @return std::expected<std::string, Error> ANSI code string
 		 */
-		inline auto interpret_ansi_codes(std::string_view sequece) -> std::expected<std::string, Error>;
+		inline auto interpret_ansi_codes(std::string sequece) -> std::expected<std::string, Error>;
 
 		/**
 		 * @brief Handles special format functions like rgb(a,b,c).
@@ -43,7 +43,15 @@ namespace ke
 		inline auto handle_special_format_functions(std::string_view sequece) -> std::expected<std::string, Error>;
 
 
-		inline auto interpret_ansi_codes(std::string_view sequece) -> std::expected<std::string, Error>
+		// takes function name and vector of string arguments, returns formatted string
+		const static inline std::map<std::string, std::function<std::expected<std::string, Error>(std::string_view)>> format_functions = 
+		{
+			{ "rgb", rgb_ansi_color },
+			{ "esc", custom_ansi_code }
+		};
+
+
+		inline auto interpret_ansi_codes(std::string sequece) -> std::expected<std::string, Error>
 		{
 			const static std::map<std::string, std::string> ansi_interpreter = {
 				{ "reset", "0" },
@@ -245,21 +253,25 @@ namespace ke
 				{ "107", "107" },
 			};
 
+			if (sequece.front() != '[' || sequece.back() != ']')
+				return std::unexpected(ke::Error::FormatError);
+
+			// remove brackets
+			std::erase_if(sequece, [](char c) { return c == '[' || c == ']'; });
+
 			if (sequece.empty())
 				return std::unexpected(ke::Error::EmptyArgument);
 
-			if (sequece.front() != '[' || sequece.back() != ']')
+
+			// check for special format functions
+			auto special_func = handle_special_format_functions(sequece);
+			if (special_func) // no error -> special function found
 			{
-				// TODO: log error but without engine logging (circular dependency)
-				return std::unexpected(ke::Error::FormatError);
+				return "\033[" + special_func.value() + 'm';
 			}
 
-			if (sequece.size() == 2) // "[]"
-				return std::unexpected(ke::Error::EmptyArgument);
 
-			ke::Error encountered_error = ke::Error::None;
-
-			std::vector<std::string> codes = ke::splitString<std::vector>(sequece, "[];");
+			std::vector<std::string> codes = ke::splitString<std::vector>(sequece, ';');
 
 			if (codes.size() == 0)
 				return std::unexpected(ke::Error::EmptyArgument);
@@ -279,35 +291,13 @@ namespace ke
 				{
 					ansi_str += it->second + ";";
 				}
-				else // try rgb color
+				else
 				{
-					auto special_func = handle_special_format_functions(code);
-					if (!special_func) // has error
-					{
-						encountered_error = special_func.error();
-					}
-					else
-					{
-						ansi_str += special_func.value() + ';';
-					}
+					// TODO: log error
+					return std::unexpected(ke::Error::InvalidArgument);
 				}
 			}
 
-			switch (encountered_error)
-			{
-			case ke::Error::InvalidArgument:
-				return std::unexpected(ke::Error::InvalidArgument);
-				break;
-			case ke::Error::FormatError:
-				return std::unexpected(ke::Error::FormatError);
-				break;
-			case ke::Error::None:
-				// no error
-				break;
-			default:
-				return std::unexpected(ke::Error::UnexpectedError);
-				break;
-			}
 
 			if (ansi_str.back() == ';')
 				ansi_str.pop_back();
@@ -321,30 +311,40 @@ namespace ke
 			if (sequece.empty())
 				return std::unexpected(ke::Error::EmptyArgument);
 
-			if (sequece.size() >= 10)
+			std::string function_name;
+			std::string arguments;
+
+			size_t i = 0;
+			size_t bracket_pos = 0;
+			for (; i < sequece.size(); i++)
 			{
-				// try rgb(a,b,c)
-				auto partitions = ke::splitString<std::vector>(sequece, "(), ");
-				if (partitions.size() == 4) // "rgb", "a", "b", "c"
+				if (sequece[i] == '(')
 				{
-					if (partitions.front() == "rgb")
-					{
-						auto r = ke::fromString<uint32_t>(partitions[1]);
-						auto g = ke::fromString<uint32_t>(partitions[2]);
-						auto b = ke::fromString<uint32_t>(partitions[3]);
-
-						if (!(r && g && b))
-							return std::unexpected(ke::Error::FormatError);
-
-						if (*r > 255 || *g > 255 || *b > 255)
-							return std::unexpected(ke::Error::DomainError);
-
-						return std::format("38;2;{};{};{}", r.value(), g.value(), b.value());
-					}
+					bracket_pos = i;
+					function_name = sequece.substr(0, i);
+					break;
 				}
 			}
 
-			return std::unexpected(ke::Error::InvalidArgument);
+			for (; i < sequece.size(); i++)
+			{
+				if (sequece[i] == ')')
+				{
+					arguments = sequece.substr(bracket_pos + 1, i - bracket_pos - 1);
+					break;
+				}
+			}
+			
+			auto it = format_functions.find(function_name);
+			if (it == format_functions.end())
+			{
+				// TODO: log error but without engine logging (circular dependency)
+				return std::unexpected(ke::Error::InvalidArgument);
+			}
+
+			return it->second(arguments);
+
+			//return std::unexpected(ke::Error::InvalidArgument);
 		}
 
 		template <ke::FormatAllowAnsiCodes allow_ansi, typename... Args>
@@ -429,17 +429,23 @@ namespace ke
 								{
 								case Error::FormatError:
 									// TODO: log error because something is DEFINITELY broken (without engine logging - circular dependency)
-									std::println("format(...): Format error on closing bracket search");
+									if (enable_error_logging)
+										std::println("format({}): Formatting error", str);
 									break;
 								case Error::InvalidArgument:
 									// don't log error: invalid ansi code may be format string argument (without engine logging - circular dependency)
+									if (enable_error_logging)
+										std::println("format({}): Invalid argument", str);
 									break;
 								case Error::EmptyArgument:
 									// don't log error: empty ansi code may be format string argument (without engine logging - circular dependency)
+									if (enable_error_logging)
+										std::println("format({}): Empty argument", str);
 									break;
 								default:
 									// panic
-									std::println("format(...): Unexpected error on closing bracket search");
+									if (enable_error_logging)
+										std::println("format({}): Unexpected error", str);
 									break;
 								}
 								// don't log error: invalid ansi code may be format string argument

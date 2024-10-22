@@ -107,6 +107,7 @@ namespace ke
 	}
 
 
+
 	/**
 	 * @brief Converts string to any STREAMABLE type. Uses std::stringstream to convert.
 	 * 
@@ -127,6 +128,22 @@ namespace ke
 			return std::unexpected(Error::InvalidArgument);
 
 		return value;
+	}
+
+
+	template <>
+	inline auto fromString<uint8_t>(std::string_view arg) -> std::expected<uint8_t, Error>
+	{
+		auto value = fromString<int>(arg);
+
+		if (!value)
+			return std::unexpected(value.error());
+
+		if (*value < 0 || *value > std::numeric_limits<uint8_t>::max())
+			return std::unexpected(Error::DomainError);
+
+		uint8_t result = value.value();
+		return result;
 	}
 
 
@@ -291,7 +308,7 @@ namespace ke
 	template <template <class, class> class ContainerType>
 	inline auto splitStringToPair(std::string_view str, char delimiter)
 	{
-		return _impl::splitString_impl<ContainerType<std::string, std::string>>(str, delimiter);
+		return _impl::splitStringToPair_impl<ContainerType<std::string, std::string>>(str, delimiter);
 	}
 
 

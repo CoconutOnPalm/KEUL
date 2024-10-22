@@ -15,6 +15,11 @@ KE_TEST(fromString)
 	ASSERT_EQUAL(ke::fromString<int>("1234567890").value(), 1234567890);
 	ASSERT_EQUAL(ke::fromString<int>("-1234567890").value(), -1234567890);
 
+	for (uint8_t i = 0; i < 255; i++)
+	{
+		ASSERT_EQUAL(ke::fromString<uint8_t>(ke::toString(i)).value(), i);
+	}
+
 	ASSERT_SIMILAR(ke::fromString<float>("0").value(), 0.0f, std::numeric_limits<float>().epsilon());
 	ASSERT_SIMILAR(ke::fromString<float>("1").value(), 1.0f, std::numeric_limits<float>().epsilon());
 	ASSERT_SIMILAR(ke::fromString<float>("1.5").value(), 1.5f, std::numeric_limits<float>().epsilon());

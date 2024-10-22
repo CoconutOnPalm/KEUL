@@ -13,9 +13,11 @@ KE_TEST(format)
 	ASSERT_EQUAL(ke::format("Hello [2137] {}!", "World"), "Hello [2137] World!" + reset_code);
 	ASSERT_EQUAL(ke::format("Hello [rgb(255, 0, 0)] {}!", "World"), "Hello \033[38;2;255;0;0m World!" + reset_code);
 	ASSERT_EQUAL(ke::format("Hello [rgb(255,0,0)] {}!", "World"), "Hello \033[38;2;255;0;0m World!" + reset_code);
+	ASSERT_EQUAL(ke::format("[rgb(255,0,0)]"), "\033[38;2;255;0;0m" + reset_code);
 	ASSERT_EQUAL(ke::format("Hello [ World"), "Hello [ World" + reset_code);
 	ASSERT_EQUAL(ke::format("Hello ] World"), "Hello ] World" + reset_code);
 	ASSERT_EQUAL(ke::format("Hello [] World"), "Hello [] World" + reset_code);
+	ASSERT_EQUAL(ke::format("[esc(38;2;255;255;255)]"), "\033[38;2;255;255;255m" + reset_code);
 
 	ASSERT_EQUAL(ke::format_no_ansi("Hello {}!", "World"), "Hello World!");
 	ASSERT_EQUAL(ke::format_no_ansi("Hello [[]] {}!", "World"), "Hello [] World!");

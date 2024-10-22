@@ -13,6 +13,7 @@ namespace ke
 
 		// logic errors
 		InvalidArgument,
+		InvalidArgumentCount,
 		DomainError,		// aka range error
 		LengthError,
 		OutOfRange,
@@ -53,6 +54,7 @@ namespace ke
 			const static std::map<Error, std::string> errorStrings = {
 				{ Error::Error,					"Error" },
 				{ Error::InvalidArgument,		"Invalid Argument" },
+				{ Error::InvalidArgumentCount,	"Invalid Argument Count" },
 				{ Error::DomainError,			"Domain Error" },
 				{ Error::LengthError,			"Length Error" },
 				{ Error::OutOfRange,			"Out of Range" },
