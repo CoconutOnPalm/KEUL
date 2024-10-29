@@ -189,7 +189,7 @@ namespace ke
 		 */
 		void print(TimeUnit unit = TimeUnit::microseconds, uint8_t precision = 2) const
 		{
-			std::print("{0}", toString(unit, precision));
+			std::println("{0}", toString(unit, precision));
 		}
 
 	private:

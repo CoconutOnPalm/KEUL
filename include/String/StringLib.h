@@ -314,6 +314,12 @@ namespace ke
 		return _impl::splitStringToPair_impl<ContainerType<std::string, std::string>>(str, delimiter);
 	}
 
+	template <std::ranges::range ContainerType>
+	inline std::string assembleString(const ContainerType& text_partitions, const std::string& separator, bool delete_last_separator = true)
+	{
+		return _impl::assembleString_impl(text_partitions, separator, delete_last_separator);
+	}
+
 
 	/**
 	 * @brief Deletes whitespaces from both ends of a text.

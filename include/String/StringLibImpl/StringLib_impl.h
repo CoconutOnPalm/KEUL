@@ -6,6 +6,7 @@
 #include <limits>
 
 #include "SplitString.h"
+#include "AssembleString.h"
 
 namespace ke
 {
