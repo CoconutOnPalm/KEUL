@@ -71,9 +71,7 @@ KE_TEST(splitString_vector)
 		for (auto& create_string : multichar_builders)
 		{
 			std::string split_str = { c, ++c, ++c, ++c, ++c };
-			std::println("Split string: ", split_str);
 			std::vector<std::string> result_vec = ke::splitString<std::vector>(create_string(split_str), split_str);
-			std::println("Result: ", result_vec);
 			ASSERT_EQUAL(result_vec, words);
 		}
 	}
