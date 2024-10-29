@@ -48,8 +48,8 @@ namespace ke
 		 *  str = "  hello world  " aka "\t hello wordl \t\n"
 		 *	trimString_impl(str, {' ', '\t', '\n'}): str -> "hello world"
 		 *
-		 * \param str			Input string. Lines are not trimmed.
-		 * \param whitespaces
+		 * @param str			Input string. Lines are not trimmed.
+		 * @param whitespaces
 		 */
 		inline void trimString_impl(std::string& str, std::initializer_list<char> whitespaces);
 
@@ -74,7 +74,7 @@ namespace ke
 		 *	}
 		 *	)""""
 		 *
-		 * \param str Input string. Can have multiple lines.
+		 * @param str Input string. Can have multiple lines.
 		 */
 		inline void removeComments_impl(std::string& str);
 
@@ -86,8 +86,8 @@ namespace ke
 		 *  str = "Hello, World!"
 		 *	shortenString_impl(str, 10): str -> "Hello W..."
 		 *
-		 * \param str			Input string
-		 * \param max_length	Maximum length of the string
+		 * @param str			Input string
+		 * @param max_length	Maximum length of the string
 		 */
 		inline void shortenString_impl(std::string& str, size_t max_length)
 		{
@@ -109,7 +109,7 @@ namespace ke
 		/**
 		 * @brief [MSVC ONLY!]	Cleans type information from a string. Removes "class ", "struct ", "enum ", "union ", "typedef " from the string.
 		 *
-		 * \param str
+		 * @param str
 		 */
 		inline void cleanTypeInfo_impl(std::string& str)
 		{
@@ -163,8 +163,8 @@ namespace ke
 		/**
 		 * @brief removes specified whitespaces from the front and back of a string.
 		 *
-		 * \param str
-		 * \param whitespaces
+		 * @param str
+		 * @param whitespaces
 		 */
 		inline void trimString_impl(std::string& str, std::initializer_list<char> whitespaces)
 		{
@@ -202,7 +202,7 @@ namespace ke
 		/**
 		 * @brief removes comments from a string. Comments are marked by "//" and end with a newline character.
 		 *
-		 * \param str
+		 * @param str
 		 */
 		inline void removeComments_impl(std::string& str)
 		{

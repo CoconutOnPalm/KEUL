@@ -24,11 +24,11 @@ namespace ke
 		/**
 		 * @brief Logs a message to the std::clog.
 		 *
-		 * \param layer			LogLayer -> will only log if the layer is above or at the current layer
-		 * \param filename		name of the file that called the log function
-		 * \param line			number of the line that called the log function
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param layer			LogLayer -> will only log if the layer is above or at the current layer
+		 * @param filename		name of the file that called the log function
+		 * @param line			number of the line that called the log function
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		static void LogDetailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
@@ -49,9 +49,9 @@ namespace ke
 		/**
 		 * @brief Logs a message to the std::clog.
 		 *
-		 * \param layer			LogLayer -> will only log if the layer is above or at the current layer
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param layer			LogLayer -> will only log if the layer is above or at the current layer
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		static void Log(LogLayer layer, const std::format_string<Args...> format_str, Args&&... args)
@@ -73,8 +73,8 @@ namespace ke
 		/**
 		 * @brief Logs an info message to the std::clog.
 		 *
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		inline static void LogInfo(const std::format_string<Args...> format_str, Args&&... args)
@@ -85,8 +85,8 @@ namespace ke
 		/**
 		 * @brief Logs a debug message to the std::clog.
 		 *
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		inline static void LogDebug(const std::format_string<Args...> format_str, Args&&... args)
@@ -97,8 +97,8 @@ namespace ke
 		/**
 		 * @brief Logs a warning message to the std::clog.
 		 *
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		inline static void LogWarning(const std::format_string<Args...> format_str, Args&&... args)
@@ -109,8 +109,8 @@ namespace ke
 		/**
 		 * @brief Logs an error message to the std::clog.
 		 *
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		inline static void LogError(const std::format_string<Args...> format_str, Args&&... args)
@@ -121,8 +121,8 @@ namespace ke
 		/**
 		 * @brief Logs a critical message to the std::clog.
 		 *
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		inline static void LogCritical(const std::format_string<Args...> format_str, Args&&... args)
@@ -133,7 +133,7 @@ namespace ke
 		/**
 		 * @brief Sets the layer of the logger.
 		 *
-		 * \param layer	LogLayer
+		 * @param layer	LogLayer
 		 */
 		static void SetLayer(LogLayer layer)
 		{
@@ -145,7 +145,7 @@ namespace ke
 		/**
 		 * @brief Sets the logging policy of the logger.
 		 *
-		 * \tparam LoggingPolicy	policies::LoggingPolicyBase
+		 * @tparam LoggingPolicy	policies::LoggingPolicyBase
 		 */
 		template <class LoggingPolicy>
 		static void SetLoggingPolicy()

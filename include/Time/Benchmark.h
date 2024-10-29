@@ -52,8 +52,8 @@ namespace ke
 		/**
 		 * @brief Stops the measurement.
 		 * 
-		 * \param print		true -> the results are printed (in microseconds)
-		 * \return Elapsed time (in microseconds)
+		 * @param print		true -> the results are printed (in microseconds)
+		 * @return Elapsed time (in microseconds)
 		 */
 		long double stop(bool print = true)
 		{

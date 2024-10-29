@@ -66,8 +66,8 @@ namespace ke
 	/**
 	 * @brief Converts any FORMATTABLE type to string.
 	 * 
-	 * \param arg
-	 * \return 
+	 * @param arg
+	 * @return 
 	 */
 	template <typename T> //requires std::is_convertible_v<T, std::string> || std::formattable<T, std::format_context>
 	inline std::string toString(const T& arg) noexcept
@@ -78,8 +78,8 @@ namespace ke
 	/**
 	 * @brief Converts any FORMATTABLE type to string. Gives error if type is not formattable.
 	 * 
-	 * \param arg
-	 * \return 
+	 * @param arg
+	 * @return 
 	 */
 	template <typename T>
 	inline auto tryToStringOrError(const T& arg) noexcept -> std::expected<std::string, Error>
@@ -93,9 +93,9 @@ namespace ke
 	/**
 	 * @brief Converts any type to string. If type is not convertible to string, returns default string.
 	 * 
-	 * \param arg
-	 * \param default_str
-	 * \return 
+	 * @param arg
+	 * @param default_str
+	 * @return 
 	 */
 	template <typename T>
 	inline std::string tryToString(const T& arg, const std::string& default_str = "???")
@@ -111,8 +111,8 @@ namespace ke
 	/**
 	 * @brief Converts string to any STREAMABLE type. Uses std::stringstream to convert.
 	 * 
-	 * \param arg
-	 * \return 
+	 * @param arg
+	 * @return 
 	 */
 	template <_StringStreamableFromTConcept T>
 	inline auto fromString(std::string_view arg) -> std::expected<T, Error>
@@ -150,9 +150,9 @@ namespace ke
 	/**
 	 * @brief Converts string to lowercase.
 	 * 
-	 * \param arg
-	 * \param default_value
-	 * \return 
+	 * @param arg
+	 * @param default_value
+	 * @return 
 	 */
 	inline std::string toLower(std::string_view str)
 	{
@@ -165,9 +165,9 @@ namespace ke
 	/**
 	 * @brief Converts string reference to lowercase.
 	 * 
-	 * \param arg
-	 * \param default_value
-	 * \return 
+	 * @param arg
+	 * @param default_value
+	 * @return 
 	 */
 	inline std::string toLowerRef(std::string& str)
 	{
@@ -179,9 +179,9 @@ namespace ke
 	/**
 	 * @brief Converts string to uppercase.
 	 * 
-	 * \param arg
-	 * \param default_value
-	 * \return 
+	 * @param arg
+	 * @param default_value
+	 * @return 
 	 */
 	inline std::string toUpper(std::string_view str)
 	{
@@ -194,9 +194,9 @@ namespace ke
 	/**
 	 * @brief Converts string reference to uppercase.
 	 * 
-	 * \param arg
-	 * \param default_value
-	 * \return 
+	 * @param arg
+	 * @param default_value
+	 * @return 
 	 */
 	inline void toUpperRef(std::string& str)
 	{
@@ -208,8 +208,8 @@ namespace ke
 	/**
 	 * @brief [MSVC ONLY] Cleans type name from type information.
 	 * 
-	 * \param type_name
-	 * \return 
+	 * @param type_name
+	 * @return 
 	 */
 	inline std::string cleanTypeName(std::string_view type_name)
 	{
@@ -221,8 +221,8 @@ namespace ke
 	/**
 	 * @brief [MSVC ONLY] Cleans type name from type information.
 	 * 
-	 * \param type_name
-	 * \return 
+	 * @param type_name
+	 * @return 
 	 */
 	inline std::string cleanTypeNameRef(std::string& type_name)
 	{
@@ -236,9 +236,9 @@ namespace ke
 	 * "Hello World!", 10 -> "Hello W..."
 	 * 
 	 * 
-	 * \param str
-	 * \param length
-	 * \return 
+	 * @param str
+	 * @param length
+	 * @return 
 	 */
 	inline std::string shortenString(std::string_view str, size_t length)
 	{
@@ -253,9 +253,9 @@ namespace ke
 	 * "Hello World!", 10 -> "Hello W..."
 	 * 
 	 * 
-	 * \param str
-	 * \param length
-	 * \return 
+	 * @param str
+	 * @param length
+	 * @return 
 	 */
 	inline std::string shortenStringRef(std::string& str, size_t length)
 	{

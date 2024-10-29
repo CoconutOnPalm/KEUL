@@ -17,7 +17,7 @@ namespace ke
 		{}
 
 		/**
-		 * \param name	Name of the instance. Useful for printing results.
+		 * @param name	Name of the instance. Useful for printing results.
 		 */
 		LoopBenchmark(const std::string& name)
 			: m_name(name), m_iteration(0), m_avarage(0, 0)
@@ -37,8 +37,8 @@ namespace ke
 		/**
 		 * @brief Use after startIteration(). Ends single interation benchmark.
 		 *
-		 * \param print		true -> the results are printed (in microseconds)
-		 * \return Elapsed time (in microseconds)
+		 * @param print		true -> the results are printed (in microseconds)
+		 * @return Elapsed time (in microseconds)
 		 */
 		long double endIteration(bool print = false)
 		{
@@ -61,8 +61,8 @@ namespace ke
 		/**
 		 * Stops the whole benchmark and returns avarage iteration time.
 		 *
-		 * \param print If true, prints avarage iteration time.
-		 * \return Avarage iteration time
+		 * @param print If true, prints avarage iteration time.
+		 * @return Avarage iteration time
 		 */
 		long double stop(bool print = true)
 		{

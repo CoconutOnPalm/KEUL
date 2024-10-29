@@ -34,7 +34,7 @@ namespace ke
 		/**
 		 * @brief Default constructor - does not start the clock.
 		 * 
-		 * \param unit	time unit (ke::Clock::TimeUnit)
+		 * @param unit	time unit (ke::Clock::TimeUnit)
 		 */
 		Clock(TimeUnit unit = TimeUnit::microseconds)
 			: m_unit(unit), m_total_time()
@@ -51,7 +51,7 @@ namespace ke
 		/**
 		 * @brief Stops the clock.
 		 * 
-		 * \return Elapsed time
+		 * @return Elapsed time
 		 */
 		long double stop()
 		{
@@ -86,8 +86,8 @@ namespace ke
 		/**
 		 * @brief Returns .
 		 * 
-		 * \param unit	time format (ke::Clock::TimeUnit)
-		 * \return 
+		 * @param unit	time format (ke::Clock::TimeUnit)
+		 * @return 
 		 */
 		long double getLatestMeasurement(TimeUnit unit = TimeUnit::microseconds) const
 		{
@@ -128,9 +128,9 @@ namespace ke
 		 *	let time = 21.37420 miliseconds, precision = 2 
 		 *	the output string will be "21.37 ms"
 		 * 
-		 * \param unit	time format (ke::Clock::TimeUnit)
-		 * \param precision	integer in [0, 6] range - determines number precision 
-		 * \return ("<time> <unit>"). See details for additional info
+		 * @param unit	time format (ke::Clock::TimeUnit)
+		 * @param precision	integer in [0, 6] range - determines number precision 
+		 * @return ("<time> <unit>"). See details for additional info
 		 */
 		std::string toString(TimeUnit unit = TimeUnit::microseconds, uint8_t precision = 2) const
 		{
@@ -183,9 +183,9 @@ namespace ke
 		 *	let time = 21.37420 miliseconds, precision = 2 
 		 *	the output will be "21.37 ms"
 		 * 
-		 * \param unit	time format (ke::Clock::TimeUnit)
-		 * \param precision	integer in [0, 6] range - determines number precision
-		 * \param precision
+		 * @param unit	time format (ke::Clock::TimeUnit)
+		 * @param precision	integer in [0, 6] range - determines number precision
+		 * @param precision
 		 */
 		void print(TimeUnit unit = TimeUnit::microseconds, uint8_t precision = 2) const
 		{

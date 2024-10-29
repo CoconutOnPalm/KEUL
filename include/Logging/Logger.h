@@ -47,11 +47,11 @@ namespace ke
 		/**
 		 * @brief Logs a message to the target outputs.
 		 * 
-		 * \param layer			LogLayer -> will only log if the layer is above or at the current layer
-		 * \param filename		name of the file that called the log function
-		 * \param line			number of the line that called the log function
-		 * \param format_str	std::format string
-		 * \param ...args		std::format args
+		 * @param layer			LogLayer -> will only log if the layer is above or at the current layer
+		 * @param filename		name of the file that called the log function
+		 * @param line			number of the line that called the log function
+		 * @param format_str	std::format string
+		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
 		void LogDetailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
@@ -83,9 +83,9 @@ namespace ke
 		/**
 		 * @brief Logs a message to the target outputs.
 		 * 
-		 * \param layer
-		 * \param format_str
-		 * \param ...args
+		 * @param layer
+		 * @param format_str
+		 * @param ...args
 		 */
 		template <typename... Args>
 		void Log(LogLayer layer, const std::format_string<Args...> format_str, Args&&... args)
@@ -153,7 +153,7 @@ namespace ke
 		/**
 		 * @brief Sets the log stream to any console std::ostream. Nullptr will turn off console logging.
 		 * 
-		 * \param stream console std::ostream
+		 * @param stream console std::ostream
 		 */
 		void SetLogStream(std::ostream* stream)
 		{
@@ -165,7 +165,7 @@ namespace ke
 		/**
 		 * @brief Sets the logging policy of the logger.
 		 *
-		 * \tparam LoggingPolicy	policies::LoggingPolicyBase
+		 * @tparam LoggingPolicy	policies::LoggingPolicyBase
 		 */
 		template <class LoggingPolicy>
 		void SetLoggingPolicy()
@@ -177,8 +177,8 @@ namespace ke
 		/**
 		 * @brief Adds a log file to the logger.
 		 * 
-		 * \param filename
-		 * \param mode
+		 * @param filename
+		 * @param mode
 		 */
 		void AddLogFile(const std::string& filename, std::ios::openmode mode = std::ios::trunc)
 		{

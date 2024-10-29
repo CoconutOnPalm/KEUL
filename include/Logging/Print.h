@@ -33,8 +33,8 @@ namespace ke
 	 *
 	 * @see Format.h (bottom) for more aliases.
 	 * 
-	 * \param format_str
-	 * \param ...args
+	 * @param format_str
+	 * @param ...args
 	 */
 	template <typename... Args>
 	void println(const std::format_string<Args...> format_str, Args&&... args)
@@ -70,8 +70,8 @@ namespace ke
 	 *
 	 * @see Format.h (bottom) for more aliases.
 	 * 
-	 * \param format_str
-	 * \param ...args
+	 * @param format_str
+	 * @param ...args
 	 */
 	template <typename... Args>
 	void print(const std::format_string<Args...> format_str, Args&&... args)
