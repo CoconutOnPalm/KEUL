@@ -12,7 +12,7 @@
 #include <format>
 
 #include "../Error/ErrorDef.h"
-#include "StringLib_impl.h"
+#include "StringLibImpl/StringLib_impl.h"
 
 
 namespace ke::type_traits
@@ -270,19 +270,22 @@ namespace ke
 	 * @details
 	 * Example:
 	 *	text:		"apple,banana,grape;orange | strawberry,"
-	 *	delimiters: ",;|"
-	 *	output is {"apple", "banana", "grape", "orange ", " strawberry", ""}
+	 *	delimiters: ",", ";", "|"
+	 *	output is {"apple", "banana", "grape", "orange ", " strawberry"}
 	 * Notice that ' ' (space) is not considered a delimiter.
 	 *
 	 * @param str			text to be split
-	 * @param delimiters	delimiters - must be single character, not separated by anything. Example: for '.', ';', '|' write ".;|"
+	 * @param delimiters	a set of std::string delimiters. Can be any length
 	 *
 	 * @return ContainerType<std::string> of separated text. Does not include empty strings
 	 */
-	template <template <class> class ContainerType>
-	inline auto splitString(std::string_view str, std::string_view delimiters)
+	template <template <class> class ContainerType, typename... Delims>
+	inline auto splitString(std::string_view str, const Delims&... delimiters)
 	{
-		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiters);
+		static_assert((std::is_convertible_v<Delims, std::string> && ...), "All delimiters must be convertible to std::string");
+
+		std::unordered_set<std::string> delims{ std::string(delimiters)... };
+		return _impl::splitString_impl<ContainerType<std::string>>(str, delims);
 	}
 
 	/**

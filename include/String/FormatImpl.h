@@ -18,7 +18,7 @@ namespace ke
 	namespace _impl
 	{
 
-		constexpr bool enable_error_logging = true;
+		constexpr bool enable_error_logging = false;
 
 		/**
 		 * @brief ke::format implementation; formats a string with ANSI codes using [ ] format syntax.

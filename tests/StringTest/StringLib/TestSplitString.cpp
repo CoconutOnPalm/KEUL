@@ -66,20 +66,25 @@ KE_TEST(splitString_vector)
 		return words[0] + split_str + words[1] + split_str + words[2] + split_str + words[3] + split_str + words[4];
 		});
 
-	multichar_builders.push_back([&words](std::string split_str) {
-		KE_ASSERT(split_str.size() == 5);
-		return split_str[0] + words[0] + split_str[1] + words[1] + split_str[2] + words[2] + split_str[3] + words[3] + split_str[4] + words[4];
-		});
-
 	for (char c = '!'; c <= '/' - 5; c++)
 	{
 		for (auto& create_string : multichar_builders)
 		{
 			std::string split_str = { c, ++c, ++c, ++c, ++c };
+			std::println("Split string: ", split_str);
 			std::vector<std::string> result_vec = ke::splitString<std::vector>(create_string(split_str), split_str);
+			std::println("Result: ", result_vec);
 			ASSERT_EQUAL(result_vec, words);
 		}
 	}
+
+	ASSERT_EQUAL(ke::splitString<std::vector>("1Lorem2ipsum3dolor4sit5amet6", "1", "2", "3", "4", "5", "6"), words);
+
+	ASSERT_EQUAL(ke::splitString<std::vector>("#..#...#.3.#..1#.#..#..#2#..23#..", "#..", "2", "3"), 
+		std::vector<std::string>({ ".#.", ".", "1#.", "#" }));
+
+	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", "#.........."), std::vector<std::string>({ "#..#..#" }));
+	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", "#", "#"), std::vector<std::string>({ "..", ".." }));
 }
 
 
@@ -120,6 +125,15 @@ KE_TEST(splitString_set)
 			ASSERT_EQUAL(result_set, words_set);
 		}
 	}
+
+	ASSERT_EQUAL(ke::splitString<std::set>("1Lorem2ipsum3dolor4sit5amet6", "1", "2", "3", "4", "5", "6"), words_set);
+
+	ASSERT_EQUAL(ke::splitString<std::set>("#..#...#.3.#..1#.#..#..#2#..23#..#", "#..", "2", "3"), 
+		std::set<std::string>({ ".#.", ".", "1#.", "#" }));
+
+	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", "#.........."), std::set<std::string>({ "#..#..#" }));
+	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", "#", "#"), std::set<std::string>({ "..", ".." }));
+
 }
 
 
