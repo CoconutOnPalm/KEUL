@@ -220,6 +220,51 @@ namespace ke
 		return rng.contains(val);
 	}
 
+
+	template <typename T, typename U1, typename U2>
+		requires std::is_fundamental_v<T> && std::is_fundamental_v<U1> && std::is_fundamental_v<U2>
+	inline bool RestrainVariable(T& var, U1 a, U2 b)
+	{
+		// check for degenerate range
+		if (a >= b)
+			return false;
+
+		if (var < a)
+		{
+			var = static_cast<T>(a);
+			return true;
+		}
+		if (var > b)
+		{
+			var = static_cast<T>(b);
+			return true;
+		}
+		return false;
+	}
+
+
+
+	template <typename T>
+		requires std::is_fundamental_v<T> // placeholder until Microsoft fixes the compiler
+	inline bool RestrainVariable(T& var, const ClosedRange<T>& rng)
+	{
+		if (rng.isDegenerate())
+			return false;
+
+		if (var < rng.a)
+		{
+			var = rng.a;
+			return true;
+		}
+		if (var > rng.b)
+		{
+			var = rng.b;
+			return true;
+		}
+		return false;
+	}
+
+
 } // namespace ke
 
 

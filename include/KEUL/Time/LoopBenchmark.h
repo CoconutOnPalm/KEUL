@@ -42,7 +42,7 @@ namespace ke
 		 */
 		long double endIteration(bool print = false)
 		{
-			auto val = m_clock.stop();
+			auto val = m_clock.stop(false);
 
 			if (print)
 			{
@@ -66,7 +66,7 @@ namespace ke
 		 */
 		long double stop(bool print = true)
 		{
-			m_clock.stop(); // just in case
+			m_clock.stop(false); // just in case
 
 			if (print)
 				std::println("{0}: \t avg time = {1}", m_name, m_avarage.second);

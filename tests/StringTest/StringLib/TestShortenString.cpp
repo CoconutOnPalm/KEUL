@@ -1,5 +1,5 @@
-#include <Utility.h>
-#include <Testing.h>
+#include <KEUL/Utility.h>
+#include <KEUL/Testing.h>
 
 
 KE_TEST(shortenString)
