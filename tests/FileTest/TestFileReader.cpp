@@ -63,9 +63,10 @@ const std::string source_dir = "";
 
 KE_TEST(FileReader)
 {
-	const std::string basic_txt_path = source_dir + "/tests/assets/Basic.txt";
-	const std::string unicode_txt_path = source_dir + "/tests/assets/Unicode.txt";
-	const std::string lorem_ipsum_txt_path = source_dir + "/tests/assets/LoremIpsum.txt";
+	// somehow on win11 '/' is needed before the path
+	const std::string basic_txt_path = source_dir + "tests/assets/Basic.txt";
+	const std::string unicode_txt_path = source_dir + "tests/assets/Unicode.txt";
+	const std::string lorem_ipsum_txt_path = source_dir + "tests/assets/LoremIpsum.txt";
 
 	if (!std::filesystem::exists(basic_txt_path))
 	{
