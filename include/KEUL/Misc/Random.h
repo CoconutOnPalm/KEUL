@@ -16,12 +16,12 @@ namespace ke
 
 		
         /**
-		* @brief Default constructor for the Random class. Generates a random seed using std::random_device.
+		* @brief Default constructor for the Random class. Generates a random seed using std::random_device and std::default_random_engine.
         */
         Random() { m_engine.seed(m_seed_generator()); };
 
         /**
-        * @brief Constructor for the Random class with a custom seed.
+        * @brief Constructor for the Random class with a custom seed. Uses std::default_random_engine.
         *
         * @param seed The seed value for the random number generator.
         */
@@ -51,14 +51,14 @@ namespace ke
 
 
 		/**
-		 * @brief Returns random value within the range.
+		 * @brief Returns random value within the [lowerb, upperb] range.
 		 *
 		 * @details
 		 * This function utilizes std::uniform_int_distribution<T> with std::default_random_engine to produce output
 		 * 
 		 * @param lowerb	lower bound
 		 * @param upperb	upper bound
-		 * @return Random value within the range.
+		 * @return Random value within the [lowerb, upperb] range.
 		 */
 		template <typename T> requires std::is_integral_v<T>
 		T Value(T lowerb, T upperb)
@@ -71,13 +71,13 @@ namespace ke
 		// TODO: make it template<typname T, RangeTypePolicyConcept _RngType> when compiler is fixed
 
 		/**
-		 * @brief Returns random value within the range.
+		 * @brief Returns random value within the custom range.
 		 * 
 		 * @details
 		 * This function utilizes std::uniform_int_distribution<T> with std::default_random_engine to produce output
 		 * 
 		 * @param range		Range<T, _RngType> object
-		 * @return Random value within the range.
+		 * @return Random value within the custom range.
 		 */
 		template <typename T, template <typename> class _RngType> 
 		requires std::is_integral_v<T> // std::is_fundamental_v<T> is implied by std::is_integral_v<T>
@@ -416,6 +416,8 @@ namespace ke
 
 
 	private:
+
+		// NOTE: creating new distrubutor every time is somehow more efficient than creating it once and storing it as static variable
 
 		std::random_device m_seed_generator;
 		std::default_random_engine m_engine;
