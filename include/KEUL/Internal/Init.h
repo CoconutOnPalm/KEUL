@@ -6,7 +6,7 @@
 
 namespace ke
 {
-	// pre-calculate all static data inside the library
+	// Pre-calculate all static data inside the library. Optional.
 	static void Init()
 	{
 		_internal::errorToString(Error::Error);

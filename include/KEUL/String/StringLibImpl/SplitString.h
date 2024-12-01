@@ -211,6 +211,15 @@ namespace ke::_impl
         return output;
     }
 
+    /**
+     * @brief Splits a string into a pair based on specified delimiters.
+     * 
+     * @tparam ContainerType 
+     * @param text          text to be split
+     * @param delimiter     delimiter - must be single character
+     * @param split_index   the split will be performed on n-th delimiter occurence. Default is 0. Does nothing if there are less than split_index delimiters.
+     * @return auto 
+     */
     template <_StringPairTypeConcept ContainerType>
     inline auto splitStringToPair_impl(std::string_view text, const char delimiter, size_t split_index = 0)
     {
@@ -227,6 +236,32 @@ namespace ke::_impl
 
                 if (occurences > split_index)
                     return ContainerType(std::string(text.begin(), text.begin() + i), std::string(text.begin() + i + 1, text.end()));
+            }
+        }
+
+        return ContainerType(std::string(text), "");
+    }
+
+
+    template <_StringPairTypeConcept ContainerType, typename... Args>
+    inline auto splitStringToPair_impl(std::string_view text, const std::unordered_set<std::string>& delimiters, size_t split_index = 0)
+    {
+        if (text.empty())
+            return ContainerType("", "");
+
+        size_t occurences = 0;
+
+        for (int i = 0; i < text.size(); i++)
+        {
+            for (const auto& delim : delimiters)
+            {
+                if (i + delim.size() < text.size() && text.substr(i, delim.size()) == delim)
+                {
+                    occurences++;
+
+                    if (occurences > split_index)
+                        return ContainerType(std::string(text.begin(), text.begin() + i), std::string(text.begin() + i + delim.size(), text.end()));
+                }
             }
         }
 

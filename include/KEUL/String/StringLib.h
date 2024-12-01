@@ -308,12 +308,42 @@ namespace ke
 		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiter);
 	}
 
+	/**
+	 * @brief Splits a string into a pair of strings based on a specified delimiter and delmiter relative position.
+	 * 
+	 * @tparam ContainerType 	Container with .first, .second members of type std::string. Preferably std::pair<std::string, std::string>
+	 * @param str 				text to be split
+	 * @param _n 				position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
+	 * @param delimiter 		delimiter - must be single character
+	 * @return ContainerType<std::string, std::string> of separated text. Does not include delimiters.
+	 */
 	template <template <class, class> class ContainerType>
-	inline auto splitStringToPair(std::string_view str, char delimiter)
+	inline auto splitStringToPair(std::string_view str, size_t _n, char delimiter)
 	{
-		return _impl::splitStringToPair_impl<ContainerType<std::string, std::string>>(str, delimiter);
+		return _impl::splitStringToPair_impl<ContainerType<std::string, std::string>>(str, delimiter, _n);
+	} 
+
+
+	template <template <class, class> class ContainerType, typename... Args>
+	inline auto splitStringToPair(std::string_view text, size_t split_index = 0, Args&&... delimiters)
+    {
+		static_assert((std::is_convertible_v<Args, std::string> && ...), "All delimiters must be convertible to std::string");
+		std::unordered_set<std::string> delims{ std::string(delimiters)... };
+
+		return _impl::splitStringToPair_impl<ContainerType<std::string, std::string>>(text, delims, split_index);
 	}
 
+
+
+	/**
+	 * @brief Assembles a string from a container of strings using a specified separator.
+	 * 
+	 * @tparam ContainerType 			Container of strings. Must be a dynamic container of std::string
+	 * @param text_partitions 			container of strings
+	 * @param separator 				separator between strings
+	 * @param delete_last_separator 	true -> last separator is not added
+	 * @return std::string 	assembled string. This function does not add any brackets or other characters.
+	 */
 	template <std::ranges::range ContainerType>
 	inline std::string assembleString(const ContainerType& text_partitions, const std::string& separator, bool delete_last_separator = true)
 	{

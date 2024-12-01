@@ -169,8 +169,72 @@ KE_TEST(splitString_pair)
 	{
 		for (auto& [name, create_string] : builders)
 		{
-			std::pair<std::string, std::string> result_pair = ke::splitStringToPair<std::pair>(create_string(c), c);
+			std::pair<std::string, std::string> result_pair = ke::splitStringToPair<std::pair>(create_string(c), 0, c);
 			ASSERT_EQUAL(result_pair, expected_results[name]);
 		}
 	}
+
+
+	// somehow this is not working properly (macro expansion issue)
+	std::pair<std::string, std::string> p1, p2;
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 0, ';');
+	p2 = std::pair<std::string, std::string>("One", "Two;Three;Four;Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 0, ';'), std::pair<std::string, std::string>("One", "Two;Three;Four;Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 1, ';');
+	p2 = std::pair<std::string, std::string>("One;Two", "Three;Four;Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 1, ';'), std::pair<std::string, std::string>("One;Two", "Three;Four;Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 2, ';');
+	p2 = std::pair<std::string, std::string>("One;Two;Three", "Four;Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 2, ';'), std::pair<std::string, std::string>("One;Two;Three", "Four;Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 3, ';');
+	p2 = std::pair<std::string, std::string>("One;Two;Three;Four", "Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 3, ';'), std::pair<std::string, std::string>("One;Two;Three;Four", "Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 4, ';');
+	p2 = std::pair<std::string, std::string>("One;Two;Three;Four;Five", "");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 4, ';'), std::pair<std::string, std::string>("One;Two;Three;Four;Five", ""));
+	
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 0, ";", ".");
+	p2 = std::pair<std::string, std::string>("One", "Two.Three;Four.Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 0, ";", "."), std::pair<std::string, std::string>("One", "Two.Three;Four.Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 1, ";", ".");
+	p2 = std::pair<std::string, std::string>("One;Two", "Three;Four.Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 1, ";", "."), std::pair<std::string, std::string>("One;Two", "Three;Four.Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 2, ";", ".");
+	p2 = std::pair<std::string, std::string>("One;Two.Three", "Four.Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 2, ";", "."), std::pair<std::string, std::string>("One;Two.Three", "Four.Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 3, ";", ".");
+	p2 = std::pair<std::string, std::string>("One;Two.Three;Four", "Five");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 3, ";", "."), std::pair<std::string, std::string>("One;Two.Three;Four", "Five"));
+
+	p1 = ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 4, ";", ".");
+	p2 = std::pair<std::string, std::string>("One;Two.Three;Four.Five", "");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 4, ";", "."), std::pair<std::string, std::string>("One;Two.Three;Four.Five", ""));
+
+	p1 = ke::splitStringToPair<std::pair>("Multichar; split; test", 0, "; ");
+	p2 = std::pair<std::string, std::string>("Multichar", "split; test");
+	ASSERT_EQUAL(p1, p2);
+	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("Multichar, split, test", 0, ", "), std::pair<std::string, std::string>("Multichar", "split, test"));
+
+	p1 = ke::splitStringToPair<std::pair>("Multichar; split; test", 1, "; ");
+	p2 = std::pair<std::string, std::string>("Multichar; split", "test");
+	ASSERT_EQUAL(p1, p2);
 }
