@@ -10,6 +10,8 @@
 #include <sstream>
 #include <expected>
 #include <format>
+#include <initializer_list>
+#include <algorithm>
 
 #include "../Error/ErrorDef.h"
 #include "StringLibImpl/StringLib_impl.h"
@@ -287,6 +289,24 @@ namespace ke
 		std::unordered_set<std::string> delims{ std::string(delimiters)... };
 		return _impl::splitString_impl<ContainerType<std::string>>(str, delims);
 	}
+
+
+	// template <class ContainterType, typename T>
+	// inline auto split(std::ranges::range<T> str, std::initializer_list<T> delimiters)
+	// {
+	// 	return _impl::splitString_impl<ContainerType>(str, delimiters);
+	// }
+
+	template <typename T>
+	inline std::vector<T> splitString(std::string_view str, std::initializer_list<std::string> delimiters, std::function<T(std::string)> transformer)
+	{
+		std::unordered_set<std::string> delimiter_set(delimiters);
+		std::vector<std::string> split_result = _impl::splitString_impl<std::vector<std::string>>(str, delimiter_set);
+		std::vector<T> output; output.reserve(split_result.size());
+		std::ranges::transform(split_result, std::back_inserter(output), transformer);
+		return output;
+	}
+
 
 	/**
 	 * @brief Splits a string into a vector based on a specified delimiter.

@@ -238,3 +238,27 @@ KE_TEST(splitString_pair)
 	p2 = std::pair<std::string, std::string>("Multichar; split", "test");
 	ASSERT_EQUAL(p1, p2);
 }
+
+
+
+KE_TEST(splitString_transform)
+{
+	{
+		std::string text = "|,.,.a.b.c,.d.,e.f,,g.h.i.j.k.l,m.n..o,p...q.r|s,.t|u.v.w.|,,x.y.z.";
+
+		auto split1 = ke::splitString<std::string>(text, {".", ",", "|"}, [](const std::string& s) -> std::string { return s; });
+		auto split2 = ke::splitString<char>(text, {".", ",", "|"}, [](const std::string& s) -> char { return (s.size() == 1) ? s[0] : ' '; });
+
+		std::vector<std::string> correct1 = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+		std::vector<char> correct2 = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+		ASSERT_EQUAL(split1, correct1);
+		ASSERT_EQUAL(split2, correct2);
+	}
+
+	{
+		std::string text = ke::assembleString(std::views::iota(-100'000, 100'000) | std::views::transform([](const int x) -> std::string { return ke::toString(x); }), ", ");
+
+		auto split = ke::splitString<int>(text, {", "}, [](const std::string& s) -> int {return ke::fromString<int>(s).value_or(-1); });
+		ASSERT_EQUAL(split, std::views::iota(-100'000, 100'000) | std::ranges::to<std::vector>());
+	}
+}
