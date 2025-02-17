@@ -291,17 +291,39 @@ namespace ke
 	}
 
 
-	// template <class ContainterType, typename T>
-	// inline auto split(std::ranges::range<T> str, std::initializer_list<T> delimiters)
-	// {
-	// 	return _impl::splitString_impl<ContainerType>(str, delimiters);
-	// }
-
+	/**
+	 * @brief Splits a string into a transformed vector based on specified delimiters.
+	 * 
+	 * @tparam T 				vector type
+	 * @param str 
+	 * @param delimiters 	
+	 * @param transformer 		function transforming each element into element of type T
+	 * @return std::vector<T> 
+	 */
 	template <typename T>
 	inline std::vector<T> splitString(std::string_view str, std::initializer_list<std::string> delimiters, std::function<T(std::string)> transformer)
 	{
 		std::unordered_set<std::string> delimiter_set(delimiters);
 		std::vector<std::string> split_result = _impl::splitString_impl<std::vector<std::string>>(str, delimiter_set);
+		std::vector<T> output; output.reserve(split_result.size());
+		std::ranges::transform(split_result, std::back_inserter(output), transformer);
+		return output;
+	}
+
+
+	/**
+	 * @brief Splits a string into a transformed vector based on a specified delimiter.
+	 * 
+	 * @tparam T 				vector type
+	 * @param str 
+	 * @param delimiter 
+	 * @param transformer 		function transforming each element into element of type T
+	 * @return std::vector<T> 
+	 */
+	template <typename T>
+	inline std::vector<T> splitString(std::string_view str, char delimiter, std::function<T(std::string)> transformer)
+	{
+		std::vector<std::string> split_result = _impl::splitString_impl<std::vector<std::string>>(str, delimiter);
 		std::vector<T> output; output.reserve(split_result.size());
 		std::ranges::transform(split_result, std::back_inserter(output), transformer);
 		return output;
@@ -331,26 +353,29 @@ namespace ke
 	/**
 	 * @brief Splits a string into a pair of strings based on a specified delimiter and delmiter relative position.
 	 * 
-	 * @tparam ContainerType 	Container with .first, .second members of type std::string. Preferably std::pair<std::string, std::string>
 	 * @param str 				text to be split
-	 * @param _n 				position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
 	 * @param delimiter 		delimiter - must be single character
+	 * @param split_index 		position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
 	 * @return ContainerType<std::string, std::string> of separated text. Does not include delimiters.
 	 */
-	template <template <class, class> class ContainerType>
-	inline auto splitStringToPair(std::string_view str, size_t _n, char delimiter)
+	inline auto splitString(std::string_view str, char delimiter, size_t split_index)
 	{
-		return _impl::splitStringToPair_impl<ContainerType<std::string, std::string>>(str, delimiter, _n);
+		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(str, delimiter, split_index);
 	} 
 
 
-	template <template <class, class> class ContainerType, typename... Args>
-	inline auto splitStringToPair(std::string_view text, size_t split_index = 0, Args&&... delimiters)
+	/**
+	 * @brief Splits a string into a pair of strings based on specified delimiters and delmiter relative position.
+	 * 
+	 * @param text 
+	 * @param delimiters 		set of delimiters - text is split if it contains one of them
+	 * @param split_index 		position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
+	 * @return auto 
+	 */
+	inline auto splitString(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index = 0)
     {
-		static_assert((std::is_convertible_v<Args, std::string> && ...), "All delimiters must be convertible to std::string");
-		std::unordered_set<std::string> delims{ std::string(delimiters)... };
-
-		return _impl::splitStringToPair_impl<ContainerType<std::string, std::string>>(text, delims, split_index);
+		std::unordered_set<std::string> delimiter_set(delimiters);
+		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(text, delimiter_set, split_index);
 	}
 
 
