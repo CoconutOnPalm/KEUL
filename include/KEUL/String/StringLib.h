@@ -133,6 +133,9 @@ namespace ke
 	}
 
 
+	/**
+	 * @brief Converts string to uint8_t as an integer
+	 */
 	template <>
 	inline auto fromString<uint8_t>(std::string_view arg) -> std::expected<uint8_t, Error>
 	{
