@@ -70,9 +70,9 @@ struct std::formatter<std::pair<T1, T2>, CharT>
 	}
 
 	template <typename FormatContext>
-	auto format(const std::pair<T1, T2>& range, FormatContext& ctx) const
+	auto format(const std::pair<T1, T2>& pair, FormatContext& ctx) const
 	{
-		std::string elements = std::format("{}, {}", range.first, range.second);
+		std::string elements = std::format("{}, {}", pair.first, pair.second);
 		return std::format_to(ctx.out(), "({})", elements);
 	}
 };

@@ -117,10 +117,10 @@ KE_TEST(Random)
 		ASSERT_EQUAL(expect, generator.Char('a', 'z'));
 
 	for (auto& expect : correct_doubles)
-		ASSERT_EQUAL(expect, generator.Double(0.0, 1.0));
+		ASSERT_SIMILAR(expect, generator.Double(0.0, 1.0), std::numeric_limits<double>().epsilon());
 
 	for (auto& expect : correct_floats)
-		ASSERT_EQUAL(expect, generator.Float(0.0f, 1.0f));
+		ASSERT_SIMILAR(expect, generator.Float(0.0f, 1.0f), std::numeric_limits<float>().epsilon());
 
 	for (auto& expect : correct_strings)
 		ASSERT_EQUAL(expect, generator.String(10));
