@@ -1,7 +1,7 @@
 #include <array>
 
-#include <KEUL/Utility.h>
-#include <KEUL/Testing.h>
+#include <KEUL/KEUL.hpp>
+#include <KEUL/UnitTests.hpp>
 
 // written on msvc compiler and I'm too lazy to check if it works on other compilers 
 

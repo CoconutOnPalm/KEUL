@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "../Logging/SimpleLogger.h"
+#include "../Logging/SimpleLogger.hpp"
 
 
 namespace ke::_internal

@@ -7,6 +7,9 @@
 // TODO: Remove this when range formatting is supported
 
 // std::vector<T> formatter (until range formatting is supported)
+
+#ifndef __clang__
+
 template <typename T, typename CharT>
 struct std::formatter<std::vector<T>, CharT>
 {
@@ -76,3 +79,5 @@ struct std::formatter<std::pair<T1, T2>, CharT>
 		return std::format_to(ctx.out(), "({})", elements);
 	}
 };
+
+#endif

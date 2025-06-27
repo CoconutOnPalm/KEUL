@@ -2,9 +2,9 @@
 
 #include <type_traits>
 
-#include "../String/Format.h"
-#include "../Time/Clock.h"
-#include "TestDef.h"
+#include "../String/Format.hpp"
+#include "../Time/Clock.hpp"
+#include "TestDef.hpp"
 
 
 
@@ -15,13 +15,14 @@ namespace ke::test::_internal
 	class TestBase
 	{
 
+	public:
+		virtual ~TestBase() = default;
 
 	protected:
 
 		TestBase(const std::string& name) : m_name(name), m_test_index(0)
-		{
-			
-		}
+			{}
+
 
 		virtual void Run() = 0;
 

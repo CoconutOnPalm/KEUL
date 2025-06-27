@@ -5,7 +5,7 @@
 #include <print>
 #include <functional>
 
-#include "CustomFormattingFunctions.h"
+#include "CustomFormattingFunctions.hpp"
 
 namespace ke
 {

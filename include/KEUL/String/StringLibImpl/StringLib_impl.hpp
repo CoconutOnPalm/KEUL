@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <limits>
 
-#include "SplitString.h"
-#include "AssembleString.h"
+#include "SplitString.hpp"
+#include "AssembleString.hpp"
 
 namespace ke
 {

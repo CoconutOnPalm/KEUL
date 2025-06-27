@@ -2,7 +2,7 @@
 
 #include <unordered_set>
 
-#include "StringLibTypeTraits.h"
+#include "StringLibTypeTraits.hpp"
 
 namespace ke::_impl
 {
@@ -33,7 +33,8 @@ namespace ke::_impl
 
         ContainerType output{};
 
-        int start = 0, i = 0;
+        size_t start = 0; 
+        size_t i = 0;
         for (; i < text.size(); i++)
         {
 
@@ -87,7 +88,8 @@ namespace ke::_impl
 
         ContainerType output{};
 
-        int start = 0, i = 0;
+        size_t start = 0;
+        size_t i = 0;
         for (; i < text.size(); i++)
         {
             for (const auto& delim : delimiters)
@@ -139,7 +141,8 @@ namespace ke::_impl
 
         ContainerType output{};
 
-        int start = 0, i = 0;
+        size_t start = 0;
+        size_t i = 0;
         for (; i < text.size(); i++)
         {
             // index i hit delimiter
@@ -188,7 +191,8 @@ namespace ke::_impl
 
         ContainerType output{};
 
-        int start = 0, i = 0;
+        size_t start = 0;
+        size_t i = 0;
         for (; i < text.size(); i++)
         {
             // index i hit delimiter
@@ -226,9 +230,9 @@ namespace ke::_impl
         if (text.empty())
             return ContainerType("", "");
 
-        size_t occurences = 0;
+        uint64_t occurences = 0;
 
-        for (int i = 0; i < text.size(); i++)
+        for (size_t i = 0; i < text.size(); i++)
         {
             if (text[i] == delimiter)
             {
@@ -249,9 +253,9 @@ namespace ke::_impl
         if (text.empty())
             return ContainerType("", "");
 
-        size_t occurences = 0;
+        uint64_t occurences = 0;
 
-        for (int i = 0; i < text.size(); i++)
+        for (size_t i = 0; i < text.size(); i++)
         {
             for (const auto& delim : delimiters)
             {

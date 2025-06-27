@@ -1,9 +1,9 @@
 #pragma once
 
-#include "LoggerDef.h"
+#include "LoggerDef.hpp"
 #include <chrono>
 
-#include "../String/Format.h"
+#include "../String/Format.hpp"
 
 
 
@@ -18,6 +18,7 @@ namespace ke
 		 */
 		struct LoggingPolicyBase
 		{
+			virtual ~LoggingPolicyBase() = default;
 			virtual std::string prefix(LogLayer layer, std::string_view location = "") const = 0;
 			virtual std::string header(LogLayer layer, std::string_view location = "") const = 0;
 			virtual std::string suffix(LogLayer layer, std::string_view location = "") const = 0;

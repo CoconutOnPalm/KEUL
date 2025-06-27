@@ -2,7 +2,7 @@
 
 #include <string>
 #include <ranges>
-#include "StringLibTypeTraits.h"
+#include "StringLibTypeTraits.hpp"
 
 
 namespace ke::_impl

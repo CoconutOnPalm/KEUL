@@ -2,10 +2,10 @@
 
 #include <format>
 
-#include "FormatImpl/FormatImpl.h"
-#include "../Misc/Range.h"
+#include "FormatImpl/FormatImpl.hpp"
+#include "../Misc/Range.hpp"
 
-#include "FormatImpl/CustomFormatters.h"
+#include "FormatImpl/CustomFormatters.hpp"
 
 namespace ke
 {

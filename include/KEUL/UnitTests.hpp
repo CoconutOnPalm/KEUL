@@ -1,6 +1,6 @@
 #pragma once
 
-#include "UnitTests/TestManager.h"
+#include "UnitTests/TestManager.hpp"
 
 /**
  * @brief Runs all tests registered with the KE_TEST macro. 

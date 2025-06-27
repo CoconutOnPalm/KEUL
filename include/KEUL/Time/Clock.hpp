@@ -6,8 +6,9 @@
 #include <chrono>
 #include <iomanip> 
 
+#ifdef _MSC_VER
 #pragma execution_character_set( "utf-8" )
-
+#endif
 
 namespace ke
 {
@@ -33,12 +34,13 @@ namespace ke
 
 		/**
 		 * @brief Default constructor - does not start the clock.
-		 * 
+		 *
 		 * @param unit	time unit (ke::Clock::TimeUnit)
 		 */
 		Clock(TimeUnit unit = TimeUnit::microseconds)
 			: m_unit(unit), m_total_time()
-		{}
+		{
+		}
 
 		/**
 		 * @brief Starts the clock.
@@ -50,7 +52,7 @@ namespace ke
 
 		/**
 		 * @brief Stops the clock.
-		 * 
+		 *
 		 * @return Elapsed time
 		 */
 		long double stop()
@@ -85,9 +87,9 @@ namespace ke
 
 		/**
 		 * @brief Returns .
-		 * 
+		 *
 		 * @param unit	time format (ke::Clock::TimeUnit)
-		 * @return 
+		 * @return
 		 */
 		long double getLatestMeasurement(TimeUnit unit = TimeUnit::microseconds) const
 		{
@@ -118,18 +120,18 @@ namespace ke
 
 		/**
 		 * @brief Returns string representation ("<time> <unit>") of latest measurement. See details for additional info
-		 * 
+		 *
 		 * @details
 		 * String in "<time> <unit>" format, where
 		 *	<time> is a floating point converted to std::string with specified precision
 		 *	<unit> is suffix based on specified format
-		 * 
+		 *
 		 * Example:
-		 *	let time = 21.37420 miliseconds, precision = 2 
+		 *	let time = 21.37420 miliseconds, precision = 2
 		 *	the output string will be "21.37 ms"
-		 * 
+		 *
 		 * @param unit	time format (ke::Clock::TimeUnit)
-		 * @param precision	integer in [0, 6] range - determines number precision 
+		 * @param precision	integer in [0, 6] range - determines number precision
 		 * @return ("<time> <unit>"). See details for additional info
 		 */
 		std::string toString(TimeUnit unit = TimeUnit::microseconds, uint8_t precision = 2) const
@@ -173,16 +175,16 @@ namespace ke
 
 		/**
 		 * @brief Prints representation ("<time> <unit>") of latest measurement. See details for additional info.
-		 * 
+		 *
 		 * @details
 		 * String in "<time> <unit>" format, where
 		 *	<time> is a floating point converted to std::string with specified precision
 		 *	<unit> is suffix based on specified format
-		 * 
+		 *
 		 * Example:
-		 *	let time = 21.37420 miliseconds, precision = 2 
+		 *	let time = 21.37420 miliseconds, precision = 2
 		 *	the output will be "21.37 ms"
-		 * 
+		 *
 		 * @param unit	time format (ke::Clock::TimeUnit)
 		 * @param precision	integer in [0, 6] range - determines number precision
 		 * @param precision
@@ -194,10 +196,10 @@ namespace ke
 
 	private:
 
-		std::chrono::time_point<std::chrono::high_resolution_clock> m_start, m_stop;
-		std::chrono::duration<long double, std::nano> m_total_time;
-
 		TimeUnit m_unit;
+
+		std::chrono::duration<long double, std::nano> m_total_time;
+		std::chrono::time_point<std::chrono::high_resolution_clock> m_start, m_stop;
 
 	};
 

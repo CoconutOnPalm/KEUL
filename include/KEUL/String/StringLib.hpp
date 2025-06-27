@@ -13,8 +13,8 @@
 #include <initializer_list>
 #include <algorithm>
 
-#include "../Error/ErrorDef.h"
-#include "StringLibImpl/StringLib_impl.h"
+#include "../Error/ErrorDef.hpp"
+#include "StringLibImpl/StringLib_impl.hpp"
 
 
 namespace ke::type_traits

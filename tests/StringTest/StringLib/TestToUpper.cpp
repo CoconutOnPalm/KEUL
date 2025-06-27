@@ -1,5 +1,5 @@
-#include <KEUL/Utility.h>
-#include <KEUL/Testing.h>
+#include <KEUL/KEUL.hpp>
+#include <KEUL/UnitTests.hpp>
 
 
 class _ke_test_toUpper : public ke::test::_internal::TestBase {

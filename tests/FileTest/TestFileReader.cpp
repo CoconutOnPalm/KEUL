@@ -1,7 +1,7 @@
 ﻿#include <filesystem>
 
-#include <KEUL/Utility.h>
-#include <KEUL/Testing.h>
+#include <KEUL/KEUL.hpp>
+#include <KEUL/UnitTests.hpp>
 
 
 

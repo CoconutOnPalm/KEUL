@@ -2,7 +2,7 @@
 
 #include <random>
 #include <vector>
-#include "Range.h"
+#include "Range.hpp"
 
 
 namespace ke
@@ -377,7 +377,7 @@ namespace ke
 			std::string output;
 			output.reserve(lenght);
 
-			for (int i = 0; i < lenght; i++)
+			for (size_t i = 0; i < lenght; i++)
 			{
 				int selected_range = Int32(0, static_cast<int>(pairs.size()) - 1);
 				output += Char(pairs[selected_range].a, pairs[selected_range].b);

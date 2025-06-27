@@ -9,8 +9,8 @@
 #include <fstream>
 
 
-#include "LoggerPolicies.h"
-#include "../Internal/EngineLogging.h"
+#include "LoggerPolicies.hpp"
+#include "../Internal/EngineLogging.hpp"
 
 
 

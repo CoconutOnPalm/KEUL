@@ -6,9 +6,9 @@
 #include <print>
 #include <functional>
 
-#include "TestBase.h"
-#include "../Logging/Print.h"
-#include "../Misc/Assert.h"
+#include "TestBase.hpp"
+#include "../Logging/Print.hpp"
+#include "../Misc/Assert.hpp"
 
 
 

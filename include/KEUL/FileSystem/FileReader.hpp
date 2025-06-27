@@ -6,7 +6,7 @@
 #include <thread>
 #include <set>
 
-#include "../Internal/EngineLogging.h"
+#include "../Internal/EngineLogging.hpp"
 
 namespace ke
 {

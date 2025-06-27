@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Clock.h"
+#include "Clock.hpp"
 
 
 namespace ke
@@ -13,17 +13,21 @@ namespace ke
 	public:
 
 		Benchmark(Clock::TimeUnit unit = Clock::TimeUnit::microseconds)
-			: m_isRunning(true), m_clock(unit), m_name("Benchmark")
+			: m_clock(unit)
+			, m_name("Benchmark")
+			, m_isRunning(true)
 		{
 			m_clock.start();
 		}
 
 		/**
 		 * @brief WARNING: Starts benchmark automatically
-		 * @param name	Name of the instance. Useful for printing resolts. 
+		 * @param name	Name of the instance. Useful for printing resolts.
 		 */
 		Benchmark(const std::string& name, Clock::TimeUnit unit = Clock::TimeUnit::microseconds)
-			: m_isRunning(true), m_clock(unit), m_name(name)
+			: m_clock(unit)
+			, m_name(name)
+			, m_isRunning(true)
 		{
 			m_clock.start();
 		}
@@ -36,7 +40,7 @@ namespace ke
 
 			auto val = m_clock.stop();
 
-			std::print("{0}: ", m_name);
+			std::print("{}: {}", m_name, val);
 			m_clock.print(Clock::TimeUnit::microseconds, 3);
 		}
 
@@ -51,7 +55,7 @@ namespace ke
 
 		/**
 		 * @brief Stops the measurement.
-		 * 
+		 *
 		 * @param print		true -> the results are printed (in microseconds)
 		 * @return Elapsed time (in microseconds)
 		 */
@@ -72,10 +76,10 @@ namespace ke
 
 	protected:
 
-		std::string m_name;
-
-		bool m_isRunning;
 		Clock m_clock;
+	
+		std::string m_name;
+		bool m_isRunning;
 	};
 
 
