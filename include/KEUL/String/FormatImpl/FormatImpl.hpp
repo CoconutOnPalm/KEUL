@@ -253,6 +253,9 @@ namespace ke
 				{ "107", "107" },
 			};
 
+			if (sequece.empty()) 
+				return std::unexpected(ke::Error::EmptyArgument);
+
 			if (sequece.front() != '[' || sequece.back() != ']')
 				return std::unexpected(ke::Error::FormatError);
 

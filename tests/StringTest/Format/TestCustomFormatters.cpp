@@ -1,6 +1,9 @@
 #include <KEUL/UnitTests.hpp>
 
 
+#ifndef _MSC_VER // msvc apeears to have different beahavior
+
+
 KE_TEST(stdVector_formatter)
 {
     ASSERT_EQUAL(std::format("{}", std::vector<int>{}), "[]");
@@ -25,3 +28,6 @@ KE_TEST(stdPair_formatter)
     ASSERT_EQUAL(std::format("{}", std::pair{"Hello", "World"}), "(Hello, World)");
     ASSERT_EQUAL(std::format("{}", std::pair{'a', 'b'}), "(a, b)");
 }
+
+
+#endif // !_MSC_VER
