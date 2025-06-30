@@ -172,40 +172,18 @@ namespace ke
 		{
 			std::lock_guard lock(m_io_mutex);
 			const static std::map<ke::LogLayer, std::string> s_logLayerToFmtColor = {
-				{ke::LogLayer::Info, 		"[bold,cyan]"},
-				{ke::LogLayer::Debug, 		"[bold,blue]"},
-				{ke::LogLayer::Warning, 	"[bold,yellow]"},
-				{ke::LogLayer::Error, 		"[bold,red]"},
-				{ke::LogLayer::Critical, 	"[bold,magenta]"},
+				{ke::LogLayer::Info, 		"[bold;cyan]"},
+				{ke::LogLayer::Debug, 		"[bold;blue]"},
+				{ke::LogLayer::Warning, 	"[bold;yellow]"},
+				{ke::LogLayer::Error, 		"[bold;red]"},
+				{ke::LogLayer::Critical, 	"[bold;magenta]"},
 				{ke::LogLayer::Off, 		""},
 			};
 
 			if (layer < GetInstance().m_layer) return; // if the layer is below the current layer, do not log
 
-			// auto& logging_policy = GetInstance().m_loggingPolicy;
-
 			std::string layerColorFmt;
 			layerColorFmt = s_logLayerToFmtColor.at(layer);
-			// switch (layer)
-			// {
-			// case ke::LogLayer::Info:
-			// 	layerColorFmt = "[bold;cyan]";
-			// 	break;
-			// case ke::LogLayer::Debug:
-			// 	layerColorFmt = "[bold;blue]";
-			// 	break;
-			// case ke::LogLayer::Warning:
-			// 	layerColorFmt = "[bold;yellow]";
-			// 	break;
-			// case ke::LogLayer::Error:
-			// 	layerColorFmt = "[bold;red]";
-			// 	break;
-			// case ke::LogLayer::Critical:
-			// 	layerColorFmt = "[bold;magenta]";
-			// 	break;
-			// default:
-			// 	break;
-			// }
 
 			std::println(std::clog, "{}{}", ke::format("[bold;green][[KENGINE]] {}[[{}]]: ", layerColorFmt, layer), std::format(format_str, std::forward<Args>(args)...));
 		}

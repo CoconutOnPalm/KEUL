@@ -46,6 +46,8 @@ CMakeLists*
 
 # vscode
 .vs/
+.vscode/
+CMakeSettings.json
 
 # project-specific
 tests.cpp
