@@ -4,6 +4,7 @@
 #include <set>
 #include <cstdint>
 #include <limits>
+#include <string_view>
 
 #include "SplitString.hpp"
 #include "AssembleString.hpp"
@@ -205,12 +206,12 @@ namespace ke
 		 *
 		 * @param str
 		 */
-		inline void removeComments_impl(std::string& str)
+		inline void removeComments_impl(std::string& str, const std::string_view comment_character = "//")
 		{
 			bool is_comment = false;
 			size_t comment_start = 0;
 
-			for (size_t i = 0; i < str.length() - 1; ++i)
+			for (size_t i = 0; i < str.size() - (comment_character.size() - 1); ++i)
 			{
 				if (str[i] == '\n')
 				{
@@ -226,7 +227,7 @@ namespace ke
 				if (is_comment)
 					continue;
 
-				if (str[i] == '/' && str[i + 1] == '/') // i + 1 is safe because of the loop condition
+				if (str.substr(i, comment_character.size()) == comment_character)
 				{
 					comment_start = i;
 					is_comment = true;

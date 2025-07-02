@@ -353,7 +353,6 @@ namespace ke
 	}
 
 
-
 	/**
 	 * @brief Splits a string into a pair of strings based on a specified delimiter and delmiter relative position.
 	 * 
@@ -362,7 +361,7 @@ namespace ke
 	 * @param split_index 		position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
 	 * @return ContainerType<std::string, std::string> of separated text. Does not include delimiters.
 	 */
-	inline auto splitString(std::string_view str, char delimiter, size_t split_index)
+	inline auto splitStringToPair(std::string_view str, char delimiter, size_t split_index = 0)
 	{
 		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(str, delimiter, split_index);
 	} 
@@ -376,7 +375,7 @@ namespace ke
 	 * @param split_index 		position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
 	 * @return auto 
 	 */
-	inline auto splitString(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index)
+	inline auto splitStringToPair(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index = 0)
     {
 		std::unordered_set<std::string> delimiter_set(delimiters);
 		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(text, delimiter_set, split_index);
@@ -461,11 +460,11 @@ namespace ke
 	 * @param str
 	 * @return		new string without comments
 	 */
-	inline std::string removeComments(std::string_view str)
+	inline std::string removeComments(std::string_view str, const std::string_view comment_indicator = "//")
 	{
-		std::string resoult(str);
-		_impl::removeComments_impl(resoult);
-		return resoult;
+		std::string result(str);
+		_impl::removeComments_impl(result, comment_indicator);
+		return result;
 	}
 
 	/**
@@ -489,9 +488,9 @@ namespace ke
 	 *
 	 * @param str	reference to oryginal string
 	 */
-	inline void removeCommentsByRef(std::string& str)
+	inline void removeCommentsByRef(std::string& str, const std::string_view comment_indicator = "//")
 	{
-		_impl::removeComments_impl(str);
+		_impl::removeComments_impl(str, comment_indicator);
 	}
 
 
