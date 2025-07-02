@@ -71,18 +71,18 @@ KE_TEST(splitString_vector)
 		for (auto& create_string : multichar_builders)
 		{
 			std::string split_str = { c, ++c, ++c, ++c, ++c };
-			std::vector<std::string> result_vec = ke::splitString<std::vector>(create_string(split_str), split_str);
+			std::vector<std::string> result_vec = ke::splitString<std::vector>(create_string(split_str), { split_str });
 			ASSERT_EQUAL(result_vec, words);
 		}
 	}
 
-	ASSERT_EQUAL(ke::splitString<std::vector>("1Lorem2ipsum3dolor4sit5amet6", "1", "2", "3", "4", "5", "6"), words);
+	ASSERT_EQUAL(ke::splitString<std::vector>("1Lorem2ipsum3dolor4sit5amet6", { "1", "2", "3", "4", "5", "6" }), words);
 
-	ASSERT_EQUAL(ke::splitString<std::vector>("#..#...#.3.#..1#.#..#..#2#..23#..", "#..", "2", "3"), 
+	ASSERT_EQUAL(ke::splitString<std::vector>("#..#...#.3.#..1#.#..#..#2#..23#..", { "#..", "2", "3" }),
 		std::vector<std::string>({ ".#.", ".", "1#.", "#" }));
 
-	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", "#.........."), std::vector<std::string>({ "#..#..#" }));
-	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", "#", "#"), std::vector<std::string>({ "..", ".." }));
+	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", { "#.........." }), std::vector<std::string>({ "#..#..#" }));
+	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", { "#", "#" }), std::vector<std::string>({ "..", ".." }));
 }
 
 
@@ -124,13 +124,13 @@ KE_TEST(splitString_set)
 		}
 	}
 
-	ASSERT_EQUAL(ke::splitString<std::set>("1Lorem2ipsum3dolor4sit5amet6", "1", "2", "3", "4", "5", "6"), words_set);
+	ASSERT_EQUAL(ke::splitString<std::set>("1Lorem2ipsum3dolor4sit5amet6", { "1", "2", "3", "4", "5", "6" }), words_set);
 
-	ASSERT_EQUAL(ke::splitString<std::set>("#..#...#.3.#..1#.#..#..#2#..23#..#", "#..", "2", "3"), 
+	ASSERT_EQUAL(ke::splitString<std::set>("#..#...#.3.#..1#.#..#..#2#..23#..#", { "#..", "2", "3" }),
 		std::set<std::string>({ ".#.", ".", "1#.", "#" }));
 
-	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", "#.........."), std::set<std::string>({ "#..#..#" }));
-	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", "#", "#"), std::set<std::string>({ "..", ".." }));
+	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", { "#.........." }), std::set<std::string>({ "#..#..#" }));
+	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", { "#", "#" }), std::set<std::string>({ "..", ".." }));
 
 }
 

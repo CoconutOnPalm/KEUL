@@ -42,12 +42,14 @@
 
 # cmake
 build/
-CMakeLists*
+# CMakeLists*
 
-# vscode
+# vs / vscode
 .vs/
 .vscode/
+out/
 CMakeSettings.json
 
 # project-specific
 tests.cpp
+/CMakeLists.txt

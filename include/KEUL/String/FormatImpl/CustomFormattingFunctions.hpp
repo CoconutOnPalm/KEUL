@@ -12,7 +12,7 @@ namespace ke::_impl
 {
     inline auto rgb_ansi_color(std::string_view arg) -> std::expected<std::string, Error>
     {
-        auto args = ke::splitString<std::vector>(arg, ",", " ");
+        auto args = ke::splitString<std::vector>(arg, { ",", " " });
 
         if (args.size() != 3)
             return std::unexpected(ke::Error::InvalidArgumentCount);

@@ -269,30 +269,6 @@ namespace ke
 	}
 
 
-	/**
-	 * @brief Splits a string into a vector based on specified delimiters.
-	 *
-	 * @details
-	 * Example:
-	 *	text:		"apple,banana,grape;orange | strawberry,"
-	 *	delimiters: ",", ";", "|"
-	 *	output is {"apple", "banana", "grape", "orange ", " strawberry"}
-	 * Notice that ' ' (space) is not considered a delimiter.
-	 *
-	 * @param str			text to be split
-	 * @param delimiters	a set of std::string delimiters. Can be any length
-	 *
-	 * @return ContainerType<std::string> of separated text. Does not include empty strings
-	 */
-	template <template <class> class ContainerType, typename... Delims>
-	inline auto splitString(std::string_view str, const Delims&... delimiters)
-	{
-		static_assert((std::is_convertible_v<Delims, std::string> && ...), "All delimiters must be convertible to std::string");
-
-		std::unordered_set<std::string> delims{ std::string(delimiters)... };
-		return _impl::splitString_impl<ContainerType<std::string>>(str, delims);
-	}
-
 
 	/**
 	 * @brief Splits a string into a transformed vector based on specified delimiters.
@@ -334,6 +310,29 @@ namespace ke
 
 
 	/**
+	 * @brief Splits a string into a vector based on specified delimiters.
+	 *
+	 * @details
+	 * Example:
+	 *	text:		"apple,banana,grape;orange | strawberry,"
+	 *	delimiters: ",", ";", "|"
+	 *	output is {"apple", "banana", "grape", "orange ", " strawberry"}
+	 * Notice that ' ' (space) is not considered a delimiter.
+	 *
+	 * @param str			text to be split
+	 * @param delimiters	a set of std::string delimiters. Can be any length
+	 *
+	 * @return ContainerType<std::string> of separated text. Does not include empty strings
+	 */
+	template <template <class> class ContainerType>
+	inline auto splitString(std::string_view str, std::initializer_list<std::string> delimiters)
+	{
+		std::unordered_set<std::string> delimiter_set(delimiters);
+		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiter_set);
+	}
+
+
+	/**
 	 * @brief Splits a string into a vector based on a specified delimiter.
 	 *
 	 * @details
@@ -352,6 +351,8 @@ namespace ke
 	{
 		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiter);
 	}
+
+
 
 	/**
 	 * @brief Splits a string into a pair of strings based on a specified delimiter and delmiter relative position.
@@ -375,7 +376,7 @@ namespace ke
 	 * @param split_index 		position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
 	 * @return auto 
 	 */
-	inline auto splitString(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index = 0)
+	inline auto splitString(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index)
     {
 		std::unordered_set<std::string> delimiter_set(delimiters);
 		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(text, delimiter_set, split_index);
