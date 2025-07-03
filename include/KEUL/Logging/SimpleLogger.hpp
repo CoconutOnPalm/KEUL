@@ -22,7 +22,7 @@ namespace ke
 	public:
 
 		/**
-		 * @brief Logs a message to the std::clog.
+		 * @brief Logs a message to the stderr (std::clog).
 		 *
 		 * @param layer			LogLayer -> will only log if the layer is above or at the current layer
 		 * @param filename		name of the file that called the log function
@@ -31,42 +31,48 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		static void LogDetailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
+		static void logDetailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
 		{
 			std::lock_guard lock(m_io_mutex);
 
-			if (layer < GetInstance().m_layer) return; // if the layer is below the current layer, do not log
+			if (layer < getInstance().m_layer) return; // if the layer is below the current layer, do not log
 
 			std::string location = (!(filename.empty() || line.empty()) ? std::string(filename) + ":" + std::string(line) : std::string(filename) + std::string(line)); // if filename and line are empty, only one of them is present
-			auto& logging_policy = GetInstance().m_loggingPolicy;
+			auto& logging_policy = getInstance().m_loggingPolicy;
 
-			std::clog <<
-				logging_policy->prefix(layer, location) <<
-				logging_policy->header(layer, location) << ke::format(format_str, std::forward<Args>(args)...) <<
-				logging_policy->suffix(layer, location) << '\n';
+			std::println(std::clog, "{0}{1}{2}{3}",
+				logging_policy->prefix(layer, location),
+				logging_policy->header(layer, location),
+				ke::format(format_str, std::forward<Args>(args)...),
+				logging_policy->suffix(layer, location));
 		}
 
 		/**
-		 * @brief Logs a message to the std::clog.
+		 * @brief Logs a message to the stderr (std::clog).
 		 *
 		 * @param layer			LogLayer -> will only log if the layer is above or at the current layer
 		 * @param format_str	std::format string
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		static void Log(LogLayer layer, const std::format_string<Args...> format_str, Args&&... args)
+		static void log(LogLayer layer, const std::format_string<Args...> format_str, Args&&... args)
 		{
 			std::lock_guard lock(m_io_mutex);
 
-			if (layer < GetInstance().m_layer) return; // if the layer is below the current layer, do not log
+			if (layer < getInstance().m_layer) return; // if the layer is below the current layer, do not log
 
 			std::string location; // leave empty
-			auto& logging_policy = GetInstance().m_loggingPolicy;
+			auto& logging_policy = getInstance().m_loggingPolicy;
 
-			std::clog <<
+			std::println(std::clog, "{0}{1}{2}{3}",
+				logging_policy->prefix(layer, location),
+				logging_policy->header(layer, location),
+				ke::format(format_str, std::forward<Args>(args)...),
+				logging_policy->suffix(layer, location));
+			/*std::clog <<
 				logging_policy->prefix(layer, location) <<
 				logging_policy->header(layer, location) << ke::format(format_str, std::forward<Args>(args)...) <<
-				logging_policy->suffix(layer, location) << '\n';
+				logging_policy->suffix(layer, location) << '\n';*/
 		}
 
 
@@ -77,9 +83,9 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		inline static void LogInfo(const std::format_string<Args...> format_str, Args&&... args)
+		inline static void logInfo(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Info, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Info, format_str, std::forward<Args>(args)...);
 		}
 
 		/**
@@ -89,9 +95,9 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		inline static void LogDebug(const std::format_string<Args...> format_str, Args&&... args)
+		inline static void logDebug(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Debug, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Debug, format_str, std::forward<Args>(args)...);
 		}
 
 		/**
@@ -101,9 +107,9 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		inline static void LogWarning(const std::format_string<Args...> format_str, Args&&... args)
+		inline static void logWarning(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Warning, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Warning, format_str, std::forward<Args>(args)...);
 		}
 
 		/**
@@ -113,9 +119,9 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		inline static void LogError(const std::format_string<Args...> format_str, Args&&... args)
+		inline static void logError(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Error, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Error, format_str, std::forward<Args>(args)...);
 		}
 
 		/**
@@ -125,9 +131,9 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		inline static void LogCritical(const std::format_string<Args...> format_str, Args&&... args)
+		inline static void logCritical(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Critical, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Critical, format_str, std::forward<Args>(args)...);
 		}
 
 		/**
@@ -135,10 +141,10 @@ namespace ke
 		 *
 		 * @param layer	LogLayer
 		 */
-		static void SetLayer(LogLayer layer)
+		static void setLayer(LogLayer layer)
 		{
 			std::lock_guard lock(m_io_mutex);
-			GetInstance().m_layer = layer;
+			getInstance().m_layer = layer;
 		}
 
 
@@ -148,10 +154,10 @@ namespace ke
 		 * @tparam LoggingPolicy	policies::LoggingPolicyBase
 		 */
 		template <class LoggingPolicy>
-		static void SetLoggingPolicy()
+		static void setLoggingPolicy()
 		{
 			std::lock_guard lock(m_io_mutex);
-			GetInstance().m_loggingPolicy = std::make_unique<LoggingPolicy>();
+			getInstance().m_loggingPolicy = std::make_unique<LoggingPolicy>();
 		}
 
 
@@ -162,7 +168,7 @@ namespace ke
 
 		// std::clog is the default output stream
 		LogLayer m_layer = LogLayer::Debug;
-		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy<FormatAllowAnsiCodes::On>>();
+		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy>();
 
 		inline static std::mutex m_io_mutex;
 
@@ -171,19 +177,11 @@ namespace ke
 		static void _EngineLog(LogLayer layer, const std::format_string<Args...> format_str, Args&&... args)
 		{
 			std::lock_guard lock(m_io_mutex);
-			const static std::map<ke::LogLayer, std::string> s_logLayerToFmtColor = {
-				{ke::LogLayer::Info, 		"[bold;cyan]"},
-				{ke::LogLayer::Debug, 		"[bold;blue]"},
-				{ke::LogLayer::Warning, 	"[bold;yellow]"},
-				{ke::LogLayer::Error, 		"[bold;red]"},
-				{ke::LogLayer::Critical, 	"[bold;magenta]"},
-				{ke::LogLayer::Off, 		""},
-			};
 
-			if (layer < GetInstance().m_layer) return; // if the layer is below the current layer, do not log
+			if (layer < getInstance().m_layer) return; // if the layer is below the current layer, do not log
 
 			std::string layerColorFmt;
-			layerColorFmt = s_logLayerToFmtColor.at(layer);
+			layerColorFmt = _internal::_layerToColorFmt(layer);
 
 			std::println(std::clog, "{}{}", ke::format("[bold;green][[KENGINE]] {}[[{}]]: ", layerColorFmt, layer), std::format(format_str, std::forward<Args>(args)...));
 		}
@@ -201,20 +199,20 @@ namespace ke
 		SimpleLogger(const SimpleLogger&) = delete;
 		SimpleLogger& operator=(const SimpleLogger&) = delete;
 
-		static SimpleLogger& GetInstance()
+		static SimpleLogger& getInstance()
 		{
 			static SimpleLogger instance;
 
 			if (instance.m_destroyed)
 			{
-				OnDeadReference();
+				onDeadReference();
 				new (&instance) SimpleLogger;
 			}
 
 			return instance;
 		}
 
-		static void OnDeadReference()
+		static void onDeadReference()
 		{
 			std::println("[CRITICAL ENGINE ERROR]: dead reference in Logger - Logger is destroyed");
 		}
@@ -225,14 +223,11 @@ namespace ke
 	};
 
 
-	using SLog = SimpleLogger;
-
-
-#define KE_LOGINFO(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Info, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
-#define KE_LOGDEBUG(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Debug, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
-#define KE_LOGWARNING(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Warning, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
-#define KE_LOGERROR(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Error, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
-#define KE_LOGCRITICAL(format_str, ...) ke::SimpleLogger::LogDetailed(ke::LogLayer::Critical, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGINFO(format_str, ...) ke::SimpleLogger::logDetailed(ke::LogLayer::Info, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGDEBUG(format_str, ...) ke::SimpleLogger::logDetailed(ke::LogLayer::Debug, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGWARNING(format_str, ...) ke::SimpleLogger::logDetailed(ke::LogLayer::Warning, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGERROR(format_str, ...) ke::SimpleLogger::logDetailed(ke::LogLayer::Error, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
+#define KE_LOGCRITICAL(format_str, ...) ke::SimpleLogger::logDetailed(ke::LogLayer::Critical, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
 
 
 } // namespace ke

@@ -54,7 +54,7 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		void LogDetailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
+		void logDetailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
 		{
 			std::lock_guard lock(m_io_mutex);
 
@@ -64,18 +64,20 @@ namespace ke
 
 			if (m_logstream)
 			{
-				(*m_logstream) <<
-					m_loggingPolicy->prefix(layer, location) <<
-					m_loggingPolicy->header(layer, location) << std::format(format_str, std::forward<Args>(args)...) <<
-					m_loggingPolicy->suffix(layer, location) << '\n';
+				std::println(*m_logstream, "{0}{1}{2}{3}",
+					m_loggingPolicy->prefix(layer, location),
+					m_loggingPolicy->header(layer, location),
+					ke::format(format_str, std::forward<Args>(args)...),
+					m_loggingPolicy->suffix(layer, location));
 			}
 
 			for (auto& [filename, file] : m_logfiles)
 			{
-				file <<
-					m_loggingPolicy->prefix(layer, location) <<
-					m_loggingPolicy->header(layer, location) << std::format(format_str, std::forward<Args>(args)...) <<
-					m_loggingPolicy->suffix(layer, location) << '\n';
+				std::println(file, "{0}{1}{2}{3}",
+					m_loggingPolicy->_no_ansi_prefix(layer, location),
+					m_loggingPolicy->_no_ansi_header(layer, location),
+					ke::format(format_str, std::forward<Args>(args)...),
+					m_loggingPolicy->_no_ansi_suffix(layer, location));
 			}
 		}
 
@@ -88,7 +90,7 @@ namespace ke
 		 * @param ...args
 		 */
 		template <typename... Args>
-		void Log(LogLayer layer, const std::format_string<Args...> format_str, Args&&... args)
+		void log(LogLayer layer, const std::format_string<Args...> format_str, Args&&... args)
 		{
 			std::lock_guard lock(m_io_mutex);
 
@@ -98,53 +100,55 @@ namespace ke
 
 			if (m_logstream)
 			{
-				(*m_logstream) <<
-					m_loggingPolicy->prefix(layer, location) <<
-					m_loggingPolicy->header(layer, location) << std::format(format_str, std::forward<Args>(args)...) <<
-					m_loggingPolicy->suffix(layer, location) << '\n';
+				std::println(*m_logstream, "{0}{1}{2}{3}",
+					m_loggingPolicy->prefix(layer, location),
+					m_loggingPolicy->header(layer, location),
+					ke::format(format_str, std::forward<Args>(args)...),
+					m_loggingPolicy->suffix(layer, location));
 			}
 
 			for (auto& [filename, file] : m_logfiles)
 			{
-				file <<
-					m_loggingPolicy->prefix(layer, location) <<
-					m_loggingPolicy->header(layer, location) << std::format(format_str, std::forward<Args>(args)...) <<
-					m_loggingPolicy->suffix(layer, location) << '\n';
+				std::println(file, "{0}{1}{2}{3}",
+					m_loggingPolicy->_no_ansi_prefix(layer, location),
+					m_loggingPolicy->_no_ansi_header(layer, location),
+					ke::format(format_str, std::forward<Args>(args)...),
+					m_loggingPolicy->_no_ansi_suffix(layer, location));
 			}
 		}
 
 
 		template <typename... Args>
-		inline void LogInfo(const std::format_string<Args...> format_str, Args&&... args)
+		inline void logInfo(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Info, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Info, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void LogDebug(const std::format_string<Args...> format_str, Args&&... args)
+		inline void logDebug(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Debug, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Debug, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void LogWarning(const std::format_string<Args...> format_str, Args&&... args)
+		inline void logWarning(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Warning, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Warning, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void LogError(const std::format_string<Args...> format_str, Args&&... args)
+		inline void logError(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Error, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Error, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void LogCritical(const std::format_string<Args...> format_str, Args&&... args)
+		inline void logCritical(const std::format_string<Args...> format_str, Args&&... args)
 		{
-			Log(LogLayer::Critical, format_str, std::forward<Args>(args)...);
+			log(LogLayer::Critical, format_str, std::forward<Args>(args)...);
 		}
 
-		void SetLayer(LogLayer layer)
+		void setLayer(LogLayer layer)
 		{
 			std::lock_guard lock(m_io_mutex);
 			m_layer = layer;
@@ -155,7 +159,7 @@ namespace ke
 		 * 
 		 * @param stream console std::ostream
 		 */
-		void SetLogStream(std::ostream* stream)
+		void setLogStream(std::ostream* stream)
 		{
 			std::lock_guard lock(m_io_mutex);
 			m_logstream = stream;
@@ -168,7 +172,7 @@ namespace ke
 		 * @tparam LoggingPolicy	policies::LoggingPolicyBase
 		 */
 		template <class LoggingPolicy>
-		void SetLoggingPolicy()
+		void setLoggingPolicy()
 		{
 			std::lock_guard lock(m_io_mutex);
 			m_loggingPolicy = std::make_unique<LoggingPolicy>();
@@ -180,7 +184,7 @@ namespace ke
 		 * @param filename
 		 * @param mode
 		 */
-		void AddLogFile(const std::string& filename, std::ios::openmode mode = std::ios::trunc)
+		void addLogFile(const std::string& filename, std::ios::openmode mode = std::ios::trunc)
 		{
 			std::lock_guard lock(m_io_mutex);
 
@@ -188,7 +192,7 @@ namespace ke
 
 			if (!empl_resoult.second)
 			{
-				ke::_internal::EngineLog::Warning("Log file \"{}\" already exists", filename);
+				ke::_internal::EngineLog::Warning("log file \"{}\" already exists", filename);
 				return;
 			}
 
@@ -203,7 +207,7 @@ namespace ke
 			}
 		}
 
-		void RemoveLogFile(const std::string& filename)
+		void removeLogFile(const std::string& filename)
 		{
 			std::lock_guard lock(m_io_mutex);
 
@@ -229,7 +233,7 @@ namespace ke
 		std::unordered_map<std::string, std::ofstream> m_logfiles;
 
 		LogLayer m_layer = LogLayer::Debug;
-		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy<FormatAllowAnsiCodes::Off>>();
+		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy>();
 
 		static inline std::mutex m_io_mutex;
 

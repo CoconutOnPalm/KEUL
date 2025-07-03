@@ -78,7 +78,7 @@ KE_TEST(FileReader)
 	ke::FileReader reader;
 
 	// temporary disable logging
-	ke::SimpleLogger::SetLayer(ke::LogLayer::Off);
+	ke::SimpleLogger::setLayer(ke::LogLayer::Off);
 
 	ASSERT_FALSE(reader.open("noexisting.txt"));
 	ASSERT_FALSE(reader.isOpen());
@@ -86,7 +86,7 @@ KE_TEST(FileReader)
 	ASSERT_FALSE(reader.open("./"));
 	ASSERT_FALSE(reader.isOpen());
 
-	ke::SimpleLogger::SetLayer(ke::LogLayer::Debug);
+	ke::SimpleLogger::setLayer(ke::LogLayer::Debug);
 
 	ASSERT_TRUE(reader.open(basic_txt_path));
 	ASSERT_TRUE(reader.isOpen());

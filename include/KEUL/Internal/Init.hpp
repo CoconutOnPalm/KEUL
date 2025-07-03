@@ -10,6 +10,6 @@ namespace ke
 	inline static void Init()
 	{
 		_internal::errorToString(Error::Error);
-		_impl::interpret_ansi_codes("");
+		auto val = _impl::interpret_ansi_codes("");
 	}
 }

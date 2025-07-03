@@ -10,7 +10,7 @@ namespace ke::_internal
 	{
 		if (!result)
 		{
-			ke::SLog::LogCritical("[b;r]ASSERTION FAILED: [0]{}\n[f]  |{}:{}", expression, file, line);
+			ke::SimpleLogger::logCritical("[b;r]ASSERTION FAILED: [0]{}\n[f]  |{}:{}", expression, file, line);
 			std::abort();
 		}
 	}
