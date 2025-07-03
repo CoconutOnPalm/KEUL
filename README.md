@@ -139,3 +139,123 @@ ke::trimString("    weirdly shifted text with newline\n") -> "weirdly shifted te
 ke::removeComments("Lorem ipsum. // comment", "//") -> "Lorem ipsum"
 ke::removeComments("Lorem ipsum. # comment", "#")   -> "Lorem ipsum"
 ```
+
+## Logging
+
+KEUL provides a simple logging module, which consists of two loggers:
+
+### Logger
+```
+std::string message = "message";
+
+ke::Logger logger;
+logger.addLogFile("log");
+logger.setLoggingPolicy<ke::policies::DefaultLoggingPolicy>();
+logger.setLayer(ke::LogLayer::Warning); // only warning+ levels will be logged
+logger.logInfo("info: {}", message);
+logger.logDebug("debug: {}", message);
+logger.logWarning("warning: {}", message);
+logger.logError("error: {}", message);
+logger.logCritical("critical: {}", message);
+
+```
+output (both in console and "log" file):
+```
+2025-07-03 18:09:21
+[WARNING]: warning: message
+2025-07-03 18:09:21
+[ERROR]: error: message
+2025-07-03 18:09:21
+[CRITICAL]: critical: message
+```
+
+### SimpleLogger
+```
+ke::SimpleLogger::setLoggingPolicy<ke::policies::DefaultLoggingPolicy>();
+ke::SimpleLogger::setLayer(ke::LogLayer::Warning);
+ke::SimpleLogger::logError("error");
+```
+or use a dedicated macro
+```
+int var = -1;
+KE_LOGERROR("variable {} is invalid", var);
+KE_LOGWARNING("this it a warning");
+```
+
+### log levels:
+|name|hierarchy|
+|:--:|:------:|
+|INFO|1|
+|DEBUG|2|
+|WARNING|3|
+|ERROR|4|
+|CRITICAL ERROR|5|
+
+## Clock, benchmarking
+
+### Clock
+```
+ke::Clock clock(ke::Clock::TimeUnit::miliseconds);
+clock.start();
+for (size_t i = 0; i < 1'000'000'000; i++)
+{
+	// some time consuming operation
+}
+double time = clock.stop();
+std::println("time={:.3f}ms", time);
+
+// output: 
+// time=2011.904ms
+```
+
+### Benchmark
+```
+ke::Benchmark benchmark("benchmark name");
+for (size_t i = 0; i < 1'000'000'000; i++)
+    { }
+benchmark.stop(true); // true - automatically print the result
+
+// output: 
+// benchmark name: 2038136.600 µs
+// may result in funny characters when encoding gets messy
+```
+
+### LoopBenchmark
+```
+ke::LoopBenchmark loopBenchmark("loop benchmark", ke::Clock::TimeUnit::miliseconds);
+	
+for (size_t i = 0; i < 1000; i++)
+{
+	loopBenchmark.startIteration();
+	for (size_t j = 0; j < 1'000'000; j++)
+		{}
+	loopBenchmark.endIteration();
+}
+
+double avg_time = loopBenchmark.stop();
+std::println("avg time: {:.3f}", avg_time);
+
+// output:
+// avg time: 1.911
+```
+
+both Benchmark and LoopBenchmark were created to be simple and fast to implement. For proper benchmarking, use more robust methods.
+
+### (very) simple file loading
+
+*data.txt*
+```
+apples: 2
+bananas: 5
+strawberries: 10
+radioisotope thermoelectric generator: 3
+```
+```
+ke::FileReader freader("data.txt");
+const std::vector<std::string> data = freader.readAll();
+std::println("{}", data);
+// output:
+[apples: 2, bananas: 5, strawberries: 10, radioisotope thermoelectric generator: 3]
+```
+the readAll() method reads a file line-by-line, saving many lines of code if you don't have a dedicated reader. It's an easy method, for a more uncivilized age. 
+
