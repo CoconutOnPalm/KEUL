@@ -457,7 +457,7 @@ namespace ke
 							}
 							else
 							{
-								if (allow_ansi == FormatAllowAnsiCodes::On)
+								if constexpr (allow_ansi == FormatAllowAnsiCodes::On)
 								{
 									str.replace(i, closing_bracket_index - i + 1, ansi_code.value());
 									i += ansi_code.value().size() - 1;
@@ -495,7 +495,7 @@ namespace ke
 			if (bracket_tracker != 0)
 			{
 				// TODO: log error: invalid bracket count
-				if (allow_ansi == FormatAllowAnsiCodes::On)
+				if constexpr (allow_ansi == FormatAllowAnsiCodes::On)
 					str += "\033[0m"; // reset ansi codes
 				return str;
 			}
@@ -526,7 +526,7 @@ namespace ke
 				str = new_str;
 			}
 
-			if (allow_ansi == FormatAllowAnsiCodes::On)
+			if constexpr (allow_ansi == FormatAllowAnsiCodes::On)
 				str += "\033[0m"; // reset ansi codes
 
 			return str;

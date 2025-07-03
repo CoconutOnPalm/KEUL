@@ -2,6 +2,9 @@
 
 #include "Clock.hpp"
 
+#ifdef _MSC_VER
+#pragma execution_character_set( "utf-8" )
+#endif
 
 namespace ke
 {
@@ -59,7 +62,7 @@ namespace ke
 		 * @param print		true -> the results are printed (in microseconds)
 		 * @return Elapsed time (in microseconds)
 		 */
-		long double stop(bool print = true)
+		long double stop(bool print = false)
 		{
 			auto val = m_clock.stop();
 			m_isRunning = false;

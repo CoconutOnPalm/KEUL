@@ -112,7 +112,7 @@ namespace ke
 				std::println(file, "{0}{1}{2}{3}",
 					m_loggingPolicy->_no_ansi_prefix(layer, location),
 					m_loggingPolicy->_no_ansi_header(layer, location),
-					ke::format(format_str, std::forward<Args>(args)...),
+					ke::format<FormatAllowAnsiCodes::Off>(format_str, std::forward<Args>(args)...),
 					m_loggingPolicy->_no_ansi_suffix(layer, location));
 			}
 		}

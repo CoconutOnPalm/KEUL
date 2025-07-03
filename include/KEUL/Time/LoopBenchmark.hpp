@@ -19,8 +19,8 @@ namespace ke
 		/**
 		 * @param name	Name of the instance. Useful for printing results.
 		 */
-		LoopBenchmark(const std::string& name)
-			: m_name(name), m_iteration(0), m_avarage(0, 0)
+		LoopBenchmark(const std::string& name, const Clock::TimeUnit time_unit)
+			: m_name(name), m_iteration(0), m_avarage(0, 0), m_clock(time_unit)
 		{}
 
 
@@ -64,7 +64,7 @@ namespace ke
 		 * @param print If true, prints avarage iteration time.
 		 * @return Avarage iteration time
 		 */
-		long double stop(bool print = true)
+		long double stop(bool print = false)
 		{
 			m_clock.stop(false); // just in case
 

@@ -147,7 +147,7 @@ namespace ke
 				break;
 			case TimeUnit::microseconds:
 				duration = std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000.;
-				suffix = " μs";
+				suffix = " µs";
 				break;
 			case TimeUnit::miliseconds:
 				duration = std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000'000.;
