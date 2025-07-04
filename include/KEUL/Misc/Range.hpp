@@ -87,6 +87,11 @@ namespace ke
 	class Range
 	{
 	public:
+
+		T a; /// lower bound
+		T b; /// upper bound
+
+
 		// placeholder until Microsoft fixes the compiler
 		static_assert(std::is_fundamental_v<T>, "Range type must be fundamental");
 
@@ -178,11 +183,6 @@ namespace ke
 			return RangeTypePolicy<T>::toString(a, b);
 		}
 
-
-		// data
-
-		T a; /// lower bound
-		T b; /// upper bound
 	};
 
 
@@ -269,7 +269,7 @@ namespace ke
 
 
 template <typename T, template <typename> class RangeTypePolicy, typename CharT>
-struct std::formatter<ke::Range<T, RangeTypePolicy>, CharT>
+struct std::formatter<ke::Range<T, RangeTypePolicy>, CharT> : std::formatter<std::string>
 {
 	constexpr auto parse(std::basic_format_parse_context<CharT>& ctx)
 	{

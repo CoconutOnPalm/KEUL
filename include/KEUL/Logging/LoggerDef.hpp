@@ -2,6 +2,8 @@
 
 #include <format>
 
+#include "../String/StringLib.hpp"
+
 namespace ke
 {
 	/**
@@ -17,46 +19,34 @@ namespace ke
 		Off		 = 5		/// Nothing will be logged
 	};
 
+
+	namespace _internal
+	{
+		inline std::string _logLayerToString(const ke::LogLayer layer)
+		{
+			const static std::map<ke::LogLayer, std::string> s_logLayerToString = {
+				{ke::LogLayer::Info, 		"Info"},
+				{ke::LogLayer::Debug, 		"Debug"},
+				{ke::LogLayer::Warning, 	"Warning"},
+				{ke::LogLayer::Error, 		"Error"},
+				{ke::LogLayer::Critical, 	"Critical"},
+				{ke::LogLayer::Off, 		"Off"},
+			};
+
+			return s_logLayerToString.at(layer);
+		}
+	}
+
 }
 
 // make LogLayer std::format compatible
 
 template <>
-struct std::formatter<ke::LogLayer>
+struct std::formatter<ke::LogLayer> : std::formatter<std::string>
 {
-	constexpr auto parse(format_parse_context& ctx)
-	{
-		return ctx.begin();
-	}
-
 	auto format(const ke::LogLayer& layer, std::format_context& ctx) const
 	{
-		std::string name;
-
-		switch (layer)
-		{
-		case ke::LogLayer::Debug:
-			name = "DEBUG";
-			break;
-		case ke::LogLayer::Info:
-			name = "INFO";
-			break;
-		case ke::LogLayer::Warning:
-			name = "WARNING";
-			break;
-		case ke::LogLayer::Error:
-			name = "ERROR";
-			break;
-		case ke::LogLayer::Critical:
-			name = "CRITICAL";
-			break;
-		case ke::LogLayer::Off:
-			name = "OFF";
-			break;
-		default:
-			name = "Unknown";
-			break;
-		}
+		std::string name = ke::toUpper(ke::_internal::_logLayerToString(layer));
 
 		return std::format_to(ctx.out(), "{}", name);
 	}

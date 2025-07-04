@@ -10,6 +10,16 @@ namespace ke
 	 */
 	class LoopBenchmark
 	{
+	private:
+
+
+		std::string m_name;
+		Benchmark m_clock;
+
+		size_t m_iteration;
+		std::pair<double, double> m_avarage;
+
+
 	public:
 
 		LoopBenchmark()
@@ -19,7 +29,7 @@ namespace ke
 		/**
 		 * @param name	Name of the instance. Useful for printing results.
 		 */
-		LoopBenchmark(const std::string& name, const Clock::TimeUnit time_unit)
+		LoopBenchmark(const std::string& name, const TimeUnit time_unit)
 			: m_name(name), m_iteration(0), m_avarage(0, 0), m_clock(time_unit)
 		{}
 
@@ -75,16 +85,6 @@ namespace ke
 
 			return m_avarage.second;
 		}
-
-
-	private:
-
-
-		std::string m_name;
-		Benchmark m_clock;
-
-		size_t m_iteration;
-		std::pair<double, double> m_avarage;
 	};
 
 } // namespace ke

@@ -49,7 +49,7 @@ namespace ke
 
 	namespace _internal
 	{
-		inline const std::string& errorToString(ke::Error error)
+		inline const std::string& _errorToString(ke::Error error)
 		{
 			const static std::map<Error, std::string> errorStrings = {
 				{ Error::Error,					"Error" },
@@ -92,15 +92,10 @@ namespace ke
 
 
 template <>
-struct std::formatter<ke::Error>
+struct std::formatter<ke::Error> : std::formatter<std::string>
 {
-	constexpr auto parse(format_parse_context& ctx)
-	{
-		return ctx.begin();
-	}
-
 	auto format(const ke::Error& error, std::format_context& ctx) const
 	{
-		return std::format_to(ctx.out(), "{}", ke::_internal::errorToString(error));
+		return std::format_to(ctx.out(), "{}", ke::_internal::_errorToString(error));
 	}
 };

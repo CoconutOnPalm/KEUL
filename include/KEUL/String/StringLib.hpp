@@ -12,6 +12,7 @@
 #include <format>
 #include <initializer_list>
 #include <algorithm>
+#include <functional>
 
 #include "../Error/ErrorDef.hpp"
 #include "StringLibImpl/StringLib_impl.hpp"

@@ -27,6 +27,20 @@ namespace ke
 	 */
 	class Logger
 	{
+	private:
+
+
+		// data:
+
+		std::ostream* m_logstream = &std::cout;
+		std::unordered_map<std::string, std::ofstream> m_logfiles;
+
+		LogLayer m_layer = LogLayer::Debug;
+		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy>();
+
+		static inline std::mutex m_io_mutex;
+
+
 	public:
 
 		Logger() = default;
@@ -222,20 +236,6 @@ namespace ke
 			it->second.close();
 			m_logfiles.erase(it);
 		}
-
-
-	private:
-
-
-		// data:
-
-		std::ostream* m_logstream = &std::cout;
-		std::unordered_map<std::string, std::ofstream> m_logfiles;
-
-		LogLayer m_layer = LogLayer::Debug;
-		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy>();
-
-		static inline std::mutex m_io_mutex;
 
 	};
 

@@ -18,7 +18,6 @@
 #include "Error/ErrorDef.hpp"
 #include "FileSystem/FileReader.hpp"
 #include "Internal/EngineLogging.hpp"
-#include "Internal/Init.hpp"
 #include "Logging/Logger.hpp"
 #include "Logging/Print.hpp"
 #include "Logging/SimpleLogger.hpp"
@@ -27,4 +26,5 @@
 #include "String/Format.hpp"
 #include "String/StringLib.hpp"
 #include "Time/LoopBenchmark.hpp"
+#include "Time/Timer.hpp"
 

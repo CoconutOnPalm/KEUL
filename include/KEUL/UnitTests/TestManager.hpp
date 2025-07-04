@@ -16,6 +16,12 @@ namespace ke::test::_internal
 {
 	class TestManager
 	{
+	private:
+
+		std::vector<std::unique_ptr<TestBase>> m_tests;
+		TestSummary m_summary;
+
+
 	public:
 
 		static void RunAllTests()
@@ -101,9 +107,6 @@ namespace ke::test::_internal
 		}
 
 	private:
-
-		std::vector<std::unique_ptr<TestBase>> m_tests;
-		TestSummary m_summary;
 
 
 		TestManager() = default;

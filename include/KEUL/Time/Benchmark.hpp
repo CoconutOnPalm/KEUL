@@ -13,9 +13,17 @@ namespace ke
 	 */
 	class Benchmark
 	{
+	protected:
+
+		Clock m_clock;
+
+		std::string m_name;
+		bool m_isRunning;
+
+
 	public:
 
-		Benchmark(Clock::TimeUnit unit = Clock::TimeUnit::microseconds)
+		Benchmark(TimeUnit unit = TimeUnit::microseconds)
 			: m_clock(unit)
 			, m_name("Benchmark")
 			, m_isRunning(true)
@@ -27,7 +35,7 @@ namespace ke
 		 * @brief WARNING: Starts benchmark automatically
 		 * @param name	Name of the instance. Useful for printing resolts.
 		 */
-		Benchmark(const std::string& name, Clock::TimeUnit unit = Clock::TimeUnit::microseconds)
+		Benchmark(const std::string& name, TimeUnit unit = TimeUnit::microseconds)
 			: m_clock(unit)
 			, m_name(name)
 			, m_isRunning(true)
@@ -43,8 +51,7 @@ namespace ke
 
 			auto val = m_clock.stop();
 
-			std::print("{}: {}", m_name, val);
-			m_clock.print(Clock::TimeUnit::microseconds, 3);
+			std::println("{}: {}", m_name, m_clock);
 		}
 
 		/**
@@ -69,20 +76,11 @@ namespace ke
 
 			if (print)
 			{
-				std::print("{0}: ", m_name);
-				m_clock.print(Clock::TimeUnit::microseconds, 3);
+				std::println("{}: {}", m_name, m_clock);
 			}
 
 			return val;
 		}
-
-
-	protected:
-
-		Clock m_clock;
-	
-		std::string m_name;
-		bool m_isRunning;
 	};
 
 

@@ -19,6 +19,14 @@ namespace ke
 
 	class SimpleLogger
 	{
+	private:
+
+		LogLayer m_layer = LogLayer::Debug;
+		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy>();
+
+		inline static std::mutex m_io_mutex;
+
+
 	public:
 
 		/**
@@ -162,15 +170,6 @@ namespace ke
 
 
 	private:
-
-
-		// data:
-
-		// std::clog is the default output stream
-		LogLayer m_layer = LogLayer::Debug;
-		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy>();
-
-		inline static std::mutex m_io_mutex;
 
 
 		template <typename... Args>
