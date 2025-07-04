@@ -1,24 +1,35 @@
-# KEUL
-KEngine Utility Library - easy to use small utility library
-The library is header-only
+﻿# KEUL
+`C++ version: C++23 or higher`
+
+KEngine Utility Library – an easy-to-use, small utility library.  
+This library is header-only.  
+Note: Due to its simplicity and potentially long compilation times, it is not recommended for use in anything other than small projects.
+
+
+==WARNING: this library currently does not compile in gcc 15. Use gcc 14 instead==
 
 ### Getting the repository:
 ```git clone https://github.com/CoconutOnPalm/KEUL.git```
 
+Copy `include/KEUL` into your `include/` directory.  
+No other setup is required.
 
-# Library content
+You can also see the `examples/` directory for reference.
 
-## String module
-### ANSI-formatting
-Use ```ke::format()``` and ```ke::print()``` ```ke::println()``` to add mapped ANSI codes to std::string using ```[...]``` bracket formatting
+# Library Content
 
-formatting: 
-`[f1;f2;f3]This is the colorful part [0]This is the default part`, \
-where: \
-f1, f2, f3 -> are formatting options, \
-0 -> is the resetting option (see table below)
+## String Module
 
-***example:***
+### ANSI Formatting
+Use `ke::format()`, `ke::print()`, and `ke::println()` to add mapped ANSI codes to a `std::string` using `[ ... ]` bracket formatting.
+
+Formatting:  
+`[f1;f2;f3]This is the colorful part [0]This is the default part`  
+where:  
+f1, f2, f3 → formatting options  
+0 → reset option (see table below)
+
+**Example:**
 ```
 std::string ansi = ke::format("[red]RED [bold;blue]BOLD BLUE");
 // str = "\033[31mRED \033[1;34mBOLD BLUE\033[0m"
@@ -85,7 +96,7 @@ ke::println("[red][[ERROR]]: [0]{}", message);
 | esc(code)           |              |    | inject any ANSI code  |
 
 
-### String utilities
+### String Utilities
 #### string convertions
 ```
 ke::toString(10) -> "10"
@@ -182,7 +193,7 @@ KE_LOGERROR("variable {} is invalid", var);
 KE_LOGWARNING("this it a warning");
 ```
 
-### log levels:
+### Log Levels:
 |name|hierarchy|
 |:--:|:------:|
 |INFO|1|
@@ -191,7 +202,7 @@ KE_LOGWARNING("this it a warning");
 |ERROR|4|
 |CRITICAL ERROR|5|
 
-## Clock, benchmarking
+## Clock, Simple Benchmarking
 
 ### Clock
 ```
@@ -216,7 +227,7 @@ for (size_t i = 0; i < 1'000'000'000; i++)
 benchmark.stop(true); // true - automatically print the result
 
 // output: 
-// benchmark name: 2038136.600 �s
+// benchmark name: 2038136.600 µs
 // may result in funny characters when encoding gets messy
 ```
 
@@ -241,7 +252,7 @@ std::println("avg time: {:.3f}", avg_time);
 
 both Benchmark and LoopBenchmark were created to be simple and fast to implement. For proper benchmarking, use more robust methods.
 
-### (very) simple file loading
+## (Very) Simple File Loading
 
 *data.txt*
 ```
@@ -259,3 +270,89 @@ std::println("{}", data);
 ```
 the readAll() method reads a file line-by-line, saving many lines of code if you don't have a dedicated reader. It's an easy method, for a more uncivilized age. 
 
+## Other
+### ke::Range
+a simple range abstraction
+```
+ke::ClosedRange<int>closed(0, 1);	// [0, 1]
+ke::OpenRange<int>open(0, 1);		// (0, 1)
+ke::HalfOpenRange<int>halfopen(0, 1);	// [0, 1)
+
+closed.contains(0); closed.contains(1);		// true true
+open.contains(0); open.contains(1);		// false false
+halfopen.contains(0); halfopen.contains(1);	// true false
+```
+
+### assertions
+```
+void foo(const int x)
+{
+	KE_ASSERT(x > 0);
+
+	// ...
+}
+
+int main()
+{
+	foo(-1);
+}
+
+// output:
+2025-07-04 12:22:16
+[CRITICAL]: ASSERTION FAILED: x > 0
+  |<filename>:<line>
+```
+
+## Unit Tests
+*to be tested*
+```
+int foo(int x)
+{
+	return x * x - 3;
+}
+
+double bar(double x)
+{
+	return x * x - 3.25;
+}
+```
+
+*footest.cpp*
+```
+KE_TEST(foo_test)
+{
+	ASSERT_EQUAL(foo(0), -3);
+	ASSERT_EQUAL(foo(2), -1); // invalid unit test
+
+	ASSERT_SIMILAR_DOUBLE(bar(0), -3.25, 0.0001);
+	ASSERT_SIMILAR_DOUBLE(bar(2), 0.75, 0.0001);
+}
+```
+
+*testing program*
+```
+KE_RUN_ALL_TESTS();
+```
+Note that by calling `KE_RUN_ALL_TESTS()`, you are running **every** declared `KE_TEST` that is included in the project.
+
+*output*
+```
+TESTING: foo_test
++-------------------------------
+|  > [1]<filename>:<line> FAILED - "ASSERT EQUAL":
+|     expression:  foo(2) -> 1
+|     expected:    -1 -> -1
++-------------------------------
+| 3/4 TEST CASES SUCCEEDED
+| 1/4 TEST CASES FAILED
+| Test took: 1.6108 ms
++-------------------------------
+
+SUMMARY
++-----------------------------------
+| 1 TEST FAILED
+|  > "foo_test" FAILED
+| Total tests: 1
+| Total test time: <x> ms
++---------------------------------
+```
