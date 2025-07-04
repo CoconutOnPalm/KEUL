@@ -215,7 +215,7 @@ namespace ke
 	template <typename T, template <typename> class RangeType>
 		requires std::is_fundamental_v<T> // placeholder until Microsoft fixes the compiler
 		//requires std::is_fundamental_v<T> && _RangeTypePolicyConcept<T, RangeType>
-	inline bool InRange(const Range<T, RangeType>& rng, T val)
+	inline bool inRange(const Range<T, RangeType>& rng, T val)
 	{
 		return rng.contains(val);
 	}
@@ -223,7 +223,7 @@ namespace ke
 
 	template <typename T, typename U1, typename U2>
 		requires std::is_fundamental_v<T> && std::is_fundamental_v<U1> && std::is_fundamental_v<U2>
-	inline bool RestrainVariable(T& var, U1 a, U2 b)
+	inline bool restrainVariable(T& var, U1 a, U2 b)
 	{
 		// check for degenerate range
 		if (a >= b)
@@ -246,7 +246,7 @@ namespace ke
 
 	template <typename T>
 		requires std::is_fundamental_v<T> // placeholder until Microsoft fixes the compiler
-	inline bool RestrainVariable(T& var, const ClosedRange<T>& rng)
+	inline bool restrainVariable(T& var, const ClosedRange<T>& rng)
 	{
 		if (rng.isDegenerate())
 			return false;
@@ -266,7 +266,6 @@ namespace ke
 
 
 } // namespace ke
-
 
 
 template <typename T, template <typename> class RangeTypePolicy, typename CharT>
