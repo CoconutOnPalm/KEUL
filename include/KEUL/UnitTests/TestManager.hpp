@@ -59,9 +59,9 @@ namespace ke::test::_internal
 
 				ke::println("[f]+-------------------------------");
 
-				ke::println("[f]| [0;bg]{}[0;f;g]/{} [0;g]TESTS SUCCEEDED", result.success_count, result.success_count + result.failure_count);
+				ke::println("[f]| [0;bg]{}[0;f;g]/{} [0;g]TEST CASES SUCCEEDED", result.success_count, result.success_count + result.failure_count);
 				if (result.failure_count > 0)
-					ke::println("[f]| [0;b;r]{}[0;f;r]/{} [0;r]TESTS FAILED", result.failure_count, result.success_count + result.failure_count);
+					ke::println("[f]| [0;b;r]{}[0;f;r]/{} [0;r]TEST CASES FAILED", result.failure_count, result.success_count + result.failure_count);
 				ke::println("[f]| [0]Test took: [0;b]{} [0]ms", result.total_time);
 				ke::println("[f]+-------------------------------");
 			}
