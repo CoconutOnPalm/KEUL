@@ -133,22 +133,22 @@ KE_TEST(Random)
 
 	for (size_t i = 0; i < 10000; i++)
 	{
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange<uint32_t>(0, 10), generator.Value<uint32_t>(ke::ClosedRange<uint32_t>(0u, 10u))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange<uint32_t>(1, 9),  generator.Value<uint32_t>(ke::OpenRange<uint32_t>(0u, 10u))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange<uint32_t>(0, 9),  generator.Value<uint32_t>(ke::HalfOpenRange<uint32_t>(0u, 10u))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange<uint32_t>(0, 10), generator.Value<uint32_t>(ke::ClosedRange<uint32_t>(0u, 10u))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange<uint32_t>(1, 9),  generator.Value<uint32_t>(ke::OpenRange<uint32_t>(0u, 10u))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange<uint32_t>(0, 9),  generator.Value<uint32_t>(ke::HalfOpenRange<uint32_t>(0u, 10u))));
 
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(0, 10), generator.Int32(ke::ClosedRange(0, 10))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(1, 9),  generator.Int32(ke::OpenRange(0, 10))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(0, 9),  generator.Int32(ke::HalfOpenRange(0, 10))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0, 10), generator.Int32(ke::ClosedRange(0, 10))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(1, 9),  generator.Int32(ke::OpenRange(0, 10))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0, 9),  generator.Int32(ke::HalfOpenRange(0, 10))));
 
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange('a', 'e'), generator.Char(ke::ClosedRange('a', 'e'))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange('b', 'd'), generator.Char(ke::OpenRange('a', 'e'))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange('a', 'd'), generator.Char(ke::HalfOpenRange('a', 'e'))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange('a', 'e'), generator.Char(ke::ClosedRange('a', 'e'))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange('b', 'd'), generator.Char(ke::OpenRange('a', 'e'))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange('a', 'd'), generator.Char(ke::HalfOpenRange('a', 'e'))));
 
 		constexpr double eps = std::numeric_limits<double>::epsilon();
 
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(0.0, 0.5), generator.Double(ke::ClosedRange(0.0, 0.5))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(0.0 + eps, 0.5 - eps), generator.Double(ke::OpenRange(0.0, 0.5))));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(0.0, 0.5 - eps), generator.Double(ke::HalfOpenRange(0.0, 0.5))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0.0, 0.5), generator.Double(ke::ClosedRange(0.0, 0.5))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0.0 + eps, 0.5 - eps), generator.Double(ke::OpenRange(0.0, 0.5))));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0.0, 0.5 - eps), generator.Double(ke::HalfOpenRange(0.0, 0.5))));
 	}
 }

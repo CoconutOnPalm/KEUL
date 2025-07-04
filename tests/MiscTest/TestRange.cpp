@@ -154,57 +154,57 @@ KE_TEST(HalfOpenRange)
 
 KE_TEST(inRange)
 {
-	ASSERT_TRUE(ke::InRange(ke::OpenRange(-2, 2), 0));
-	ASSERT_FALSE(ke::InRange(ke::OpenRange(-2, 2), 2));
-	ASSERT_FALSE(ke::InRange(ke::OpenRange(-2, 2), -2));
+	ASSERT_TRUE(ke::inRange(ke::OpenRange(-2, 2), 0));
+	ASSERT_FALSE(ke::inRange(ke::OpenRange(-2, 2), 2));
+	ASSERT_FALSE(ke::inRange(ke::OpenRange(-2, 2), -2));
 
-	ASSERT_TRUE(ke::InRange(ke::ClosedRange(-2, 2), 0));
-	ASSERT_TRUE(ke::InRange(ke::ClosedRange(-2, 2), 2));
-	ASSERT_TRUE(ke::InRange(ke::ClosedRange(-2, 2), -2));
+	ASSERT_TRUE(ke::inRange(ke::ClosedRange(-2, 2), 0));
+	ASSERT_TRUE(ke::inRange(ke::ClosedRange(-2, 2), 2));
+	ASSERT_TRUE(ke::inRange(ke::ClosedRange(-2, 2), -2));
 
-	ASSERT_TRUE(ke::InRange(ke::HalfOpenRange(-2, 2), 0));
-	ASSERT_FALSE(ke::InRange(ke::HalfOpenRange(-2, 2), 2));
-	ASSERT_TRUE(ke::InRange(ke::HalfOpenRange(-2, 2), -2));
+	ASSERT_TRUE(ke::inRange(ke::HalfOpenRange(-2, 2), 0));
+	ASSERT_FALSE(ke::inRange(ke::HalfOpenRange(-2, 2), 2));
+	ASSERT_TRUE(ke::inRange(ke::HalfOpenRange(-2, 2), -2));
 }
 
 
 KE_TEST(restrainVariable)
 {
 	int a = 0;
-	ASSERT_TRUE(ke::RestrainVariable(a, 1, 10));
+	ASSERT_TRUE(ke::restrainVariable(a, 1, 10));
 	ASSERT_EQUAL(a, 1);
 
 	a = 0;
-	ASSERT_TRUE(ke::RestrainVariable(a, -10, -1));
+	ASSERT_TRUE(ke::restrainVariable(a, -10, -1));
 	ASSERT_EQUAL(a, -1);
 
 	a = 0;
-	ASSERT_FALSE(ke::RestrainVariable(a, 0, 0));
+	ASSERT_FALSE(ke::restrainVariable(a, 0, 0));
 	ASSERT_EQUAL(a, 0);
 
 	a = 0;
-	ASSERT_FALSE(ke::RestrainVariable(a, 0, 0));
+	ASSERT_FALSE(ke::restrainVariable(a, 0, 0));
 	ASSERT_EQUAL(a, 0);
 
 	// degenerate range
 	a = 4;
-	ASSERT_FALSE(ke::RestrainVariable(a, 10, -10));
+	ASSERT_FALSE(ke::restrainVariable(a, 10, -10));
 	ASSERT_EQUAL(a, 4);
 
 	a = 0;
-	ASSERT_TRUE(ke::RestrainVariable(a, ke::ClosedRange(1, 10)));
+	ASSERT_TRUE(ke::restrainVariable(a, ke::ClosedRange(1, 10)));
 	ASSERT_EQUAL(a, 1);
 
 	a = 0;
-	ASSERT_FALSE(ke::RestrainVariable(a, ke::ClosedRange(0, 10)));
+	ASSERT_FALSE(ke::restrainVariable(a, ke::ClosedRange(0, 10)));
 	ASSERT_EQUAL(a, 0);
 
 	a = 0;
-	ASSERT_FALSE(ke::RestrainVariable(a, ke::ClosedRange(0, 0)));
+	ASSERT_FALSE(ke::restrainVariable(a, ke::ClosedRange(0, 0)));
 	ASSERT_EQUAL(a, 0);
 
 	a = 0;
-	ASSERT_FALSE(ke::RestrainVariable(a, ke::ClosedRange(0, 0)));
+	ASSERT_FALSE(ke::restrainVariable(a, ke::ClosedRange(0, 0)));
 	ASSERT_EQUAL(a, 0);
 
 	ke::Random generator(0);
@@ -212,29 +212,29 @@ KE_TEST(restrainVariable)
 	for (int i = 0; i < 100; i++)
 	{
 		int a = generator.Int32(std::numeric_limits<int32_t>::min(), std::numeric_limits<int32_t>::max());
-		ke::RestrainVariable(a, ke::ClosedRange(0, 100));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(0, 100), a));
+		ke::restrainVariable(a, ke::ClosedRange(0, 100));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0, 100), a));
 	}
 
 	for (char c = 'a'; c <= 'z'; c++)
 	{
 		char a = c;
-		ke::RestrainVariable(a, ke::ClosedRange('a', 'z'));
+		ke::restrainVariable(a, ke::ClosedRange('a', 'z'));
 		ASSERT_EQUAL(a, c);
 	}
 	
 	for (char c = ' '; c <= '~'; c++)
 	{
 		char a = c;
-		ke::RestrainVariable(a, ke::ClosedRange('a', 'z'));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange('a', 'z'), a));
+		ke::restrainVariable(a, ke::ClosedRange('a', 'z'));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange('a', 'z'), a));
 	}
 
 	for (float f = -100.0f; f <= 100.0f; f += 0.1f)
 	{
 		float a = f;
-		ke::RestrainVariable(a, ke::ClosedRange(-10.0f, 10.0f));
-		ASSERT_TRUE(ke::InRange(ke::ClosedRange(-10.0f, 10.0f), a));
+		ke::restrainVariable(a, ke::ClosedRange(-10.0f, 10.0f));
+		ASSERT_TRUE(ke::inRange(ke::ClosedRange(-10.0f, 10.0f), a));
 	}
 }
 
