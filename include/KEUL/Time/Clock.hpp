@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <print>
 #include <iostream>
@@ -10,8 +10,14 @@
 #pragma execution_character_set( "utf-8" )
 #endif
 
+#include "TimeUnit.hpp"
+
+
+
+
 namespace ke
 {
+
 
 	/**
 	 * @brief Real-time automated clock based on std::chromo::high_resolution_clock.
@@ -20,17 +26,15 @@ namespace ke
 	{
 	public:
 
-		/**
-		 * @brief KEngine replacement for standard chrono time format.
-		 */
-		enum class TimeUnit
-		{
-			nanoseconds,
-			microseconds,
-			miliseconds,
-			seconds,
-			minutes
-		};
+
+	private:
+
+		TimeUnit m_unit;
+
+		std::chrono::nanoseconds m_total_time;
+		std::chrono::time_point<std::chrono::high_resolution_clock> m_start, m_stop;
+
+	public:
 
 		/**
 		 * @brief Default constructor - does not start the clock.
@@ -60,29 +64,7 @@ namespace ke
 			m_stop = std::chrono::high_resolution_clock::now();
 			m_total_time = m_stop - m_start;
 
-			switch (m_unit)
-			{
-			case TimeUnit::nanoseconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count();
-				break;
-			case TimeUnit::microseconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000.;
-				break;
-			case TimeUnit::miliseconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000'000.; // I like them numbers
-				break;
-			case TimeUnit::seconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000'000'000.; // More zeros. The compiler will hold...
-				break;
-			case TimeUnit::minutes:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 60'000'000'000.; // Kekw (it works somehow)
-				break;
-			default:
-				throw std::invalid_argument("TimeUnit is incorrect");
-				break;
-			}
-
-			return m_total_time.count();
+			return _getDuration(m_unit, m_total_time);
 		}
 
 		/**
@@ -91,31 +73,9 @@ namespace ke
 		 * @param unit	time format (ke::Clock::TimeUnit)
 		 * @return
 		 */
-		long double getLatestMeasurement(TimeUnit unit = TimeUnit::microseconds) const
+		long double getLastMeasurement(const TimeUnit unit = TimeUnit::microseconds) const
 		{
-			switch (unit)
-			{
-			case TimeUnit::nanoseconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count();
-				break;
-			case TimeUnit::microseconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000.;
-				break;
-			case TimeUnit::miliseconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000'000.;
-				break;
-			case TimeUnit::seconds:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000'000'000.;
-				break;
-			case TimeUnit::minutes:
-				return std::chrono::duration<long double, std::nano>(m_total_time).count() / 60'000'000'000.;
-				break;
-			default:
-				throw std::invalid_argument("TimeUnit: format is incorrect");
-				break;
-			}
-
-			return m_total_time.count();
+			return _getDuration(unit, m_total_time);
 		}
 
 		/**
@@ -131,76 +91,55 @@ namespace ke
 		 *	the output string will be "21.37 ms"
 		 *
 		 * @param unit	time format (ke::Clock::TimeUnit)
-		 * @param precision	integer in [0, 6] range - determines number precision
 		 * @return ("<time> <unit>"). See details for additional info
 		 */
-		std::string toString(TimeUnit unit = TimeUnit::microseconds, uint8_t precision = 2) const
+		std::string toString() const
 		{
-			long double duration = 0;
-			std::string suffix;
-
-			switch (unit)
-			{
-			case TimeUnit::nanoseconds:
-				duration = std::chrono::duration<long double, std::nano>(m_total_time).count();
-				suffix = " ns";
-				break;
-			case TimeUnit::microseconds:
-				duration = std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000.;
-				suffix = " µs";
-				break;
-			case TimeUnit::miliseconds:
-				duration = std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000'000.;
-				suffix = " ms";
-				break;
-			case TimeUnit::seconds:
-				duration = std::chrono::duration<long double, std::nano>(m_total_time).count() / 1'000'000'000.;
-				suffix = " s";
-				break;
-			case TimeUnit::minutes:
-				duration = std::chrono::duration<long double, std::nano>(m_total_time).count() / 60'000'000'000.;
-				suffix = " min";
-				break;
-			default:
-				throw std::invalid_argument("TimeUnit: format is incorrect");
-				break;
-			}
-
-			std::stringstream ss;
-			ss << std::fixed << std::setprecision(precision) << duration << suffix;
-
-			return ss.str();
+			long double duration = _getDuration(m_unit, m_total_time);
+			return std::format("{:.3} {}", duration, m_unit);
 		}
 
-
-		/**
-		 * @brief Prints representation ("<time> <unit>") of latest measurement. See details for additional info.
-		 *
-		 * @details
-		 * String in "<time> <unit>" format, where
-		 *	<time> is a floating point converted to std::string with specified precision
-		 *	<unit> is suffix based on specified format
-		 *
-		 * Example:
-		 *	let time = 21.37420 miliseconds, precision = 2
-		 *	the output will be "21.37 ms"
-		 *
-		 * @param unit	time format (ke::Clock::TimeUnit)
-		 * @param precision	integer in [0, 6] range - determines number precision
-		 * @param precision
-		 */
-		void print(TimeUnit unit = TimeUnit::microseconds, uint8_t precision = 2) const
-		{
-			std::println("{0}", toString(unit, precision));
-		}
 
 	private:
 
-		TimeUnit m_unit;
+		long double _getDuration(const TimeUnit unit, const std::chrono::nanoseconds total_ns) const
+		{
+			// switch-case probably better than std::map in this case
+			switch (unit)
+			{
+			case TimeUnit::nanoseconds:
+				return m_total_time.count();
+				break;
+			case TimeUnit::microseconds:
+				return std::chrono::duration_cast<std::chrono::microseconds>(total_ns).count();
+				break;
+			case TimeUnit::miliseconds:
+				return std::chrono::duration_cast<std::chrono::milliseconds>(total_ns).count();
+				break;
+			case TimeUnit::seconds:
+				return std::chrono::duration_cast<std::chrono::seconds>(total_ns).count();
+				break;
+			case TimeUnit::minutes:
+				return std::chrono::duration_cast<std::chrono::minutes>(total_ns).count();
+				break;
+			default:
+				throw std::invalid_argument("TimeUnit is incorrect");
+				break;
+			}
 
-		std::chrono::duration<long double, std::nano> m_total_time;
-		std::chrono::time_point<std::chrono::high_resolution_clock> m_start, m_stop;
-
+			return total_ns.count();
+		}
 	};
 
 } // namespace ke
+
+
+template <>
+struct std::formatter<ke::Clock> : std::formatter<std::string>
+{
+	template <typename FormatContext>
+	auto format(const ke::Clock clock, FormatContext& ctx) const
+	{
+		return std::formatter<std::string>::format(clock.toString(), ctx);
+	}
+};
