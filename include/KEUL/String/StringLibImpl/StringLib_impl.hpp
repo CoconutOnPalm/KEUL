@@ -30,7 +30,7 @@ namespace ke
 				return std::format("{}", arg);
 			else
 			{
-				std::stringstream ss; ss << arg;
+				std::stringstream ss{}; ss << arg;
 				T value{};
 
 				ss >> value;
@@ -156,11 +156,6 @@ namespace ke
 
 
 		
-
-
-		
-
-
 
 		/**
 		 * @brief removes specified whitespaces from the front and back of a string.
