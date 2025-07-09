@@ -54,7 +54,7 @@ namespace ke
 		 * @brief Calls the callback while the condition is met. Runs in a detached thread
 		 */
 		template <typename _Rep, typename _Period, class invocable_t, typename... Args>
-		void repeat_while(const std::chrono::duration<_Rep, _Period>& _Rel_time, const bool* condition, invocable_t&& callback, Args&&... args)
+		void repeatWhile(const std::chrono::duration<_Rep, _Period>& _Rel_time, const bool* const condition, invocable_t&& callback, Args&&... args)
 		{
 			KE_ASSERT(condition != nullptr);
 
@@ -62,10 +62,12 @@ namespace ke
 			auto _callback = std::bind(std::forward<invocable_t>(callback), std::forward<Args>(args)...);
 
 			std::thread([_Rel_time, _callback, condition]() mutable {
+
+				std::this_thread::sleep_for(_Rel_time);
 				while (*condition) // read only - no need for mutex
 				{
-					std::this_thread::sleep_for(_Rel_time);
 					_callback();
+					std::this_thread::sleep_for(_Rel_time);
 				}
 			}).detach();
 		}

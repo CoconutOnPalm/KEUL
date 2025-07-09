@@ -26,7 +26,7 @@ namespace ke
 
 	namespace _internal
 	{
-		static inline std::string _timeUnitToU8String(const TimeUnit timeunit)
+		static inline std::string _timeUnitToString(const TimeUnit timeunit)
 		{
 			const static std::map<ke::TimeUnit, std::string> s_timeUnitToString = {
 				{ke::TimeUnit::nanoseconds, "ns"},
@@ -48,6 +48,6 @@ struct std::formatter<ke::TimeUnit> : std::formatter<std::string>
 	template <typename FormatContext>
 	auto format(const ke::TimeUnit time_unit, FormatContext& ctx) const
 	{
-		return std::formatter<std::string>::format(std::format("{}", ke::_internal::_timeUnitToU8String(time_unit)), ctx);
+		return std::formatter<std::string>::format(std::format("{}", ke::_internal::_timeUnitToString(time_unit)), ctx);
 	}
 };
