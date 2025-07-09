@@ -37,10 +37,11 @@ std::string ansi = ke::format("[red]RED [bold;blue]BOLD BLUE");
 or print it directly
 ```
 ke::println("[red]RED [bold;blue]BOLD BLUE");
-/* output: RED BOLD BLUE
+```
+```
+output: RED BOLD BLUE
             ^     ^
           red   bold blue (in ANSI-compatible consoles)
-*/
 ```
 you can also plug in rgb values
 ```
@@ -202,7 +203,7 @@ KE_LOGWARNING("this it a warning");
 |ERROR|4|
 |CRITICAL ERROR|5|
 
-## Clock, Simple Benchmarking
+## Time Module
 
 ### Clock
 ```
@@ -214,9 +215,10 @@ for (size_t i = 0; i < 1'000'000'000; i++)
 }
 double time = clock.stop();
 std::println("time={:.3f}ms", time);
-
-// output: 
-// time=2011.904ms
+```
+```
+output: 
+time=2011.904ms
 ```
 
 ### Benchmark
@@ -225,8 +227,9 @@ ke::Benchmark benchmark("benchmark name");
 for (size_t i = 0; i < 1'000'000'000; i++)
     { }
 benchmark.stop(true); // true - automatically print the result
-
-// output: 
+```
+```
+output: 
 // benchmark name: 2038136.600 µs
 // may result in funny characters when encoding gets messy
 ```
@@ -245,9 +248,63 @@ for (size_t i = 0; i < 1000; i++)
 
 double avg_time = loopBenchmark.stop();
 std::println("avg time: {:.3f}", avg_time);
+```
+```
+output:
+avg time: 1.911
+```
 
-// output:
-// avg time: 1.911
+### Timer
+```
+void foo(int x)
+{
+	std::println("{}", x);
+}
+
+int main()
+{
+	ke::Timer timer;
+
+	int x = 0;
+	bool condition = true;
+
+	std::println("single call: ");
+	timer.start(std::chrono::seconds(1), foo, x++);
+	std::this_thread::sleep_for(std::chrono::seconds(2));
+
+	std::println("5 calls: ");
+	timer.repeat(std::chrono::milliseconds(100), 5, foo, x++);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+
+	std::println("while the condition is satisfied: ");
+	timer.repeat_while(std::chrono::milliseconds(100), &condition, foo, x++);
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+	condition = false;
+	std::println("stop");
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+}
+```
+```
+output:
+single call:
+0
+5 calls:
+1
+1
+1
+1
+1
+while the condition is satisfied:
+2
+2
+2
+2
+2
+2
+2
+2
+2
+stop
 ```
 
 both Benchmark and LoopBenchmark were created to be simple and fast to implement. For proper benchmarking, use more robust methods.
@@ -265,7 +322,9 @@ radioisotope thermoelectric generator: 3
 ke::FileReader freader("data.txt");
 const std::vector<std::string> data = freader.readAll();
 std::println("{}", data);
-// output:
+```
+```
+output:
 [apples: 2, bananas: 5, strawberries: 10, radioisotope thermoelectric generator: 3]
 ```
 the readAll() method reads a file line-by-line, saving many lines of code if you don't have a dedicated reader. It's an easy method, for a more uncivilized age. 
@@ -296,8 +355,9 @@ int main()
 {
 	foo(-1);
 }
-
-// output:
+```
+```
+output:
 2025-07-04 12:22:16
 [CRITICAL]: ASSERTION FAILED: x > 0
   |<filename>:<line>
