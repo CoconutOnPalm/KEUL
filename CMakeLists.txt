@@ -10,12 +10,11 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	add_compile_options(/utf-8)
 endif ()
 
-add_executable(KEUL test.cpp ${TEST_SRC})
 
-
-# target_link_libraries(KEUL PRIVATE stdc++exp)
-target_include_directories(KEUL PRIVATE "${CMAKE_SOURCE_DIR}/include")
-
+message(STATUS "building: library unit tests")
+add_executable(library_unit_tests test.cpp ${TEST_SRC})
+target_include_directories(library_unit_tests PRIVATE "${CMAKE_SOURCE_DIR}/include")
+# target_link_libraries(KEUL PRIVATE stdc++exp) # uncomment if experimental needed (gcc)
 
 # examples/ 
 
