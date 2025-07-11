@@ -14,6 +14,21 @@ namespace ke::test::_internal
 
 	class TestBase
 	{
+	private:
+
+
+		bool m_aborted = false;
+
+		std::string m_name;
+		std::vector<TestData> m_data;
+		uint32_t m_test_index = 0;
+
+		bool m_benchmark_enabled = true;
+		::ke::TimeUnit m_time_unit = TimeUnit::miliseconds;
+
+		TestSummary m_summary;
+
+
 
 	public:
 		virtual ~TestBase() = default;
@@ -387,17 +402,7 @@ namespace ke::test::_internal
 
 			m_summary.result = (m_summary.failure_count == 0) ? TestResult::Success : TestResult::Failure;
 		}
-		
-		bool m_aborted = false;
 
-		std::string m_name;
-		std::vector<TestData> m_data;
-		uint32_t m_test_index = 0;
-
-		bool m_benchmark_enabled = true;
-		::ke::Clock::TimeUnit m_time_unit = Clock::TimeUnit::miliseconds;
-
-		TestSummary m_summary;
 
 
 

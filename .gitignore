@@ -47,8 +47,4 @@ build/
 # vs / vscode
 .vs/
 .vscode/
-out/
 CMakeSettings.json
-
-# project-specific
-tests.cpp

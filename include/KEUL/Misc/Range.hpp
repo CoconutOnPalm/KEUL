@@ -87,6 +87,11 @@ namespace ke
 	class Range
 	{
 	public:
+
+		T a; /// lower bound
+		T b; /// upper bound
+
+
 		// placeholder until Microsoft fixes the compiler
 		static_assert(std::is_fundamental_v<T>, "Range type must be fundamental");
 
@@ -178,11 +183,6 @@ namespace ke
 			return RangeTypePolicy<T>::toString(a, b);
 		}
 
-
-		// data
-
-		T a; /// lower bound
-		T b; /// upper bound
 	};
 
 
@@ -215,7 +215,7 @@ namespace ke
 	template <typename T, template <typename> class RangeType>
 		requires std::is_fundamental_v<T> // placeholder until Microsoft fixes the compiler
 		//requires std::is_fundamental_v<T> && _RangeTypePolicyConcept<T, RangeType>
-	inline bool InRange(const Range<T, RangeType>& rng, T val)
+	inline bool inRange(const Range<T, RangeType>& rng, T val)
 	{
 		return rng.contains(val);
 	}
@@ -223,7 +223,7 @@ namespace ke
 
 	template <typename T, typename U1, typename U2>
 		requires std::is_fundamental_v<T> && std::is_fundamental_v<U1> && std::is_fundamental_v<U2>
-	inline bool RestrainVariable(T& var, U1 a, U2 b)
+	inline bool restrainVariable(T& var, U1 a, U2 b)
 	{
 		// check for degenerate range
 		if (a >= b)
@@ -246,7 +246,7 @@ namespace ke
 
 	template <typename T>
 		requires std::is_fundamental_v<T> // placeholder until Microsoft fixes the compiler
-	inline bool RestrainVariable(T& var, const ClosedRange<T>& rng)
+	inline bool restrainVariable(T& var, const ClosedRange<T>& rng)
 	{
 		if (rng.isDegenerate())
 			return false;
@@ -268,9 +268,8 @@ namespace ke
 } // namespace ke
 
 
-
 template <typename T, template <typename> class RangeTypePolicy, typename CharT>
-struct std::formatter<ke::Range<T, RangeTypePolicy>, CharT>
+struct std::formatter<ke::Range<T, RangeTypePolicy>, CharT> : std::formatter<std::string>
 {
 	constexpr auto parse(std::basic_format_parse_context<CharT>& ctx)
 	{

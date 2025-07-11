@@ -15,6 +15,16 @@ namespace ke
 	 */
 	class FileReader
 	{
+	private:
+
+		std::mutex m_imutex; // in case my dumb ass ever decided to multithread this
+
+		std::ifstream m_file;
+		bool m_ready = false;
+
+		static inline std::set<std::string> s_supported_file_types;
+
+
 	public:
 
 		FileReader() = default;
@@ -139,15 +149,6 @@ namespace ke
 	
 			return data;
 		}
-
-	private:
-
-		std::mutex m_imutex; // in case my dumb ass ever decided to multithread this
-
-		std::ifstream m_file;
-		bool m_ready = false;
-
-		static inline std::set<std::string> s_supported_file_types;
 	};
 
 } // namespace ke

@@ -12,6 +12,7 @@
 #include <format>
 #include <initializer_list>
 #include <algorithm>
+#include <functional>
 
 #include "../Error/ErrorDef.hpp"
 #include "StringLibImpl/StringLib_impl.hpp"
@@ -146,6 +147,45 @@ namespace ke
 
 		if (*value < 0 || *value > std::numeric_limits<uint8_t>::max())
 			return std::unexpected(Error::DomainError);
+
+		uint8_t result = value.value();
+		return result;
+	}
+
+
+	/**
+	 * @brief tries to convert arg into T, returns default_value if fails.
+	 */
+	template <_StringStreamableFromTConcept T>
+	inline auto tryFromString(std::string_view arg, T default_value) -> T
+	{
+		//static_assert(_StringStreamableFromTConcept<T>, "Type must be streamable from std::stringstream");
+
+		std::stringstream ss; ss << arg;
+		T value{};
+
+		ss >> value;
+
+		if (ss.fail() || ss.bad())
+			return default_value;
+
+		return value;
+	}
+
+
+	/**
+	 * @brief tries to convert arg into T, returns uint8_t (as an integer) if fails.
+	 */
+	template <>
+	inline auto tryFromString<uint8_t>(std::string_view arg, uint8_t default_value) -> uint8_t
+	{
+		auto value = fromString<int>(arg);
+
+		if (!value)
+			return default_value;
+
+		if (*value < 0 || *value > std::numeric_limits<uint8_t>::max())
+			return default_value;
 
 		uint8_t result = value.value();
 		return result;
@@ -431,7 +471,7 @@ namespace ke
 	 *
 	 * @param str	text to be trimmed
 	 */
-	inline void trimStringByRef(std::string& str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
+	inline void trimStringRef(std::string& str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
 	{
 		_impl::trimString_impl(str, whitespaces);
 	}
@@ -488,7 +528,7 @@ namespace ke
 	 *
 	 * @param str	reference to oryginal string
 	 */
-	inline void removeCommentsByRef(std::string& str, const std::string_view comment_indicator = "//")
+	inline void removeCommentsRef(std::string& str, const std::string_view comment_indicator = "//")
 	{
 		_impl::removeComments_impl(str, comment_indicator);
 	}
