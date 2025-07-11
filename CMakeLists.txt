@@ -19,7 +19,7 @@ target_include_directories(KEUL PRIVATE "${CMAKE_SOURCE_DIR}/include")
 
 # examples/ 
 
-list(APPEND Examples StringUtilities Benchmark Timer)
+list(APPEND Examples StringUtilities Benchmark Timer UnitTests)
 
 foreach(example IN LISTS Examples)
 	message(STATUS "building: ${example}")
