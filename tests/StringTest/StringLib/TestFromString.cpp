@@ -58,7 +58,7 @@ KE_TEST(tryFromString)
 
 	for (uint8_t i = 0; i < 255; i++)
 	{
-		ASSERT_EQUAL(ke::tryFromString<uint8_t>(ke::toString(i), std::numeric_limits<int>::min()), i);
+		ASSERT_EQUAL(ke::tryFromString<uint8_t>(ke::toString(i), std::numeric_limits<uint8_t>::min()), i);
 	}
 
 	ASSERT_SIMILAR(ke::tryFromString<float>("0", std::numeric_limits<float>::min()), 0.0f, std::numeric_limits<float>().epsilon());

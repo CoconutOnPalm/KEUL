@@ -58,8 +58,7 @@ BenchmarkTest test_set()
 
 	std::set<int> set;
 
-	auto raw_data = std::views::iota(0ull, test_size);
-	std::vector<int> data(raw_data.begin(), raw_data.end());
+	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
@@ -99,8 +98,7 @@ BenchmarkTest test_unordered_set()
 
 	std::unordered_set<int> unordered_set;
 
-	auto raw_data = std::views::iota(0ull, test_size);
-	std::vector<int> data(raw_data.begin(), raw_data.end());
+	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
@@ -140,8 +138,7 @@ BenchmarkTest test_list()
 
 	std::list<int> list;
 
-	auto raw_data = std::views::iota(0ull, test_size);
-	std::vector<int> data(raw_data.begin(), raw_data.end());
+	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
@@ -180,9 +177,7 @@ BenchmarkTest test_vector()
 	ke::LoopBenchmark remove;
 
 	std::vector<int> vector;
-
-	auto raw_data = std::views::iota(0ull, test_size);
-	std::vector<int> data(raw_data.begin(), raw_data.end());
+	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 

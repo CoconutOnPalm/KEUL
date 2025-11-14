@@ -23,6 +23,7 @@
 #include "Logging/SimpleLogger.hpp"
 #include "Misc/Assert.hpp"
 #include "Misc/Random.hpp"
+#include "Misc/FromIOTA.hpp"
 #include "String/Format.hpp"
 #include "String/StringLib.hpp"
 #include "Time/LoopBenchmark.hpp"
