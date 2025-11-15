@@ -322,7 +322,7 @@ namespace ke
 	template <typename T>
 	inline std::vector<T> splitString(std::string_view str, std::initializer_list<std::string> delimiters, std::function<T(std::string)> transformer)
 	{
-		std::unordered_set<std::string> delimiter_set(delimiters);
+		std::set<std::string> delimiter_set(delimiters);
 		std::vector<std::string> split_result = _impl::splitString_impl<std::vector<std::string>>(str, delimiter_set);
 		std::vector<T> output; output.reserve(split_result.size());
 		std::ranges::transform(split_result, std::back_inserter(output), transformer);
@@ -367,7 +367,7 @@ namespace ke
 	template <template <class> class ContainerType>
 	inline auto splitString(std::string_view str, std::initializer_list<std::string> delimiters)
 	{
-		std::unordered_set<std::string> delimiter_set(delimiters);
+		std::set<std::string> delimiter_set(delimiters);
 		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiter_set);
 	}
 
@@ -417,7 +417,7 @@ namespace ke
 	 */
 	inline auto splitStringToPair(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index = 0)
     {
-		std::unordered_set<std::string> delimiter_set(delimiters);
+		std::set<std::string> delimiter_set(delimiters);
 		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(text, delimiter_set, split_index);
 	}
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <unordered_set>
+#include <set>
 
 #include "StringLibTypeTraits.hpp"
 
@@ -26,7 +26,7 @@ namespace ke::_impl
      * @return ContainerType<std::string> of separated text. Does not include empty strings
      */
     template <_StringRangeTypeConcept ContainerType>
-    inline auto splitString_impl(std::string_view text, const std::unordered_set<std::string>& delimiters)
+    inline auto splitString_impl(std::string_view text, const std::set<std::string>& delimiters)
     {
         if (text.empty() || delimiters.empty())
             return ContainerType({std::string(text)});
@@ -81,7 +81,7 @@ namespace ke::_impl
      * @return ContainerType<std::string> of separated text. Does not include empty strings
      */
     template <_StringContainerTypeConcept ContainerType>
-    inline auto splitString_impl(std::string_view text, const std::unordered_set<std::string>& delimiters)
+    inline auto splitString_impl(std::string_view text, const std::set<std::string>& delimiters)
     {
         if (text.empty() || delimiters.empty())
             return ContainerType({std::string(text)});
@@ -248,7 +248,7 @@ namespace ke::_impl
 
 
     template <_StringPairTypeConcept ContainerType, typename... Args>
-    inline auto splitStringToPair_impl(std::string_view text, const std::unordered_set<std::string>& delimiters, size_t split_index = 0)
+    inline auto splitStringToPair_impl(std::string_view text, const std::set<std::string>& delimiters, size_t split_index = 0)
     {
         if (text.empty())
             return ContainerType("", "");
