@@ -48,3 +48,4 @@ build/
 .vs/
 .vscode/
 CMakeSettings.json
+CmakeCache.txt

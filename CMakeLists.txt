@@ -12,7 +12,7 @@ endif ()
 
 
 message(STATUS "building: library unit tests")
-add_executable(library_unit_tests test.cpp ${TEST_SRC})
+add_executable(library_unit_tests ${TEST_SRC})
 target_include_directories(library_unit_tests PRIVATE "${CMAKE_SOURCE_DIR}/include")
 # target_link_libraries(KEUL PRIVATE stdc++exp) # uncomment if experimental needed (gcc)
 

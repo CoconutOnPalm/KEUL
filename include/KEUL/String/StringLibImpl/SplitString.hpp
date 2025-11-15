@@ -45,7 +45,7 @@ namespace ke::_impl
 
                 if (text.substr(i, delim.size()) == delim)
                 {
-                    if (start != i)
+                    if (start < i)
                         output.emplace_back(text.begin() + start, text.begin() + i);
 
                     start = i + delim.size();
@@ -99,7 +99,7 @@ namespace ke::_impl
 
                 if (text.substr(i, delim.size()) == delim)
                 {
-                    if (start != i)
+                    if (start < i)
                         output.emplace(text.begin() + start, text.begin() + i);
 
                     start = i + delim.size();
@@ -148,7 +148,7 @@ namespace ke::_impl
             // index i hit delimiter
             if (text[i] == delimiter)
             {
-                if (start != i)
+                if (start < i)
                 {
                     output.emplace_back(text.begin() + start, text.begin() + i);
                 }
@@ -198,7 +198,7 @@ namespace ke::_impl
             // index i hit delimiter
             if (text[i] == delimiter)
             {
-                if (start != i)
+                if (start < i)
                 {
                     output.emplace(text.begin() + start, text.begin() + i);
                 }

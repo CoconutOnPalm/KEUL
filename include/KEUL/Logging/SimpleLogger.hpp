@@ -228,6 +228,8 @@ namespace ke
 #define KE_LOGERROR(format_str, ...) ke::SimpleLogger::logDetailed(ke::LogLayer::Error, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
 #define KE_LOGCRITICAL(format_str, ...) ke::SimpleLogger::logDetailed(ke::LogLayer::Critical, __FILE__, ke::toString(__LINE__), format_str, ## __VA_ARGS__);
 
+#define KE_SETLOGLATER(loglayer) ke::SimpleLogger::setLayer(loglayer);
+
 
 } // namespace ke
 
