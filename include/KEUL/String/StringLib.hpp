@@ -157,7 +157,7 @@ namespace ke
 	 * @brief tries to convert arg into T, returns default_value if fails.
 	 */
 	template <_StringStreamableFromTConcept T>
-	inline auto tryFromString(std::string_view arg, T default_value) -> T
+	inline auto fromStringOr(std::string_view arg, T default_value) -> T
 	{
 		//static_assert(_StringStreamableFromTConcept<T>, "Type must be streamable from std::stringstream");
 
@@ -177,7 +177,7 @@ namespace ke
 	 * @brief tries to convert arg into T, returns uint8_t (as an integer) if fails.
 	 */
 	template <>
-	inline auto tryFromString<uint8_t>(std::string_view arg, uint8_t default_value) -> uint8_t
+	inline auto fromStringOr<uint8_t>(std::string_view arg, uint8_t default_value) -> uint8_t
 	{
 		auto value = fromString<int>(arg);
 
