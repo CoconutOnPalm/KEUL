@@ -17,6 +17,7 @@ namespace ke
 		DomainError,		// aka range error
 		LengthError,
 		OutOfRange,
+		InvalidType,
 
 		// runtime errors
 		OverflowInt,
@@ -43,7 +44,8 @@ namespace ke
 		_Count,
 
 		None = -1,
-		UnexpectedError = -2
+		UnexpectedError = -2,
+		UnknownError = -3
 	};
 
 
@@ -58,6 +60,7 @@ namespace ke
 				{ Error::DomainError,			"Domain Error" },
 				{ Error::LengthError,			"Length Error" },
 				{ Error::OutOfRange,			"Out of Range" },
+				{ Error::InvalidType,			"Invalid Type" },
 				{ Error::OverflowInt,			"Overflow Int" },
 				{ Error::OverflowFloat,			"Overflow Float" },
 				{ Error::UnderflowInt,			"Underflow Int" },
@@ -74,7 +77,11 @@ namespace ke
 				{ Error::InvalidFileStructure,	"Invalid File Structure" },
 				{ Error::OutOfMemory,			"Out of Memory" },
 				{ Error::InvalidMemoryAccess,	"Invalid Memory Access" },
-				{ Error::None,					"None" }
+				{ Error::None,					"None" },
+				{ Error::UnexpectedError,		"Unexpected Error" },
+				{ Error::UnknownError,			"Unknown Error" },
+
+				{ Error::_Count,				std::format("{}", static_cast<int>(Error::_Count)) },
 			};
 
 			const static std::string unknownError = std::format("Unknown Error type: {}", static_cast<int>(error));

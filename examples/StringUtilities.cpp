@@ -10,8 +10,8 @@ Point transform(const std::string& point_raw)
 	std::string bracketless = ke::trimString(point_raw, { '(', ')' }); // strip the point of any brackets:  "(x,y)" -> "x,y"
 	auto pair = ke::splitStringToPair(bracketless, ',', 0); // split into pair: 
 	return Point { 
-		.x = ke::tryFromString<float>(pair.first, 0), 
-		.y = ke::tryFromString<float>(pair.second, 0) 
+		.x = ke::fromStringOr<float>(pair.first, 0), 
+		.y = ke::fromStringOr<float>(pair.second, 0) 
 	};
 }
 

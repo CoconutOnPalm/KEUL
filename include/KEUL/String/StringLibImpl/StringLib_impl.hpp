@@ -14,36 +14,6 @@ namespace ke
 	namespace _impl
 	{
 		/**
-		 * @brief Converts a value to a string. If the conversion fails, returns error string.
-		 *
-		 * @tparam T			Type of the value to be converted to a string
-		 *
-		 * @param arg			Value to be converted to a string
-		 * @param default_str	Default string to be returned if the conversion fails
-		 *
-		 * @return
-		 */
-		template <typename T>
-		std::string tryToString_impl(const T& arg, const std::string& default_str = "???")
-		{
-			if constexpr (std::formattable<T, char>)
-				return std::format("{}", arg);
-			else
-			{
-				std::stringstream ss{}; ss << arg;
-				T value{};
-
-				ss >> value;
-
-				if (ss.fail())
-					return default_str;
-
-				return ss.str();
-			}
-		}
-
-
-		/**
 		 * @brief removes specified whitespaces from the front and back of a string.
 		 *
 		 * @example

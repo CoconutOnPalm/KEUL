@@ -85,12 +85,12 @@ namespace ke
 	 * @return 
 	 */
 	template <typename T>
-	inline auto tryToStringOrError(const T& arg) noexcept -> std::expected<std::string, Error>
+	inline auto toStringOrError(const T& arg) noexcept -> std::expected<std::string, Error>
 	{
 		if constexpr (std::formattable<T, char>)
 			return toString(arg);
 		else
-			return std::unexpected(Error::InvalidArgument);
+			return std::unexpected(Error::InvalidType);
 	}
 
 	/**
@@ -101,10 +101,10 @@ namespace ke
 	 * @return 
 	 */
 	template <typename T>
-	inline std::string tryToString(const T& arg, const std::string& default_str = "???")
+	inline std::string toStringOr(const T& arg, const std::string& default_str = "???")
 	{
 		if constexpr (std::formattable<T, char>)
-			return _impl::tryToString_impl(arg, default_str);
+			return toString(arg);
 		else
 			return default_str;
 	}
