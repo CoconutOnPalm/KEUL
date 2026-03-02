@@ -12,15 +12,15 @@ endif ()
 
 
 message(STATUS "building: library unit tests")
-add_executable(library_unit_tests ${TEST_SRC})
-target_include_directories(library_unit_tests PRIVATE "${CMAKE_SOURCE_DIR}/include")
+add_executable(test-keul ${TEST_SRC})
+target_include_directories(test-keul PRIVATE "${CMAKE_SOURCE_DIR}/include")
 # target_link_libraries(KEUL PRIVATE stdc++exp) # uncomment if experimental needed (gcc)
 
 # examples/ 
 
-list(APPEND Examples StringUtilities Benchmark Timer UnitTests)
+list(APPEND examples string-utilities benchmark timer unit-tests)
 
-foreach(example IN LISTS Examples)
+foreach(example IN LISTS examples)
 	message(STATUS "building: ${example}")
 	add_executable(${example} examples/${example}.cpp)
 	target_include_directories(${example} PRIVATE "${CMAKE_SOURCE_DIR}/include")

@@ -1,4 +1,4 @@
-#include <KEUL/UnitTests.hpp>
+#include <keul/unit-tests.hpp>
 
 int main()
 {

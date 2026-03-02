@@ -1,0 +1,8 @@
+#pragma once
+
+#include "unit-tests/test-manager.hpp"
+
+/**
+ * @brief Runs all tests registered with the KE_TEST macro. 
+ */
+#define KE_RUN_ALL_TESTS() ::ke::test::_internal::TestManager::run_all_tests()
