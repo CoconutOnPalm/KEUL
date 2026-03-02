@@ -39,7 +39,7 @@ namespace ke
 		/**
 		 * @brief Use at the beggining of a block in loop. Starts single interation benchmark.
 		 */
-		void startIteration()
+		void start_iteration()
 		{
 			m_clock.start();
 		}
@@ -50,7 +50,7 @@ namespace ke
 		 * @param print		true -> the results are printed (in microseconds)
 		 * @return Elapsed time (in microseconds)
 		 */
-		long double endIteration(bool print = false)
+		long double end_iteration(bool print = false)
 		{
 			auto val = m_clock.stop(false);
 

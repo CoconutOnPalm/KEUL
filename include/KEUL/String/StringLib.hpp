@@ -73,7 +73,7 @@ namespace ke
 	 * @return 
 	 */
 	template <typename T> //requires std::is_convertible_v<T, std::string> || std::formattable<T, std::format_context>
-	inline std::string toString(const T& arg) noexcept
+	inline std::string to_string(const T& arg) noexcept
 	{
 		return std::format("{}", arg);
 	}
@@ -85,10 +85,10 @@ namespace ke
 	 * @return 
 	 */
 	template <typename T>
-	inline auto toStringOrError(const T& arg) noexcept -> std::expected<std::string, Error>
+	inline auto to_string_or_error(const T& arg) noexcept -> std::expected<std::string, Error>
 	{
 		if constexpr (std::formattable<T, char>)
-			return toString(arg);
+			return to_string(arg);
 		else
 			return std::unexpected(Error::InvalidType);
 	}
@@ -101,10 +101,10 @@ namespace ke
 	 * @return 
 	 */
 	template <typename T>
-	inline std::string toStringOr(const T& arg, const std::string& default_str = "???")
+	inline std::string to_string_or(const T& arg, const std::string& default_str = "???")
 	{
 		if constexpr (std::formattable<T, char>)
-			return toString(arg);
+			return to_string(arg);
 		else
 			return default_str;
 	}
@@ -118,7 +118,7 @@ namespace ke
 	 * @return 
 	 */
 	template <_StringStreamableFromTConcept T>
-	inline auto fromString(std::string_view arg) -> std::expected<T, Error>
+	inline auto from_string(std::string_view arg) -> std::expected<T, Error>
 	{
 		//static_assert(_StringStreamableFromTConcept<T>, "Type must be streamable from std::stringstream");
 
@@ -138,9 +138,9 @@ namespace ke
 	 * @brief Converts string to uint8_t as an integer
 	 */
 	template <>
-	inline auto fromString<uint8_t>(std::string_view arg) -> std::expected<uint8_t, Error>
+	inline auto from_string<uint8_t>(std::string_view arg) -> std::expected<uint8_t, Error>
 	{
-		auto value = fromString<int>(arg);
+		auto value = from_string<int>(arg);
 
 		if (!value)
 			return std::unexpected(value.error());
@@ -157,7 +157,7 @@ namespace ke
 	 * @brief tries to convert arg into T, returns default_value if fails.
 	 */
 	template <_StringStreamableFromTConcept T>
-	inline auto fromStringOr(std::string_view arg, T default_value) -> T
+	inline auto from_string_or(std::string_view arg, T default_value) -> T
 	{
 		//static_assert(_StringStreamableFromTConcept<T>, "Type must be streamable from std::stringstream");
 
@@ -177,9 +177,9 @@ namespace ke
 	 * @brief tries to convert arg into T, returns uint8_t (as an integer) if fails.
 	 */
 	template <>
-	inline auto fromStringOr<uint8_t>(std::string_view arg, uint8_t default_value) -> uint8_t
+	inline auto from_string_or<uint8_t>(std::string_view arg, uint8_t default_value) -> uint8_t
 	{
-		auto value = fromString<int>(arg);
+		auto value = from_string<int>(arg);
 
 		if (!value)
 			return default_value;
@@ -199,7 +199,7 @@ namespace ke
 	 * @param default_value
 	 * @return 
 	 */
-	inline std::string toLower(std::string_view str)
+	inline std::string to_lower(std::string_view str)
 	{
 		std::string resoult(str);
 		for (char& c : resoult)
@@ -214,7 +214,7 @@ namespace ke
 	 * @param default_value
 	 * @return 
 	 */
-	inline std::string toLowerRef(std::string& str)
+	inline std::string to_lower_ref(std::string& str)
 	{
 		for (char& c : str)
 			c = std::tolower(c);
@@ -228,7 +228,7 @@ namespace ke
 	 * @param default_value
 	 * @return 
 	 */
-	inline std::string toUpper(std::string_view str)
+	inline std::string to_upper(std::string_view str)
 	{
 		std::string resoult(str);
 		for (char& c : resoult)
@@ -243,7 +243,7 @@ namespace ke
 	 * @param default_value
 	 * @return 
 	 */
-	inline void toUpperRef(std::string& str)
+	inline void to_upper_ref(std::string& str)
 	{
 		for (char& c : str)
 			c = std::toupper(c);
@@ -256,10 +256,10 @@ namespace ke
 	 * @param type_name
 	 * @return 
 	 */
-	inline std::string cleanTypeName(std::string_view type_name)
+	inline std::string clean_type_name(std::string_view type_name)
 	{
 		std::string resoult(type_name);
-		_impl::cleanTypeInfo_impl(resoult);
+		_impl::clean_type_info_impl(resoult);
 		return resoult;
 	}
 
@@ -269,9 +269,9 @@ namespace ke
 	 * @param type_name
 	 * @return 
 	 */
-	inline std::string cleanTypeNameRef(std::string& type_name)
+	inline std::string clean_type_name_ref(std::string& type_name)
 	{
-		_impl::cleanTypeInfo_impl(type_name);
+		_impl::clean_type_info_impl(type_name);
 		return type_name;
 	}
 
@@ -285,10 +285,10 @@ namespace ke
 	 * @param length
 	 * @return 
 	 */
-	inline std::string shortenString(std::string_view str, size_t length)
+	inline std::string shorten_string(std::string_view str, size_t length)
 	{
 		std::string resoult(str);
-		_impl::shortenString_impl(resoult, length);
+		_impl::shorten_string_impl(resoult, length);
 		return resoult;
 	}
 
@@ -302,9 +302,9 @@ namespace ke
 	 * @param length
 	 * @return 
 	 */
-	inline std::string shortenStringRef(std::string& str, size_t length)
+	inline std::string shorten_string_ref(std::string& str, size_t length)
 	{
-		_impl::shortenString_impl(str, length);
+		_impl::shorten_string_impl(str, length);
 		return str;
 	}
 
@@ -320,10 +320,10 @@ namespace ke
 	 * @return std::vector<T> 
 	 */
 	template <typename T>
-	inline std::vector<T> splitString(std::string_view str, std::initializer_list<std::string> delimiters, std::function<T(std::string)> transformer)
+	inline std::vector<T> split_string(std::string_view str, std::initializer_list<std::string> delimiters, std::function<T(std::string)> transformer)
 	{
 		std::set<std::string> delimiter_set(delimiters);
-		std::vector<std::string> split_result = _impl::splitString_impl<std::vector<std::string>>(str, delimiter_set);
+		std::vector<std::string> split_result = _impl::split_string_impl<std::vector<std::string>>(str, delimiter_set);
 		std::vector<T> output; output.reserve(split_result.size());
 		std::ranges::transform(split_result, std::back_inserter(output), transformer);
 		return output;
@@ -340,9 +340,9 @@ namespace ke
 	 * @return std::vector<T> 
 	 */
 	template <typename T>
-	inline std::vector<T> splitString(std::string_view str, char delimiter, std::function<T(std::string)> transformer)
+	inline std::vector<T> split_string(std::string_view str, char delimiter, std::function<T(std::string)> transformer)
 	{
-		std::vector<std::string> split_result = _impl::splitString_impl<std::vector<std::string>>(str, delimiter);
+		std::vector<std::string> split_result = _impl::split_string_impl<std::vector<std::string>>(str, delimiter);
 		std::vector<T> output; output.reserve(split_result.size());
 		std::ranges::transform(split_result, std::back_inserter(output), transformer);
 		return output;
@@ -365,10 +365,10 @@ namespace ke
 	 * @return ContainerType<std::string> of separated text. Does not include empty strings
 	 */
 	template <template <class> class ContainerType>
-	inline auto splitString(std::string_view str, std::initializer_list<std::string> delimiters)
+	inline auto split_string(std::string_view str, std::initializer_list<std::string> delimiters)
 	{
 		std::set<std::string> delimiter_set(delimiters);
-		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiter_set);
+		return _impl::split_string_impl<ContainerType<std::string>>(str, delimiter_set);
 	}
 
 
@@ -387,9 +387,9 @@ namespace ke
 	 * @return ContainerType<std::string> of separated text. Does not include empty strings
 	 */
 	template <template <class> class ContainerType>
-	inline auto splitString(std::string_view str, char delimiter)
+	inline auto split_string(std::string_view str, char delimiter)
 	{
-		return _impl::splitString_impl<ContainerType<std::string>>(str, delimiter);
+		return _impl::split_string_impl<ContainerType<std::string>>(str, delimiter);
 	}
 
 
@@ -401,9 +401,9 @@ namespace ke
 	 * @param split_index 		position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
 	 * @return ContainerType<std::string, std::string> of separated text. Does not include delimiters.
 	 */
-	inline auto splitStringToPair(std::string_view str, char delimiter, size_t split_index = 0)
+	inline auto split_string_to_pair(std::string_view str, char delimiter, size_t split_index = 0)
 	{
-		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(str, delimiter, split_index);
+		return _impl::split_string_to_pair_impl<std::pair<std::string, std::string>>(str, delimiter, split_index);
 	} 
 
 
@@ -415,10 +415,10 @@ namespace ke
 	 * @param split_index 		position of the delimiter. 0 is the first delimiter, 1 is the second, etc. Does nothing if _n is greater than the number of delimiters.
 	 * @return auto 
 	 */
-	inline auto splitStringToPair(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index = 0)
+	inline auto split_string_to_pair(std::string_view text, std::initializer_list<std::string> delimiters, size_t split_index = 0)
     {
 		std::set<std::string> delimiter_set(delimiters);
-		return _impl::splitStringToPair_impl<std::pair<std::string, std::string>>(text, delimiter_set, split_index);
+		return _impl::split_string_to_pair_impl<std::pair<std::string, std::string>>(text, delimiter_set, split_index);
 	}
 
 
@@ -433,9 +433,9 @@ namespace ke
 	 * @return std::string 	assembled string. This function does not add any brackets or other characters.
 	 */
 	template <std::ranges::range ContainerType>
-	inline std::string assembleString(const ContainerType& text_partitions, const std::string& separator, bool delete_last_separator = true)
+	inline std::string assemble_string(const ContainerType& text_partitions, const std::string& separator, bool delete_last_separator = true)
 	{
-		return _impl::assembleString_impl(text_partitions, separator, delete_last_separator);
+		return _impl::assemble_string_impl(text_partitions, separator, delete_last_separator);
 	}
 
 
@@ -452,10 +452,10 @@ namespace ke
 	 * @param str	text to be trimmed
 	 * @return		new trimmed text
 	 */
-	inline std::string trimString(std::string_view str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
+	inline std::string trim_string(std::string_view str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
 	{
 		std::string resoult(str);
-		_impl::trimString_impl(resoult, whitespaces);
+		_impl::trim_string_impl(resoult, whitespaces);
 		return resoult;
 	}
 
@@ -471,9 +471,9 @@ namespace ke
 	 *
 	 * @param str	text to be trimmed
 	 */
-	inline void trimStringRef(std::string& str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
+	inline void trim_string_ref(std::string& str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
 	{
-		_impl::trimString_impl(str, whitespaces);
+		_impl::trim_string_impl(str, whitespaces);
 	}
 
 
@@ -500,10 +500,11 @@ namespace ke
 	 * @param str
 	 * @return		new string without comments
 	 */
-	inline std::string removeComments(std::string_view str, const std::string_view comment_indicator = "//")
+	[[deprecated]]
+	inline std::string remove_comments(std::string_view str, const std::string_view comment_indicator = "//")
 	{
 		std::string result(str);
-		_impl::removeComments_impl(result, comment_indicator);
+		_impl::remove_comments_impl(result, comment_indicator);
 		return result;
 	}
 
@@ -528,9 +529,9 @@ namespace ke
 	 *
 	 * @param str	reference to oryginal string
 	 */
-	inline void removeCommentsRef(std::string& str, const std::string_view comment_indicator = "//")
+	inline void remove_comments_ref(std::string& str, const std::string_view comment_indicator = "//")
 	{
-		_impl::removeComments_impl(str, comment_indicator);
+		_impl::remove_comments_impl(str, comment_indicator);
 	}
 
 

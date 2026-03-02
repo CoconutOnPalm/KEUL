@@ -14,15 +14,15 @@ namespace ke
 				return var > a && var < b;
 			}
 
-			static bool isDegenerate(T a, T b)
+			static bool is_degenerate(T a, T b)
 			{
 				return a >= b;
 			}
 
-			static std::string toString(T a, T b)
+			static std::string to_string(T a, T b)
 			{
 				// convertible to string asserted by concept
-				return '(' + ke::toString(a) + ", " + ke::toString(b) + ')';
+				return '(' + ke::to_string(a) + ", " + ke::to_string(b) + ')';
 			}
 		};
 
@@ -34,15 +34,15 @@ namespace ke
 				return var >= a && var <= b;
 			}
 
-			static bool isDegenerate(T a, T b)
+			static bool is_degenerate(T a, T b)
 			{
 				return a > b;
 			}
 
-			static std::string toString(T a, T b)
+			static std::string to_string(T a, T b)
 			{
 				// convertible to string asserted by concept
-				return '[' + ke::toString(a) + ", " + ke::toString(b) + ']';
+				return '[' + ke::to_string(a) + ", " + ke::to_string(b) + ']';
 			}
 		};
 
@@ -54,15 +54,15 @@ namespace ke
 				return var >= a && var < b;
 			}
 
-			static bool isDegenerate(T a, T b)
+			static bool is_degenerate(T a, T b)
 			{
 				return a >= b;
 			}
 
-			static std::string toString(T a, T b)
+			static std::string to_string(T a, T b)
 			{
 				// convertible to string asserted by concept
-				return '[' + ke::toString(a) + ", " + ke::toString(b) + ')';
+				return '[' + ke::to_string(a) + ", " + ke::to_string(b) + ')';
 			}
 		};
 	}
@@ -72,8 +72,8 @@ namespace ke
 	concept _RangeTypePolicyConcept = requires(T var, T a, T b)
 	{
 		{ RangeType<T>::inRange(var, a, b) } -> std::convertible_to<bool>;
-		{ RangeType<T>::isDegenerate(a, b) } -> std::convertible_to<bool>;
-		{ RangeType<T>::toString(a, b) } -> std::convertible_to<std::string>;
+		{ RangeType<T>::is_degenerate(a, b) } -> std::convertible_to<bool>;
+		{ RangeType<T>::to_string(a, b) } -> std::convertible_to<std::string>;
 	};
 
 	/**
@@ -168,9 +168,9 @@ namespace ke
 		 *
 		 * @return
 		 */
-		bool isDegenerate() const
+		bool is_degenerate() const
 		{
-			return RangeTypePolicy<T>::isDegenerate(a, b);
+			return RangeTypePolicy<T>::is_degenerate(a, b);
 		}
 
 		/**
@@ -178,9 +178,9 @@ namespace ke
 		 * 
 		 * @return example: "(1, 10)", "[1, 10]", or any other form defined by policy
 		 */
-		std::string toString() const
+		std::string to_string() const
 		{
-			return RangeTypePolicy<T>::toString(a, b);
+			return RangeTypePolicy<T>::to_string(a, b);
 		}
 
 	};
@@ -215,7 +215,7 @@ namespace ke
 	template <typename T, template <typename> class RangeType>
 		requires std::is_fundamental_v<T> // placeholder until Microsoft fixes the compiler
 		//requires std::is_fundamental_v<T> && _RangeTypePolicyConcept<T, RangeType>
-	inline bool inRange(const Range<T, RangeType>& rng, T val)
+	inline bool in_range(const Range<T, RangeType>& rng, T val)
 	{
 		return rng.contains(val);
 	}
@@ -223,7 +223,7 @@ namespace ke
 
 	template <typename T, typename U1, typename U2>
 		requires std::is_fundamental_v<T> && std::is_fundamental_v<U1> && std::is_fundamental_v<U2>
-	inline bool restrainVariable(T& var, U1 a, U2 b)
+	inline bool restrain_variable(T& var, U1 a, U2 b)
 	{
 		// check for degenerate range
 		if (a >= b)
@@ -246,9 +246,9 @@ namespace ke
 
 	template <typename T>
 		requires std::is_fundamental_v<T> // placeholder until Microsoft fixes the compiler
-	inline bool restrainVariable(T& var, const ClosedRange<T>& rng)
+	inline bool restrain_variable(T& var, const ClosedRange<T>& rng)
 	{
-		if (rng.isDegenerate())
+		if (rng.is_degenerate())
 			return false;
 
 		if (var < rng.a)
@@ -279,6 +279,6 @@ struct std::formatter<ke::Range<T, RangeTypePolicy>, CharT> : std::formatter<std
 	template <typename FormatContext>
 	auto format(const ke::Range<T, RangeTypePolicy>& range, FormatContext& ctx) const
 	{
-		return std::format_to(ctx.out(), "{}", range.toString());
+		return std::format_to(ctx.out(), "{}", range.to_string());
 	}
 };

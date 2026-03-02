@@ -38,7 +38,7 @@ KE_TEST(splitString_vector)
 	{
 		for (auto& create_string : builders)
 		{
-			std::vector<std::string> result_vec = ke::splitString<std::vector>(create_string(c), c);
+			std::vector<std::string> result_vec = ke::split_string<std::vector>(create_string(c), c);
 			ASSERT_EQUAL(result_vec, words);
 		}
 	}
@@ -71,18 +71,18 @@ KE_TEST(splitString_vector)
 		for (auto& create_string : multichar_builders)
 		{
 			std::string split_str = { c, ++c, ++c, ++c, ++c };
-			std::vector<std::string> result_vec = ke::splitString<std::vector>(create_string(split_str), { split_str });
+			std::vector<std::string> result_vec = ke::split_string<std::vector>(create_string(split_str), { split_str });
 			ASSERT_EQUAL(result_vec, words);
 		}
 	}
 
-	ASSERT_EQUAL(ke::splitString<std::vector>("1Lorem2ipsum3dolor4sit5amet6", { "1", "2", "3", "4", "5", "6" }), words);
+	ASSERT_EQUAL(ke::split_string<std::vector>("1Lorem2ipsum3dolor4sit5amet6", { "1", "2", "3", "4", "5", "6" }), words);
 
-	ASSERT_EQUAL(ke::splitString<std::vector>("#..#...#.3.#..1#.#..#..#2#..23#..", { "#..", "2", "3" }),
+	ASSERT_EQUAL(ke::split_string<std::vector>("#..#...#.3.#..1#.#..#..#2#..23#..", { "#..", "2", "3" }),
 		std::vector<std::string>({ ".#.", ".", "1#.", "#" }));
 
-	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", { "#.........." }), std::vector<std::string>({ "#..#..#" }));
-	ASSERT_EQUAL(ke::splitString<std::vector>("#..#..#", { "#", "#" }), std::vector<std::string>({ "..", ".." }));
+	ASSERT_EQUAL(ke::split_string<std::vector>("#..#..#", { "#.........." }), std::vector<std::string>({ "#..#..#" }));
+	ASSERT_EQUAL(ke::split_string<std::vector>("#..#..#", { "#", "#" }), std::vector<std::string>({ "..", ".." }));
 }
 
 
@@ -119,18 +119,18 @@ KE_TEST(splitString_set)
 	{
 		for (auto& create_string : builders)
 		{
-			std::set<std::string> result_set = ke::splitString<std::set>(create_string(c), c);
+			std::set<std::string> result_set = ke::split_string<std::set>(create_string(c), c);
 			ASSERT_EQUAL(result_set, words_set);
 		}
 	}
 
-	ASSERT_EQUAL(ke::splitString<std::set>("1Lorem2ipsum3dolor4sit5amet6", { "1", "2", "3", "4", "5", "6" }), words_set);
+	ASSERT_EQUAL(ke::split_string<std::set>("1Lorem2ipsum3dolor4sit5amet6", { "1", "2", "3", "4", "5", "6" }), words_set);
 
-	ASSERT_EQUAL(ke::splitString<std::set>("#..#...#.3.#..1#.#..#..#2#..23#..#", { "#..", "2", "3" }),
+	ASSERT_EQUAL(ke::split_string<std::set>("#..#...#.3.#..1#.#..#..#2#..23#..#", { "#..", "2", "3" }),
 		std::set<std::string>({ ".#.", ".", "1#.", "#" }));
 
-	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", { "#.........." }), std::set<std::string>({ "#..#..#" }));
-	ASSERT_EQUAL(ke::splitString<std::set>("#..#..#", { "#", "#" }), std::set<std::string>({ "..", ".." }));
+	ASSERT_EQUAL(ke::split_string<std::set>("#..#..#", { "#.........." }), std::set<std::string>({ "#..#..#" }));
+	ASSERT_EQUAL(ke::split_string<std::set>("#..#..#", { "#", "#" }), std::set<std::string>({ "..", ".." }));
 
 }
 
@@ -169,7 +169,7 @@ KE_TEST(splitString_pair)
 	{
 		for (auto& [name, create_string] : builders)
 		{
-			std::pair<std::string, std::string> result_pair = ke::splitStringToPair(create_string(c), c, 0);
+			std::pair<std::string, std::string> result_pair = ke::split_string_to_pair(create_string(c), c, 0);
 			ASSERT_EQUAL(result_pair, expected_results[name]);
 		}
 	}
@@ -178,63 +178,63 @@ KE_TEST(splitString_pair)
 	// somehow this is not working properly (macro expansion issue)
 	std::pair<std::string, std::string> p1, p2;
 
-	p1 = ke::splitStringToPair("One;Two;Three;Four;Five", ';', 0);
+	p1 = ke::split_string_to_pair("One;Two;Three;Four;Five", ';', 0);
 	p2 = std::pair<std::string, std::string>("One", "Two;Three;Four;Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 0, ';'), std::pair<std::string, std::string>("One", "Two;Three;Four;Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two;Three;Four;Five", 0, ';'), std::pair<std::string, std::string>("One", "Two;Three;Four;Five"));
 
-	p1 = ke::splitStringToPair("One;Two;Three;Four;Five", ';', 1);
+	p1 = ke::split_string_to_pair("One;Two;Three;Four;Five", ';', 1);
 	p2 = std::pair<std::string, std::string>("One;Two", "Three;Four;Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 1, ';'), std::pair<std::string, std::string>("One;Two", "Three;Four;Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two;Three;Four;Five", 1, ';'), std::pair<std::string, std::string>("One;Two", "Three;Four;Five"));
 
-	p1 = ke::splitStringToPair("One;Two;Three;Four;Five", ';', 2);
+	p1 = ke::split_string_to_pair("One;Two;Three;Four;Five", ';', 2);
 	p2 = std::pair<std::string, std::string>("One;Two;Three", "Four;Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 2, ';'), std::pair<std::string, std::string>("One;Two;Three", "Four;Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two;Three;Four;Five", 2, ';'), std::pair<std::string, std::string>("One;Two;Three", "Four;Five"));
 
-	p1 = ke::splitStringToPair("One;Two;Three;Four;Five", ';', 3);
+	p1 = ke::split_string_to_pair("One;Two;Three;Four;Five", ';', 3);
 	p2 = std::pair<std::string, std::string>("One;Two;Three;Four", "Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 3, ';'), std::pair<std::string, std::string>("One;Two;Three;Four", "Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two;Three;Four;Five", 3, ';'), std::pair<std::string, std::string>("One;Two;Three;Four", "Five"));
 
-	p1 = ke::splitStringToPair("One;Two;Three;Four;Five", ';', 4);
+	p1 = ke::split_string_to_pair("One;Two;Three;Four;Five", ';', 4);
 	p2 = std::pair<std::string, std::string>("One;Two;Three;Four;Five", "");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two;Three;Four;Five", 4, ';'), std::pair<std::string, std::string>("One;Two;Three;Four;Five", ""));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two;Three;Four;Five", 4, ';'), std::pair<std::string, std::string>("One;Two;Three;Four;Five", ""));
 	
 
-	p1 = ke::splitStringToPair("One;Two.Three;Four.Five", {";", "."}, 0);
+	p1 = ke::split_string_to_pair("One;Two.Three;Four.Five", {";", "."}, 0);
 	p2 = std::pair<std::string, std::string>("One", "Two.Three;Four.Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 0, ";", "."), std::pair<std::string, std::string>("One", "Two.Three;Four.Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two.Three;Four.Five", 0, ";", "."), std::pair<std::string, std::string>("One", "Two.Three;Four.Five"));
 
-	p1 = ke::splitStringToPair("One;Two.Three;Four.Five", {";", "."}, 1);
+	p1 = ke::split_string_to_pair("One;Two.Three;Four.Five", {";", "."}, 1);
 	p2 = std::pair<std::string, std::string>("One;Two", "Three;Four.Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 1, ";", "."), std::pair<std::string, std::string>("One;Two", "Three;Four.Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two.Three;Four.Five", 1, ";", "."), std::pair<std::string, std::string>("One;Two", "Three;Four.Five"));
 
-	p1 = ke::splitStringToPair("One;Two.Three;Four.Five", {";", "."}, 2);
+	p1 = ke::split_string_to_pair("One;Two.Three;Four.Five", {";", "."}, 2);
 	p2 = std::pair<std::string, std::string>("One;Two.Three", "Four.Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 2, ";", "."), std::pair<std::string, std::string>("One;Two.Three", "Four.Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two.Three;Four.Five", 2, ";", "."), std::pair<std::string, std::string>("One;Two.Three", "Four.Five"));
 
-	p1 = ke::splitStringToPair("One;Two.Three;Four.Five", {";", "."}, 3);
+	p1 = ke::split_string_to_pair("One;Two.Three;Four.Five", {";", "."}, 3);
 	p2 = std::pair<std::string, std::string>("One;Two.Three;Four", "Five");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 3, ";", "."), std::pair<std::string, std::string>("One;Two.Three;Four", "Five"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two.Three;Four.Five", 3, ";", "."), std::pair<std::string, std::string>("One;Two.Three;Four", "Five"));
 
-	p1 = ke::splitStringToPair("One;Two.Three;Four.Five", {";", "."}, 4);
+	p1 = ke::split_string_to_pair("One;Two.Three;Four.Five", {";", "."}, 4);
 	p2 = std::pair<std::string, std::string>("One;Two.Three;Four.Five", "");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("One;Two.Three;Four.Five", 4, ";", "."), std::pair<std::string, std::string>("One;Two.Three;Four.Five", ""));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("One;Two.Three;Four.Five", 4, ";", "."), std::pair<std::string, std::string>("One;Two.Three;Four.Five", ""));
 
-	p1 = ke::splitStringToPair("Multichar; split; test", {"; "}, 0);
+	p1 = ke::split_string_to_pair("Multichar; split; test", {"; "}, 0);
 	p2 = std::pair<std::string, std::string>("Multichar", "split; test");
 	ASSERT_EQUAL(p1, p2);
-	// ASSERT_EQUAL(ke::splitStringToPair<std::pair>("Multichar, split, test", 0, ", "), std::pair<std::string, std::string>("Multichar", "split, test"));
+	// ASSERT_EQUAL(ke::split_string_to_pair<std::pair>("Multichar, split, test", 0, ", "), std::pair<std::string, std::string>("Multichar", "split, test"));
 
-	p1 = ke::splitStringToPair("Multichar; split; test", {"; "}, 1);
+	p1 = ke::split_string_to_pair("Multichar; split; test", {"; "}, 1);
 	p2 = std::pair<std::string, std::string>("Multichar; split", "test");
 	ASSERT_EQUAL(p1, p2);
 }
@@ -246,8 +246,8 @@ KE_TEST(splitString_transform)
 	{
 		std::string text = "|,.,.a.b.c,.d.,e.f,,g.h.i.j.k.l,m.n..o,p...q.r|s,.t|u.v.w.|,,x.y.z.";
 
-		auto split1 = ke::splitString<std::string>(text, {".", ",", "|"}, [](const std::string& s) -> std::string { return s; });
-		auto split2 = ke::splitString<char>(text, {".", ",", "|"}, [](const std::string& s) -> char { return (s.size() == 1) ? s[0] : ' '; });
+		auto split1 = ke::split_string<std::string>(text, {".", ",", "|"}, [](const std::string& s) -> std::string { return s; });
+		auto split2 = ke::split_string<char>(text, {".", ",", "|"}, [](const std::string& s) -> char { return (s.size() == 1) ? s[0] : ' '; });
 
 		std::vector<std::string> correct1 = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
 		std::vector<char> correct2 = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -256,9 +256,9 @@ KE_TEST(splitString_transform)
 	}
 
 	{
-		std::string text = ke::assembleString(std::views::iota(-100'000, 100'000) | std::views::transform([](const int x) -> std::string { return ke::toString(x); }), ", ");
+		std::string text = ke::assemble_string(std::views::iota(-100'000, 100'000) | std::views::transform([](const int x) -> std::string { return ke::to_string(x); }), ", ");
 
-		auto split = ke::splitString<int>(text, {", "}, [](const std::string& s) -> int {return ke::fromString<int>(s).value_or(-1); });
+		auto split = ke::split_string<int>(text, {", "}, [](const std::string& s) -> int {return ke::from_string<int>(s).value_or(-1); });
 		ASSERT_EQUAL(split, std::views::iota(-100'000, 100'000) | std::ranges::to<std::vector>());
 	}
 }

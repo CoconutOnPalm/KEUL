@@ -54,7 +54,7 @@ namespace ke
 		 * @brief Calls the callback while the condition is met. Runs in a detached thread
 		 */
 		template <typename _Rep, typename _Period, class invocable_t, typename... Args>
-		void repeatWhile(const std::chrono::duration<_Rep, _Period>& _Rel_time, const bool* const condition, invocable_t&& callback, Args&&... args)
+		void repeat_while(const std::chrono::duration<_Rep, _Period>& _Rel_time, const bool* const condition, invocable_t&& callback, Args&&... args)
 		{
 			KE_ASSERT(condition != nullptr);
 

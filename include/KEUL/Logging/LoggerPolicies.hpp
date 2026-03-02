@@ -11,9 +11,9 @@ namespace ke
 {
 	namespace _internal
 	{
-		inline std::string _layerToColorFmt(const ke::LogLayer layer)
+		inline std::string _layer_to_color_fmt(const ke::LogLayer layer)
 		{
-			const static std::map<ke::LogLayer, std::string> s_logLayerToFmtColor = {
+			const static std::map<ke::LogLayer, std::string> s_log_layer_to_fmt_color = {
 				{ke::LogLayer::Info, 		"[bold;cyan]"},
 				{ke::LogLayer::Debug, 		"[bold;blue]"},
 				{ke::LogLayer::Warning, 	"[bold;yellow]"},
@@ -22,7 +22,7 @@ namespace ke
 				{ke::LogLayer::Off, 		""},
 			};
 
-			return s_logLayerToFmtColor.at(layer);
+			return s_log_layer_to_fmt_color.at(layer);
 		}
 	}
 
@@ -57,7 +57,7 @@ namespace ke
 
 			std::string header(LogLayer layer, std::string_view location = "") const override
 			{
-				std::string layerColorFmt = ke::_internal::_layerToColorFmt(layer);
+				std::string layerColorFmt = ke::_internal::_layer_to_color_fmt(layer);
 				return ke::format("{}[[{}]]: ", layerColorFmt, layer);
 			}
 
@@ -75,7 +75,7 @@ namespace ke
 
 			std::string _no_ansi_header(LogLayer layer, std::string_view location = "") const override
 			{
-				std::string layerColorFmt = ke::_internal::_layerToColorFmt(layer);
+				std::string layerColorFmt = ke::_internal::_layer_to_color_fmt(layer);
 				return ke::format<FormatAllowAnsiCodes::Off>("{}[[{}]]: ", layerColorFmt, layer);
 			}
 
@@ -94,7 +94,7 @@ namespace ke
 
 			std::string header(LogLayer layer, std::string_view location = "") const override
 			{
-				std::string layerColorFmt = ke::_internal::_layerToColorFmt(layer);
+				std::string layerColorFmt = ke::_internal::_layer_to_color_fmt(layer);
 				return ke::format("{}[[{}]]: ", layerColorFmt, layer);
 			}
 
@@ -111,7 +111,7 @@ namespace ke
 
 			std::string _no_ansi_header(LogLayer layer, std::string_view location = "") const override
 			{
-				std::string layerColorFmt = ke::_internal::_layerToColorFmt(layer);
+				std::string layerColorFmt = ke::_internal::_layer_to_color_fmt(layer);
 
 				return ke::format<FormatAllowAnsiCodes::Off>("{}[[{}]]: ", layerColorFmt, layer);
 			}

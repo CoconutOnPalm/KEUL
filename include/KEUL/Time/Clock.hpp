@@ -64,7 +64,7 @@ namespace ke
 			m_stop = std::chrono::high_resolution_clock::now();
 			m_total_time = m_stop - m_start;
 
-			return _getDuration(m_unit, m_total_time);
+			return _get_duration(m_unit, m_total_time);
 		}
 
 		/**
@@ -73,9 +73,9 @@ namespace ke
 		 * @param unit	time format (ke::Clock::TimeUnit)
 		 * @return
 		 */
-		long double getLastMeasurement(const TimeUnit unit = TimeUnit::microseconds) const
+		long double get_last_measurement(const TimeUnit unit = TimeUnit::microseconds) const
 		{
-			return _getDuration(unit, m_total_time);
+			return _get_duration(unit, m_total_time);
 		}
 
 		/**
@@ -93,16 +93,16 @@ namespace ke
 		 * @param unit	time format (ke::Clock::TimeUnit)
 		 * @return ("<time> <unit>"). See details for additional info
 		 */
-		std::string toString() const
+		std::string to_string() const
 		{
-			long double duration = _getDuration(m_unit, m_total_time);
+			long double duration = _get_duration(m_unit, m_total_time);
 			return std::format("{:.3} {}", duration, m_unit);
 		}
 
 
 	private:
 
-		long double _getDuration(const TimeUnit unit, const std::chrono::nanoseconds total_ns) const
+		long double _get_duration(const TimeUnit unit, const std::chrono::nanoseconds total_ns) const
 		{
 			// switch-case probably better than std::map in this case
 			switch (unit)
@@ -140,6 +140,6 @@ struct std::formatter<ke::Clock> : std::formatter<std::string>
 	template <typename FormatContext>
 	auto format(const ke::Clock clock, FormatContext& ctx) const
 	{
-		return std::formatter<std::string>::format(clock.toString(), ctx);
+		return std::formatter<std::string>::format(clock.to_string(), ctx);
 	}
 };

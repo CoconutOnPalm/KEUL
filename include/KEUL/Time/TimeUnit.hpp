@@ -26,9 +26,9 @@ namespace ke
 
 	namespace _internal
 	{
-		static inline std::string _timeUnitToString(const TimeUnit timeunit)
+		static inline std::string _time_unit_to_string(const TimeUnit timeunit)
 		{
-			const static std::map<ke::TimeUnit, std::string> s_timeUnitToString = {
+			const static std::map<ke::TimeUnit, std::string> s_time_unit_to_string = {
 				{ke::TimeUnit::nanoseconds, "ns"},
 				{ke::TimeUnit::microseconds, "\u00B5s"}, // µs
 				{ke::TimeUnit::miliseconds, "ms"},
@@ -36,7 +36,7 @@ namespace ke
 				{ke::TimeUnit::minutes, "min"},
 			};
 
-			return s_timeUnitToString.at(timeunit);
+			return s_time_unit_to_string.at(timeunit);
 		}
 	}
 }
@@ -48,6 +48,6 @@ struct std::formatter<ke::TimeUnit> : std::formatter<std::string>
 	template <typename FormatContext>
 	auto format(const ke::TimeUnit time_unit, FormatContext& ctx) const
 	{
-		return std::formatter<std::string>::format(std::format("{}", ke::_internal::_timeUnitToString(time_unit)), ctx);
+		return std::formatter<std::string>::format(std::format("{}", ke::_internal::_time_unit_to_string(time_unit)), ctx);
 	}
 };

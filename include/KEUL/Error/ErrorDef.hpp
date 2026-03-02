@@ -51,7 +51,7 @@ namespace ke
 
 	namespace _internal
 	{
-		inline const std::string& _errorToString(ke::Error error)
+		inline const std::string& _error_to_string(ke::Error error)
 		{
 			const static std::map<Error, std::string> errorStrings = {
 				{ Error::Error,					"Error" },
@@ -103,6 +103,6 @@ struct std::formatter<ke::Error> : std::formatter<std::string>
 {
 	auto format(const ke::Error& error, std::format_context& ctx) const
 	{
-		return std::format_to(ctx.out(), "{}", ke::_internal::_errorToString(error));
+		return std::format_to(ctx.out(), "{}", ke::_internal::_error_to_string(error));
 	}
 };

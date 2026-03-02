@@ -105,50 +105,50 @@ KE_TEST(Random)
 
 
 	for (auto& expect : correct_int32s)
-		ASSERT_EQUAL(expect, generator.Int32(0, 100));
+		ASSERT_EQUAL(expect, generator.int32(0, 100));
 
 	for (auto& expect : correct_int64s)
-		ASSERT_EQUAL(expect, generator.Int64(1'000'000, 1'000'000'000));
+		ASSERT_EQUAL(expect, generator.int64(1'000'000, 1'000'000'000));
 	 
 	for (auto& expect : correct_uint64s)
-		ASSERT_EQUAL(expect, generator.UInt64(5'000'000'000, 17'000'000'000));
+		ASSERT_EQUAL(expect, generator.uint64(5'000'000'000, 17'000'000'000));
 
 	for (auto& expect : correct_chars)
-		ASSERT_EQUAL(expect, generator.Char('a', 'z'));
+		ASSERT_EQUAL(expect, generator.rand_char('a', 'z'));
 
 	for (auto& expect : correct_doubles)
-		ASSERT_SIMILAR(expect, generator.Double(0.0, 1.0), std::numeric_limits<double>().epsilon());
+		ASSERT_SIMILAR(expect, generator.rand_double(0.0, 1.0), std::numeric_limits<double>().epsilon());
 
 	for (auto& expect : correct_floats)
-		ASSERT_SIMILAR(expect, generator.Float(0.0f, 1.0f), std::numeric_limits<float>().epsilon());
+		ASSERT_SIMILAR(expect, generator.rand_float(0.0f, 1.0f), std::numeric_limits<float>().epsilon());
 
 	for (auto& expect : correct_strings)
-		ASSERT_EQUAL(expect, generator.String(10));
+		ASSERT_EQUAL(expect, generator.rand_string(10));
 
 	for (auto& expect : correct_strings2)
-		ASSERT_EQUAL(expect, generator.String(10, ke::ClosedRange('a', 'z'), ke::ClosedRange('A', 'Z')));
+		ASSERT_EQUAL(expect, generator.rand_string(10, ke::ClosedRange('a', 'z'), ke::ClosedRange('A', 'Z')));
 
 	for (size_t i = 0; i < chances.size(); i++)
-		ASSERT_EQUAL(chances[i], generator.Chance(0.5));
+		ASSERT_EQUAL(chances[i], generator.chance(0.5));
 
 	for (size_t i = 0; i < 10000; i++)
 	{
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange<uint32_t>(0, 10), generator.Value<uint32_t>(ke::ClosedRange<uint32_t>(0u, 10u))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange<uint32_t>(1, 9),  generator.Value<uint32_t>(ke::OpenRange<uint32_t>(0u, 10u))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange<uint32_t>(0, 9),  generator.Value<uint32_t>(ke::HalfOpenRange<uint32_t>(0u, 10u))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange<uint32_t>(0, 10), generator.value<uint32_t>(ke::ClosedRange<uint32_t>(0u, 10u))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange<uint32_t>(1, 9),  generator.value<uint32_t>(ke::OpenRange<uint32_t>(0u, 10u))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange<uint32_t>(0, 9),  generator.value<uint32_t>(ke::HalfOpenRange<uint32_t>(0u, 10u))));
 
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0, 10), generator.Int32(ke::ClosedRange(0, 10))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange(1, 9),  generator.Int32(ke::OpenRange(0, 10))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0, 9),  generator.Int32(ke::HalfOpenRange(0, 10))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange(0, 10), generator.int32(ke::ClosedRange(0, 10))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange(1, 9),  generator.int32(ke::OpenRange(0, 10))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange(0, 9),  generator.int32(ke::HalfOpenRange(0, 10))));
 
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange('a', 'e'), generator.Char(ke::ClosedRange('a', 'e'))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange('b', 'd'), generator.Char(ke::OpenRange('a', 'e'))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange('a', 'd'), generator.Char(ke::HalfOpenRange('a', 'e'))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange('a', 'e'), generator.rand_char(ke::ClosedRange('a', 'e'))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange('b', 'd'), generator.rand_char(ke::OpenRange('a', 'e'))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange('a', 'd'), generator.rand_char(ke::HalfOpenRange('a', 'e'))));
 
 		constexpr double eps = std::numeric_limits<double>::epsilon();
 
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0.0, 0.5), generator.Double(ke::ClosedRange(0.0, 0.5))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0.0 + eps, 0.5 - eps), generator.Double(ke::OpenRange(0.0, 0.5))));
-		ASSERT_TRUE(ke::inRange(ke::ClosedRange(0.0, 0.5 - eps), generator.Double(ke::HalfOpenRange(0.0, 0.5))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange(0.0, 0.5), generator.rand_double(ke::ClosedRange(0.0, 0.5))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange(0.0 + eps, 0.5 - eps), generator.rand_double(ke::OpenRange(0.0, 0.5))));
+		ASSERT_TRUE(ke::in_range(ke::ClosedRange(0.0, 0.5 - eps), generator.rand_double(ke::HalfOpenRange(0.0, 0.5))));
 	}
 }

@@ -11,7 +11,7 @@ namespace ke::_internal
 		#ifndef NDEBUG
 		if (!result)
 		{
-			ke::SimpleLogger::logCritical("[b;r]ASSERTION FAILED: [0]{}\n[f]  |{}:{}", expression, file, line);
+			ke::SimpleLogger::log_critical("[b;r]ASSERTION FAILED: [0]{}\n[f]  |{}:{}", expression, file, line);
 			std::abort();
 		}
 		#endif

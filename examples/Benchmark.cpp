@@ -58,7 +58,7 @@ BenchmarkTest test_set()
 
 	std::set<int> set;
 
-	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
+	std::vector<int> data = ke::iota_to_vec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
@@ -67,20 +67,20 @@ BenchmarkTest test_set()
 	// insert
 	for (size_t k = 0; k < test_repetitions; k++)
 	{
-		insert.startIteration();
+		insert.start_iteration();
 		for (const auto el : data)
 			set.insert(el);
-		insert.endIteration();
+		insert.end_iteration();
 
-		find.startIteration();
+		find.start_iteration();
 		for (const auto el : data)
 			set.find(el);
-		find.endIteration();
+		find.end_iteration();
 
-		remove.startIteration();
+		remove.start_iteration();
 		for (const auto el : data)
 			set.erase(el);
-		remove.endIteration();
+		remove.end_iteration();
 	}
 
 	return BenchmarkTest{
@@ -98,7 +98,7 @@ BenchmarkTest test_unordered_set()
 
 	std::unordered_set<int> unordered_set;
 
-	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
+	std::vector<int> data = ke::iota_to_vec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
@@ -107,20 +107,20 @@ BenchmarkTest test_unordered_set()
 	// insert
 	for (size_t k = 0; k < test_repetitions; k++)
 	{
-		insert.startIteration();
+		insert.start_iteration();
 		for (const auto el : data)
 			unordered_set.insert(el);
-		insert.endIteration();
+		insert.end_iteration();
 
-		find.startIteration();
+		find.start_iteration();
 		for (const auto el : data)
 			unordered_set.find(el);
-		find.endIteration();
+		find.end_iteration();
 
-		remove.startIteration();
+		remove.start_iteration();
 		for (const auto el : data)
 			unordered_set.erase(el);
-		remove.endIteration();
+		remove.end_iteration();
 	}
 
 	return BenchmarkTest{
@@ -138,7 +138,7 @@ BenchmarkTest test_list()
 
 	std::list<int> list;
 
-	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
+	std::vector<int> data = ke::iota_to_vec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
@@ -147,20 +147,20 @@ BenchmarkTest test_list()
 	// insert
 	for (size_t k = 0; k < test_repetitions; k++)
 	{
-		insert.startIteration();
+		insert.start_iteration();
 		for (const auto el : data)
 			list.push_back(el);
-		insert.endIteration();
+		insert.end_iteration();
 
-		find.startIteration();
+		find.start_iteration();
 		for (const auto el : data)
 			std::ranges::find(data, el);
-		find.endIteration();
+		find.end_iteration();
 
-		remove.startIteration();
+		remove.start_iteration();
 		for (const auto el : data)
 			list.remove(el);
-		remove.endIteration();
+		remove.end_iteration();
 	}
 
 	return BenchmarkTest{
@@ -177,7 +177,7 @@ BenchmarkTest test_vector()
 	ke::LoopBenchmark remove;
 
 	std::vector<int> vector;
-	std::vector<int> data = ke::iotaToVec<int>(0, test_size);
+	std::vector<int> data = ke::iota_to_vec<int>(0, test_size);
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
@@ -186,20 +186,20 @@ BenchmarkTest test_vector()
 	// insert
 	for (size_t k = 0; k < test_repetitions; k++)
 	{
-		insert.startIteration();
+		insert.start_iteration();
 		for (const auto el : data)
 			vector.push_back(el);
-		insert.endIteration();
+		insert.end_iteration();
 
-		find.startIteration();
+		find.start_iteration();
 		for (const auto el : data)
 			std::ranges::find(data, el);
-		find.endIteration();
+		find.end_iteration();
 
-		remove.startIteration();
+		remove.start_iteration();
 		for (const auto el : data)
 			std::ranges::remove(data, el);
-		remove.endIteration();
+		remove.end_iteration();
 	}
 
 	return BenchmarkTest{

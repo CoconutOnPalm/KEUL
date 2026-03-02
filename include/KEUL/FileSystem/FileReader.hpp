@@ -79,7 +79,7 @@ namespace ke
 				else if (s_supported_file_types.find(path.extension().string()) == s_supported_file_types.end())
 					reason = "file type is not supported.";
 
-				ke::_internal::EngineLog::Error("Failed to open file: \"{0}\". Reason: {1}", path.string(), reason);
+				ke::_internal::EngineLog::error("Failed to open file: \"{0}\". Reason: {1}", path.string(), reason);
 
 				return false;
 			}
@@ -90,7 +90,7 @@ namespace ke
 		 * 
 		 * @return True if the file is open.
 		 */
-		bool isOpen() const { return m_ready; }
+		bool is_open() const { return m_ready; }
 
 		/**
 		 * @brief Closes the file.
@@ -108,13 +108,13 @@ namespace ke
 		 * @param remove_BOM If true, removes the Byt Order Marks (BOM) from the first line, or does nothing if file has no BOM. If false, does nothing.
 		 * @return std::vector<std::string>  Contents of the file read line by line, without empty lines or comments.
 		 */
-		std::vector<std::string> readAll(bool remove_BOM = true)
+		std::vector<std::string> read_all(bool remove_BOM = true)
 		{
 			std::lock_guard lock(m_imutex);
 
 			if (!m_ready)
 			{
-				ke::_internal::EngineLog::Error("FileReader is not ready to read.");
+				ke::_internal::EngineLog::error("FileReader is not ready to read.");
 				return {};
 			}
 	

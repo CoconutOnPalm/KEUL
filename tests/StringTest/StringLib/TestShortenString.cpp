@@ -4,38 +4,38 @@
 
 KE_TEST(shortenString)
 {
-	ASSERT_EQUAL(ke::shortenString("Hello World", 5), "He...");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 11), "Hello World");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 12), "Hello World");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 9), "Hello ...");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 8), "Hello...");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 0), "");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 1), ".");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 2), "..");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 3), "...");
-	ASSERT_EQUAL(ke::shortenString("Hello World", 4), "H...");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 5), "He...");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 11), "Hello World");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 12), "Hello World");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 9), "Hello ...");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 8), "Hello...");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 0), "");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 1), ".");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 2), "..");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 3), "...");
+	ASSERT_EQUAL(ke::shorten_string("Hello World", 4), "H...");
 
-	ASSERT_EQUAL(ke::shortenString("aaa", 3), "aaa");
-	ASSERT_EQUAL(ke::shortenString("aaa", 2), "..");
-	ASSERT_EQUAL(ke::shortenString("aaa", 1), ".");
-	ASSERT_EQUAL(ke::shortenString("aaa", 0), "");
+	ASSERT_EQUAL(ke::shorten_string("aaa", 3), "aaa");
+	ASSERT_EQUAL(ke::shorten_string("aaa", 2), "..");
+	ASSERT_EQUAL(ke::shorten_string("aaa", 1), ".");
+	ASSERT_EQUAL(ke::shorten_string("aaa", 0), "");
 
-	ASSERT_EQUAL(ke::shortenString("a", 1), "a");
-	ASSERT_EQUAL(ke::shortenString("a", 0), "");
-	ASSERT_EQUAL(ke::shortenString("a", 2), "a");
-	ASSERT_EQUAL(ke::shortenString("a", 3), "a");
+	ASSERT_EQUAL(ke::shorten_string("a", 1), "a");
+	ASSERT_EQUAL(ke::shorten_string("a", 0), "");
+	ASSERT_EQUAL(ke::shorten_string("a", 2), "a");
+	ASSERT_EQUAL(ke::shorten_string("a", 3), "a");
 
-	ASSERT_EQUAL(ke::shortenString("", 0), "");
-	ASSERT_EQUAL(ke::shortenString("", 1), "");
-	ASSERT_EQUAL(ke::shortenString("", 2), "");
+	ASSERT_EQUAL(ke::shorten_string("", 0), "");
+	ASSERT_EQUAL(ke::shorten_string("", 1), "");
+	ASSERT_EQUAL(ke::shorten_string("", 2), "");
 
-	ASSERT_EQUAL(ke::shortenString("aaaa", 0), "");
-	ASSERT_EQUAL(ke::shortenString("aaaa", 1), ".");
-	ASSERT_EQUAL(ke::shortenString("aaaa", 2), "..");
-	ASSERT_EQUAL(ke::shortenString("aaaa", 3), "...");
-	ASSERT_EQUAL(ke::shortenString("aaaa", 4), "aaaa");
-	ASSERT_EQUAL(ke::shortenString("aaaa", 5), "aaaa");
-	ASSERT_EQUAL(ke::shortenString("aaaa", 6), "aaaa");
+	ASSERT_EQUAL(ke::shorten_string("aaaa", 0), "");
+	ASSERT_EQUAL(ke::shorten_string("aaaa", 1), ".");
+	ASSERT_EQUAL(ke::shorten_string("aaaa", 2), "..");
+	ASSERT_EQUAL(ke::shorten_string("aaaa", 3), "...");
+	ASSERT_EQUAL(ke::shorten_string("aaaa", 4), "aaaa");
+	ASSERT_EQUAL(ke::shorten_string("aaaa", 5), "aaaa");
+	ASSERT_EQUAL(ke::shorten_string("aaaa", 6), "aaaa");
 }
 
 

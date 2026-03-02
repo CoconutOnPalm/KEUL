@@ -22,9 +22,9 @@ namespace ke
 
 	namespace _internal
 	{
-		inline std::string _logLayerToString(const ke::LogLayer layer)
+		inline std::string _log_layer_to_string(const ke::LogLayer layer)
 		{
-			const static std::map<ke::LogLayer, std::string> s_logLayerToString = {
+			const static std::map<ke::LogLayer, std::string> s_log_layer_to_string = {
 				{ke::LogLayer::Info, 		"Info"},
 				{ke::LogLayer::Debug, 		"Debug"},
 				{ke::LogLayer::Warning, 	"Warning"},
@@ -33,7 +33,7 @@ namespace ke
 				{ke::LogLayer::Off, 		"Off"},
 			};
 
-			return s_logLayerToString.at(layer);
+			return s_log_layer_to_string.at(layer);
 		}
 	}
 
@@ -46,7 +46,7 @@ struct std::formatter<ke::LogLayer> : std::formatter<std::string>
 {
 	auto format(const ke::LogLayer& layer, std::format_context& ctx) const
 	{
-		std::string name = ke::toUpper(ke::_internal::_logLayerToString(layer));
+		std::string name = ke::to_upper(ke::_internal::_log_layer_to_string(layer));
 
 		return std::format_to(ctx.out(), "{}", name);
 	}

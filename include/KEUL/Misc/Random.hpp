@@ -61,7 +61,7 @@ namespace ke
 		 * @return Random value within the [lowerb, upperb] range.
 		 */
 		template <typename T> requires std::is_integral_v<T>
-		T Value(T lowerb, T upperb)
+		T value(T lowerb, T upperb)
 		{
 			std::uniform_int_distribution<T> integer_distributor(lowerb, upperb);
 			return integer_distributor(m_engine);
@@ -81,15 +81,15 @@ namespace ke
 		 */
 		template <typename T, template <typename> class _RngType> 
 		requires std::is_integral_v<T> // std::is_fundamental_v<T> is implied by std::is_integral_v<T>
-		T Value(const Range<T, _RngType>& range)
+		T value(const Range<T, _RngType>& range)
 		{
 			// optimize for existing range types
 			if constexpr (std::is_same_v<_RngType<T>, policies::ClosedRangePolicy<T>>)
-				return Value(range.a, range.b);
+				return value(range.a, range.b);
 			if constexpr (std::is_same_v<_RngType<T>, policies::OpenRangePolicy<T>>)
-				return Value(range.a + 1, range.b - 1);
+				return value(range.a + 1, range.b - 1);
 			if constexpr (std::is_same_v<_RngType<T>, policies::HalfOpenRangePolicy<T>>)
-				return Value(range.a, range.b - 1);
+				return value(range.a, range.b - 1);
 
 			T a = range.a;
 			T b = range.b;
@@ -99,7 +99,7 @@ namespace ke
 			if (!range.contains(b))
 				b = range.b - 1;
 
-			return Value(a, b);
+			return value(a, b);
 		}
 
 
@@ -113,7 +113,7 @@ namespace ke
 		 * @param upperb	upper bound
 		 * @return Random integer within [lowerb, upperb] range.
 		 */
-		int32_t Int32(int32_t lowerb, int32_t upperb)
+		int32_t int32(int32_t lowerb, int32_t upperb)
 		{
 			std::uniform_int_distribution<int32_t> integer_distributor(lowerb, upperb);
 			return integer_distributor(m_engine);
@@ -130,9 +130,9 @@ namespace ke
 		 * @return Random 	int32_t integer within the specified range.
 		 */
 		template <template <typename rngType> class _RngType>
-		int32_t Int32(const Range<int32_t, _RngType>& range)
+		int32_t int32(const Range<int32_t, _RngType>& range)
 		{
-			return Value<int32_t>(range);
+			return value<int32_t>(range);
 		}
 
 
@@ -146,7 +146,7 @@ namespace ke
 		 * @param upperb	upper bound
 		 * @return Random 64-bit integer within [lowerb, upperb] range.
 		 */
-		int64_t Int64(int64_t lowerb, int64_t upperb)
+		int64_t int64(int64_t lowerb, int64_t upperb)
 		{
 			std::uniform_int_distribution<int64_t> integer_distributor(lowerb, upperb);
 			return integer_distributor(m_engine);
@@ -163,9 +163,9 @@ namespace ke
 		 * @return Random int64_t integer within the specified range.
 		 */
 		template <template <typename rngType> class _RngType>
-		int64_t Int64(const Range<int64_t, _RngType>& range)
+		int64_t int64(const Range<int64_t, _RngType>& range)
 		{
-			return Value<int64_t>(range);
+			return value<int64_t>(range);
 		}
 
 
@@ -179,7 +179,7 @@ namespace ke
 		 * @param upperb	upper bound
 		 * @return Random uint64_t integer within [lowerb, upperb] range.
 		 */
-		uint64_t UInt64(uint64_t lowerb, uint64_t upperb)
+		uint64_t uint64(uint64_t lowerb, uint64_t upperb)
 		{
 			std::uniform_int_distribution<uint64_t> integer_distributor(lowerb, upperb);
 			return integer_distributor(m_engine);
@@ -196,9 +196,9 @@ namespace ke
 		 * @return Random uint64_t integer within the specified range.
 		 */
 		template <template <typename rngType> class _RngType>
-		uint64_t UInt64(const Range<uint64_t, _RngType>& range)
+		uint64_t uint64(const Range<uint64_t, _RngType>& range)
 		{
-			return Value<uint64_t>(range);
+			return value<uint64_t>(range);
 		}
 
 
@@ -214,7 +214,7 @@ namespace ke
 		 * @param upperb	upper bound
 		 * @return Random character within [lowerb, upperb] range.
 		*/
-		char Char(char lowerb, char upperb)
+		char rand_char(char lowerb, char upperb)
 		{
 			std::uniform_int_distribution<short> integer_distributor(static_cast<short>(lowerb), static_cast<short>(upperb));
 			return static_cast<char>(integer_distributor(m_engine));
@@ -232,17 +232,17 @@ namespace ke
 		 * @return Random character within the specified range.
 		 */
 		template <template <typename rngType> class _RngType>
-		char Char(const Range<char, _RngType>& range)
+		char rand_char(const Range<char, _RngType>& range)
 		{
 			// std::uniform_int_distribution<char> is not allowed, so we use short instead
 
 			// optimize for existing range types
 			if constexpr (std::is_same_v<_RngType<char>, policies::ClosedRangePolicy<char>>)
-				return Char(range.a, range.b);
+				return rand_char(range.a, range.b);
 			if constexpr (std::is_same_v<_RngType<char>, policies::OpenRangePolicy<char>>)
-				return Char(range.a + 1, range.b - 1);
+				return rand_char(range.a + 1, range.b - 1);
 			if constexpr (std::is_same_v<_RngType<char>, policies::HalfOpenRangePolicy<char>>)
-				return Char(range.a, range.b - 1);
+				return rand_char(range.a, range.b - 1);
 
 			char a = range.a;
 			char b = range.b;
@@ -252,7 +252,7 @@ namespace ke
 			if (!range.contains(b))
 				b = range.b - 1;
 
-			return Char(a, b);
+			return rand_char(a, b);
 		}
 
 
@@ -266,7 +266,7 @@ namespace ke
 		 * @param upperb	upper bound
 		 * @return Random double within [lowerb, upperb] range.
 		 */
-		double Double(double lowerb, double upperb)
+		double rand_double(double lowerb, double upperb)
 		{
 			std::uniform_real_distribution<double> double_distributor(lowerb, upperb);
 			return double_distributor(m_engine);
@@ -283,17 +283,17 @@ namespace ke
 		 * @return Random double within the specified range.
 		 */
 		template <template <typename rngType> class _RngType>
-		double Double(const Range<double, _RngType>& range)
+		double rand_double(const Range<double, _RngType>& range)
 		{
 			constexpr double eps = std::numeric_limits<double>().epsilon();
 
 			// optimize for existing range types
 			if constexpr (std::is_same_v<_RngType<double>, policies::ClosedRangePolicy<double>>)
-				return Double(range.a, range.b);
+				return rand_double(range.a, range.b);
 			if constexpr (std::is_same_v<_RngType<double>, policies::OpenRangePolicy<double>>)
-				return Double(range.a + eps, range.b - eps);
+				return rand_double(range.a + eps, range.b - eps);
 			if constexpr (std::is_same_v<_RngType<double>, policies::HalfOpenRangePolicy<double>>)
-				return Double(range.a, range.b - eps);
+				return rand_double(range.a, range.b - eps);
 
 			double a = range.a;
 			double b = range.b;
@@ -303,7 +303,7 @@ namespace ke
 			if (!range.contains(b))
 				b = range.b - eps;
 
-			return Double(a, b);
+			return rand_double(a, b);
 		}
 
 
@@ -317,7 +317,7 @@ namespace ke
 		 * @param upperb	upper bound
 		 * @return Random double within [lowerb, upperb] range.
 		 */
-		float Float(float lowerb, float upperb)
+		float rand_float(float lowerb, float upperb)
 		{
 			std::uniform_real_distribution<float> double_distributor(lowerb, upperb);
 			return double_distributor(m_engine);
@@ -334,17 +334,17 @@ namespace ke
 		 * @return Random float within the specified range.
 		 */
 		template <template <typename rngType> class _RngType>
-		float Float(const Range<float, _RngType>& range)
+		float rand_float(const Range<float, _RngType>& range)
 		{
 			constexpr float eps = std::numeric_limits<float>().epsilon();
 
 			// optimize for existing range types
 			if constexpr (std::is_same_v<_RngType<float>, policies::ClosedRangePolicy<float>>)
-				return Float(range.a, range.b);
+				return rand_float(range.a, range.b);
 			if constexpr (std::is_same_v<_RngType<float>, policies::OpenRangePolicy<float>>)
-				return Float(range.a + eps, range.b - eps);
+				return rand_float(range.a + eps, range.b - eps);
 			if constexpr (std::is_same_v<_RngType<float>, policies::HalfOpenRangePolicy<float>>)
-				return Float(range.a, range.b - eps);
+				return rand_float(range.a, range.b - eps);
 
 			float a = range.a;
 			float b = range.b;
@@ -354,7 +354,7 @@ namespace ke
 			if (!range.contains(b))
 				b = range.b - eps;
 
-			return Float(a, b);
+			return rand_float(a, b);
 		}
 
 
@@ -366,7 +366,7 @@ namespace ke
 		 * @return 
 		 */
 		template<typename... ke_ranges>
-		std::string String(size_t lenght, ke_ranges... ranges)
+		std::string rand_string(size_t lenght, ke_ranges... ranges)
 		{
 			std::vector<ClosedRange<char>> pairs = { static_cast<ClosedRange<char>>(ranges)... };
 
@@ -379,8 +379,8 @@ namespace ke
 
 			for (size_t i = 0; i < lenght; i++)
 			{
-				int selected_range = Int32(0, static_cast<int>(pairs.size()) - 1);
-				output += Char(pairs[selected_range].a, pairs[selected_range].b);
+				int selected_range = int32(0, static_cast<int>(pairs.size()) - 1);
+				output += rand_char(pairs[selected_range].a, pairs[selected_range].b);
 			}
 
 			return output;
@@ -398,9 +398,9 @@ namespace ke
  		* @param percent
  		* @return 
  		*/
-		bool Chance(float percent)
+		bool chance(float percent)
 		{
-			return ClosedRange(0.f, percent).contains(Float(0, 1));
+			return ClosedRange(0.f, percent).contains(rand_float(0, 1));
 		}
 
 
@@ -409,7 +409,7 @@ namespace ke
 		 * 
 		 * @param seed
 		 */
-		void SetSeed(unsigned int seed)
+		void set_seed(unsigned int seed)
 		{
 			m_engine.seed(seed);
 		}

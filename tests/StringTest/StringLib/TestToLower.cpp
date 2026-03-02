@@ -13,18 +13,18 @@ KE_TEST(toLower)
 				std::string oryginal = { c, d, e };
 				std::string lower = { static_cast<char>(c + 32), static_cast<char>(d + 32), static_cast<char>(e + 32) };
 				
-				ASSERT_EQUAL(ke::toLower(oryginal), lower);
+				ASSERT_EQUAL(ke::to_lower(oryginal), lower);
 			}
 		}
 	}
 
-	ASSERT_EQUAL(ke::toLower("HELLO"), "hello");
-	ASSERT_EQUAL(ke::toLower("Hello"), "hello");
-	ASSERT_EQUAL(ke::toLower("hello"), "hello");
-	ASSERT_EQUAL(ke::toLower("hElLo"), "hello");
-	ASSERT_EQUAL(ke::toLower("HELLO WORLD"), "hello world");
-	ASSERT_EQUAL(ke::toLower("Hello World"), "hello world");
-	ASSERT_EQUAL(ke::toLower("hello world"), "hello world");
-	ASSERT_EQUAL(ke::toLower("123456"), "123456");
-	ASSERT_EQUAL(ke::toLower("Tesxt123With 123Numbers"), "tesxt123with 123numbers");
+	ASSERT_EQUAL(ke::to_lower("HELLO"), "hello");
+	ASSERT_EQUAL(ke::to_lower("Hello"), "hello");
+	ASSERT_EQUAL(ke::to_lower("hello"), "hello");
+	ASSERT_EQUAL(ke::to_lower("hElLo"), "hello");
+	ASSERT_EQUAL(ke::to_lower("HELLO WORLD"), "hello world");
+	ASSERT_EQUAL(ke::to_lower("Hello World"), "hello world");
+	ASSERT_EQUAL(ke::to_lower("hello world"), "hello world");
+	ASSERT_EQUAL(ke::to_lower("123456"), "123456");
+	ASSERT_EQUAL(ke::to_lower("Tesxt123With 123Numbers"), "tesxt123with 123numbers");
 }

@@ -42,7 +42,7 @@ namespace ke::test::_internal
 		virtual void Run() = 0;
 
 
-		void __ON_INTERRUPTION(const std::string& test_type, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string& file, uint32_t line)
+		void __on_interruption(const std::string& test_type, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string& file, uint32_t line)
 		{
 			TestData data { 
 				.test_type = test_type, 
@@ -61,7 +61,7 @@ namespace ke::test::_internal
 
 
 		template <typename T, typename U> requires _EqualComparableConcept<T, U>
-		void __ASSERT_EQUAL(const T& left, const U& right, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
+		void __assert_equal(const T& left, const U& right, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -95,7 +95,7 @@ namespace ke::test::_internal
 
 
 		template <typename T, typename U>
-		void __ASSERT_NOT_EUQAL(const T& left, const U& right, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
+		void __assert_not_equal(const T& left, const U& right, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -129,7 +129,7 @@ namespace ke::test::_internal
 
 
 		template <typename T, typename U> requires _SimilarComparableConcept<T, U, float>
-		void __ASSERT_SIMILAR(const T& left, const U& right, float epsilon, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
+		void __assert_similar(const T& left, const U& right, float epsilon, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -163,7 +163,7 @@ namespace ke::test::_internal
 
 
 		template <typename T, typename U> requires _SimilarComparableConcept<T, U, double>
-		void __ASSERT_SIMILAR_DOUBLE(const T& left, const U& right, double epsilon, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
+		void __assert_similar_double(const T& left, const U& right, double epsilon, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -197,7 +197,7 @@ namespace ke::test::_internal
 
 
 		template <typename T, typename U> requires _SimilarComparableConcept<T, U, long double>
-		void __ASSERT_NOT_SIMILAR(const T& left, const U& right, long double epsilon, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
+		void __assert_not_similar(const T& left, const U& right, long double epsilon, const std::string_view left_expr_string, const std::string_view right_expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -231,7 +231,7 @@ namespace ke::test::_internal
 
 
 		template <typename T>
-		void __ASSERT_TRUE(const T& expr, const std::string_view expr_string, const std::string_view file, uint32_t line)
+		void __assert_true(const T& expr, const std::string_view expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -265,7 +265,7 @@ namespace ke::test::_internal
 
 
 		template <typename T>
-		void __ASSERT_FALSE(const T& expr, const std::string_view expr_string, const std::string_view file, uint32_t line)
+		void __assert_false(const T& expr, const std::string_view expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -300,7 +300,7 @@ namespace ke::test::_internal
 
 
 		template <typename T, typename ErrorType>
-		void __ASSERT_ERROR(const std::expected<T, ErrorType>& expr, ErrorType error, std::string_view expr_string, const std::string_view file, uint32_t line)
+		void __assert_error(const std::expected<T, ErrorType>& expr, ErrorType error, std::string_view expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -315,7 +315,7 @@ namespace ke::test::_internal
 			{
 				data.result = TestResult::Failure;
 				data.left_expression = expr_string;
-				data.right_expression = ::ke::toString(error);
+				data.right_expression = ::ke::to_string(error);
 
 				if constexpr 
 					((std::is_convertible_v<T, std::string> || std::is_fundamental_v<T> || std::is_convertible_v<T, std::string_view> || std::formattable<T, char>) &&
@@ -335,7 +335,7 @@ namespace ke::test::_internal
 
 
 		template <typename T, typename ErrorType>
-		void __ASSERT_NO_ERROR(const std::expected<T, ErrorType>& expr, std::string_view expr_string, const std::string_view file, uint32_t line)
+		void __assert_no_error(const std::expected<T, ErrorType>& expr, std::string_view expr_string, const std::string_view file, uint32_t line)
 		{
 			if (m_aborted) return;
 
@@ -368,7 +368,7 @@ namespace ke::test::_internal
 		}
 
 
-		void __ABORT_TESTS(std::string_view reason)
+		void __abort_tests(std::string_view reason)
 		{
 			m_aborted = true;
 
@@ -380,7 +380,7 @@ namespace ke::test::_internal
 
 	private:
 
-		void _RunEncapsulated()
+		void _run_encapsulated()
 		{
 			ke::Clock test_benchmark(m_time_unit);
 			test_benchmark.start();
@@ -414,100 +414,100 @@ namespace ke::test::_internal
 #define ASSERT_EQUAL(left, right) \
 try \
 { \
-	__ASSERT_EQUAL(left, right, #left, #right, __FILE__, __LINE__); \
+	__assert_equal(left, right, #left, #right, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT EQUAL", #left, #right, __FILE__, __LINE__); \
+	__on_interruption("ASSERT EQUAL", #left, #right, __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_NOT_EQUAL(left, right) \
 try \
 { \
-	__ASSERT_NOT_EUQAL(left, right, #left, #right, __FILE__, __LINE__); \
+	__assert_not_equal(left, right, #left, #right, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT NOT EQUAL", #left, #right, __FILE__, __LINE__); \
+	__on_interruption("ASSERT NOT EQUAL", #left, #right, __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_SIMILAR(left, right, epsilon) \
 try \
 { \
-	__ASSERT_SIMILAR(left, right, epsilon, #left, #right, __FILE__, __LINE__); \
+	__assert_similar(left, right, epsilon, #left, #right, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT SIMILAR", #left, #right, __FILE__, __LINE__); \
+	__on_interruption("ASSERT SIMILAR", #left, #right, __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_SIMILAR_DOUBLE(left, right, epsilon) \
 try \
 { \
-	__ASSERT_SIMILAR_DOUBLE(left, right, epsilon, #left, #right, __FILE__, __LINE__); \
+	__assert_similar_double(left, right, epsilon, #left, #right, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT SIMILAR", #left, #right, __FILE__, __LINE__); \
+	__on_interruption("ASSERT SIMILAR", #left, #right, __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_NOT_SIMILAR(left, right, epsilon) \
 try \
 { \
-	__ASSERT_NOT_SIMILAR(left, right, epsilon, #left, #right, __FILE__, __LINE__); \
+	__assert_not_similar(left, right, epsilon, #left, #right, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT NOT SIMILAR", #left, #right, __FILE__, __LINE__); \
+	__on_interruption("ASSERT NOT SIMILAR", #left, #right, __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_TRUE(expr) \
 try \
 { \
-	__ASSERT_TRUE(expr, #expr, __FILE__, __LINE__); \
+	__assert_true(expr, #expr, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT TRUE", #expr, "true", __FILE__, __LINE__); \
+	__on_interruption("ASSERT TRUE", #expr, "true", __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_FALSE(expr) \
 try \
 { \
-	__ASSERT_FALSE(expr, #expr, __FILE__, __LINE__); \
+	__assert_false(expr, #expr, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT FALSE", #expr, "false", __FILE__, __LINE__); \
+	__on_interruption("ASSERT FALSE", #expr, "false", __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_ERROR(expr, error) \
 try \
 { \
-	__ASSERT_ERROR(expr, error, #expr, __FILE__, __LINE__); \
+	__assert_error(expr, error, #expr, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT ERROR", #expr, #error, __FILE__, __LINE__); \
+	__on_interruption("ASSERT ERROR", #expr, #error, __FILE__, __LINE__); \
 }
 
 
 #define ASSERT_NO_ERROR(expr) \
 try \
 { \
-	__ASSERT_NO_ERROR(expr, #expr, __FILE__, __LINE__); \
+	__assert_no_error(expr, #expr, __FILE__, __LINE__); \
 } \
 catch (...) \
 { \
-	__ON_INTERRUPTION("ASSERT NO ERROR", #expr, "no error", __FILE__, __LINE__); \
+	__on_interruption("ASSERT NO ERROR", #expr, "no error", __FILE__, __LINE__); \
 }
 
 
-#define ABORT_TESTS() __ABORT_TESTS()
+#define ABORT_TESTS() __abort_tests()

@@ -26,7 +26,7 @@ namespace ke::_impl
      * @return ContainerType<std::string> of separated text. Does not include empty strings
      */
     template <_StringRangeTypeConcept ContainerType>
-    inline auto splitString_impl(std::string_view text, const std::set<std::string>& delimiters)
+    inline auto split_string_impl(std::string_view text, const std::set<std::string>& delimiters)
     {
         if (text.empty() || delimiters.empty())
             return ContainerType({std::string(text)});
@@ -81,7 +81,7 @@ namespace ke::_impl
      * @return ContainerType<std::string> of separated text. Does not include empty strings
      */
     template <_StringContainerTypeConcept ContainerType>
-    inline auto splitString_impl(std::string_view text, const std::set<std::string>& delimiters)
+    inline auto split_string_impl(std::string_view text, const std::set<std::string>& delimiters)
     {
         if (text.empty() || delimiters.empty())
             return ContainerType({std::string(text)});
@@ -134,7 +134,7 @@ namespace ke::_impl
      * @return ContainerType<std::string> of separated text. Does not include empty strings
      */
     template <_StringRangeTypeConcept ContainerType>
-    inline auto splitString_impl(std::string_view text, const char delimiter)
+    inline auto split_string_impl(std::string_view text, const char delimiter)
     {
         if (text.empty())
             return ContainerType({std::string(text)});
@@ -184,7 +184,7 @@ namespace ke::_impl
      * @return ContainerType<std::string> of separated text. Does not include empty strings
      */
     template <_StringContainerTypeConcept ContainerType>
-    inline auto splitString_impl(std::string_view text, const char delimiter)
+    inline auto split_string_impl(std::string_view text, const char delimiter)
     {
         if (text.empty())
             return ContainerType({std::string(text)});
@@ -225,7 +225,7 @@ namespace ke::_impl
      * @return auto 
      */
     template <_StringPairTypeConcept ContainerType>
-    inline auto splitStringToPair_impl(std::string_view text, const char delimiter, size_t split_index = 0)
+    inline auto split_string_to_pair_impl(std::string_view text, const char delimiter, size_t split_index = 0)
     {
         if (text.empty())
             return ContainerType("", "");
@@ -248,7 +248,7 @@ namespace ke::_impl
 
 
     template <_StringPairTypeConcept ContainerType, typename... Args>
-    inline auto splitStringToPair_impl(std::string_view text, const std::set<std::string>& delimiters, size_t split_index = 0)
+    inline auto split_string_to_pair_impl(std::string_view text, const std::set<std::string>& delimiters, size_t split_index = 0)
     {
         if (text.empty())
             return ContainerType("", "");

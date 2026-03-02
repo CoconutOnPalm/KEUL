@@ -8,7 +8,7 @@
 namespace ke::_impl
 {
     template <std::ranges::range ContainerType> 
-    std::string assembleString_impl(const ContainerType& text_partitions, const std::string& separator, bool delete_last_separator = true)
+    std::string assemble_string_impl(const ContainerType& text_partitions, const std::string& separator, bool delete_last_separator = true)
     {
         if (text_partitions.empty())
             return "";

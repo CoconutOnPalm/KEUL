@@ -31,6 +31,6 @@ KE_TEST(removeComments)
 			
 			)"""";
 
-	ASSERT_EQUAL(ke::removeComments(test_string1), expected_string);
-	ASSERT_EQUAL(ke::removeComments(test_string2, "#"), expected_string);
+	ASSERT_EQUAL(ke::remove_comments(test_string1), expected_string);
+	ASSERT_EQUAL(ke::remove_comments(test_string2, "#"), expected_string);
 }

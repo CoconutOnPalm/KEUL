@@ -23,32 +23,7 @@ namespace ke
 		 * @param str			Input string. Lines are not trimmed.
 		 * @param whitespaces
 		 */
-		inline void trimString_impl(std::string& str, std::initializer_list<char> whitespaces);
-
-		/**
-		 * @brief removes comments from a string. Comments are marked by "//" and end with a newline character.
-		 *
-		 * @example
-		 *  str =
-		 *	R""""(
-		 *	int main()
-		 *	{
-		 *		// this is a comment
-		 *		return 0;
-		 *	}
-		 *	)""""
-		 * 	removeComments_impl(str): str ->
-		 *	R""""(
-		 *	int main()
-		 *	{
-		 *
-		 *		return 0;
-		 *	}
-		 *	)""""
-		 *
-		 * @param str Input string. Can have multiple lines.
-		 */
-		inline void removeComments_impl(std::string& str);
+		inline void trim_string_impl(std::string& str, std::initializer_list<char> whitespaces);
 
 
 		/**
@@ -61,7 +36,7 @@ namespace ke
 		 * @param str			Input string
 		 * @param max_length	Maximum length of the string
 		 */
-		inline void shortenString_impl(std::string& str, size_t max_length)
+		inline void shorten_string_impl(std::string& str, size_t max_length)
 		{
 			if (max_length <= 3 && str.length() > max_length)
 			{
@@ -83,7 +58,7 @@ namespace ke
 		 *
 		 * @param str
 		 */
-		inline void cleanTypeInfo_impl(std::string& str)
+		inline void clean_type_info_impl(std::string& str)
 		{
 			if (str.empty())
 				return;
@@ -133,7 +108,7 @@ namespace ke
 		 * @param str
 		 * @param whitespaces
 		 */
-		inline void trimString_impl(std::string& str, std::initializer_list<char> whitespaces)
+		inline void trim_string_impl(std::string& str, std::initializer_list<char> whitespaces)
 		{
 			if (str.size() > static_cast<size_t>(std::numeric_limits<int64_t>::max()))
 			{
@@ -169,9 +144,28 @@ namespace ke
 		/**
 		 * @brief removes comments from a string. Comments are marked by "//" and end with a newline character.
 		 *
-		 * @param str
+		 * @example
+		 *  str =
+		 *	R""""(
+		 *	int main()
+		 *	{
+		 *		// this is a comment
+		 *		return 0;
+		 *	}
+		 *	)""""
+		 * 	removeComments_impl(str): str ->
+		 *	R""""(
+		 *	int main()
+		 *	{
+		 *
+		 *		return 0;
+		 *	}
+		 *	)""""
+		 *
+		 * @param str Input string. Can have multiple lines.
 		 */
-		inline void removeComments_impl(std::string& str, const std::string_view comment_character = "//")
+		[[deprecated]]
+		inline void remove_comments_impl(std::string& str, const std::string_view comment_character = "//")
 		{
 			bool is_comment = false;
 			size_t comment_start = 0;

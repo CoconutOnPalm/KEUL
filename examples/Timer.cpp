@@ -21,7 +21,7 @@ int main()
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	std::println("while the condition is satisfied: ");
-	timer.repeatWhile(std::chrono::milliseconds(100), &condition, foo, x++);
+	timer.repeat_while(std::chrono::milliseconds(100), &condition, foo, x++);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	condition = false;
 	std::println("stop");

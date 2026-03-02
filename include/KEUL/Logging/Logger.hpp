@@ -36,7 +36,7 @@ namespace ke
 		std::unordered_map<std::string, std::ofstream> m_logfiles;
 
 		LogLayer m_layer = LogLayer::Debug;
-		std::unique_ptr<policies::LoggingPolicyBase> m_loggingPolicy = std::make_unique<policies::DefaultLoggingPolicy>();
+		std::unique_ptr<policies::LoggingPolicyBase> m_logging_policy = std::make_unique<policies::DefaultLoggingPolicy>();
 
 		static inline std::mutex m_io_mutex;
 
@@ -68,7 +68,7 @@ namespace ke
 		 * @param ...args		std::format args
 		 */
 		template <typename... Args>
-		void logDetailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
+		void log_detailed(LogLayer layer, std::string_view filename, std::string_view line, const std::format_string<Args...> format_str, Args&&... args)
 		{
 			std::lock_guard lock(m_io_mutex);
 
@@ -79,19 +79,19 @@ namespace ke
 			if (m_logstream)
 			{
 				std::println(*m_logstream, "{0}{1}{2}{3}",
-					m_loggingPolicy->prefix(layer, location),
-					m_loggingPolicy->header(layer, location),
+					m_logging_policy->prefix(layer, location),
+					m_logging_policy->header(layer, location),
 					ke::format(format_str, std::forward<Args>(args)...),
-					m_loggingPolicy->suffix(layer, location));
+					m_logging_policy->suffix(layer, location));
 			}
 
 			for (auto& [filename, file] : m_logfiles)
 			{
 				std::println(file, "{0}{1}{2}{3}",
-					m_loggingPolicy->_no_ansi_prefix(layer, location),
-					m_loggingPolicy->_no_ansi_header(layer, location),
+					m_logging_policy->_no_ansi_prefix(layer, location),
+					m_logging_policy->_no_ansi_header(layer, location),
 					ke::format(format_str, std::forward<Args>(args)...),
-					m_loggingPolicy->_no_ansi_suffix(layer, location));
+					m_logging_policy->_no_ansi_suffix(layer, location));
 			}
 		}
 
@@ -115,54 +115,54 @@ namespace ke
 			if (m_logstream)
 			{
 				std::println(*m_logstream, "{0}{1}{2}{3}",
-					m_loggingPolicy->prefix(layer, location),
-					m_loggingPolicy->header(layer, location),
+					m_logging_policy->prefix(layer, location),
+					m_logging_policy->header(layer, location),
 					ke::format(format_str, std::forward<Args>(args)...),
-					m_loggingPolicy->suffix(layer, location));
+					m_logging_policy->suffix(layer, location));
 			}
 
 			for (auto& [filename, file] : m_logfiles)
 			{
 				std::println(file, "{0}{1}{2}{3}",
-					m_loggingPolicy->_no_ansi_prefix(layer, location),
-					m_loggingPolicy->_no_ansi_header(layer, location),
+					m_logging_policy->_no_ansi_prefix(layer, location),
+					m_logging_policy->_no_ansi_header(layer, location),
 					ke::format<FormatAllowAnsiCodes::Off>(format_str, std::forward<Args>(args)...),
-					m_loggingPolicy->_no_ansi_suffix(layer, location));
+					m_logging_policy->_no_ansi_suffix(layer, location));
 			}
 		}
 
 
 		template <typename... Args>
-		inline void logInfo(const std::format_string<Args...> format_str, Args&&... args)
+		inline void log_info(const std::format_string<Args...> format_str, Args&&... args)
 		{
 			log(LogLayer::Info, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void logDebug(const std::format_string<Args...> format_str, Args&&... args)
+		inline void log_debug(const std::format_string<Args...> format_str, Args&&... args)
 		{
 			log(LogLayer::Debug, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void logWarning(const std::format_string<Args...> format_str, Args&&... args)
+		inline void log_warning(const std::format_string<Args...> format_str, Args&&... args)
 		{
 			log(LogLayer::Warning, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void logError(const std::format_string<Args...> format_str, Args&&... args)
+		inline void log_error(const std::format_string<Args...> format_str, Args&&... args)
 		{
 			log(LogLayer::Error, format_str, std::forward<Args>(args)...);
 		}
 
 		template <typename... Args>
-		inline void logCritical(const std::format_string<Args...> format_str, Args&&... args)
+		inline void log_critical(const std::format_string<Args...> format_str, Args&&... args)
 		{
 			log(LogLayer::Critical, format_str, std::forward<Args>(args)...);
 		}
 
-		void setLayer(LogLayer layer)
+		void set_layer(LogLayer layer)
 		{
 			std::lock_guard lock(m_io_mutex);
 			m_layer = layer;
@@ -173,7 +173,7 @@ namespace ke
 		 * 
 		 * @param stream console std::ostream
 		 */
-		void setLogStream(std::ostream* stream)
+		void set_log_stream(std::ostream* stream)
 		{
 			std::lock_guard lock(m_io_mutex);
 			m_logstream = stream;
@@ -186,10 +186,10 @@ namespace ke
 		 * @tparam LoggingPolicy	policies::LoggingPolicyBase
 		 */
 		template <class LoggingPolicy>
-		void setLoggingPolicy()
+		void set_logging_policy()
 		{
 			std::lock_guard lock(m_io_mutex);
-			m_loggingPolicy = std::make_unique<LoggingPolicy>();
+			m_logging_policy = std::make_unique<LoggingPolicy>();
 		}
 
 		/**
@@ -198,7 +198,7 @@ namespace ke
 		 * @param filename
 		 * @param mode
 		 */
-		void addLogFile(const std::string& filename, std::ios::openmode mode = std::ios::trunc)
+		void add_log_file(const std::string& filename, std::ios::openmode mode = std::ios::trunc)
 		{
 			std::lock_guard lock(m_io_mutex);
 
@@ -206,7 +206,7 @@ namespace ke
 
 			if (!empl_resoult.second)
 			{
-				ke::_internal::EngineLog::Warning("log file \"{}\" already exists", filename);
+				ke::_internal::EngineLog::warning("log file \"{}\" already exists", filename);
 				return;
 			}
 
@@ -214,14 +214,14 @@ namespace ke
 
 			if (!file.good())
 			{
-				ke::_internal::EngineLog::Error("Failed to open log file: {}", filename);
+				ke::_internal::EngineLog::error("Failed to open log file: {}", filename);
 				file.close();
 				m_logfiles.erase(empl_resoult.first);
 				return;
 			}
 		}
 
-		void removeLogFile(const std::string& filename)
+		void remove_log_file(const std::string& filename)
 		{
 			std::lock_guard lock(m_io_mutex);
 
@@ -229,7 +229,7 @@ namespace ke
 
 			if (it == m_logfiles.end())
 			{
-				ke::_internal::EngineLog::Warning("Log file \"{} \" does not exist", filename);
+				ke::_internal::EngineLog::warning("Log file \"{} \" does not exist", filename);
 				return;
 			}
 

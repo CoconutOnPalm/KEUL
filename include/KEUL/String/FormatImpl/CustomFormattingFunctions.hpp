@@ -12,16 +12,16 @@ namespace ke::_impl
 {
     inline auto rgb_ansi_color(std::string_view arg) -> std::expected<std::string, Error>
     {
-        auto args = ke::splitString<std::vector>(arg, { ",", " " });
+        auto args = ke::split_string<std::vector>(arg, { ",", " " });
 
         if (args.size() != 3)
             return std::unexpected(ke::Error::InvalidArgumentCount);
 
         std::string result = "\033[38;2;";
 
-        auto r = ke::fromString<uint16_t>(args[0]);
-		auto g = ke::fromString<uint16_t>(args[1]);
-		auto b = ke::fromString<uint16_t>(args[2]);
+        auto r = ke::from_string<uint16_t>(args[0]);
+		auto g = ke::from_string<uint16_t>(args[1]);
+		auto b = ke::from_string<uint16_t>(args[2]);
 
 		if (!(r && g && b))
 			return std::unexpected(ke::Error::FormatError);

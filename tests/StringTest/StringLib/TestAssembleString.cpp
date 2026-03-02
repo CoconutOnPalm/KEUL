@@ -11,9 +11,9 @@ KE_TEST(AssembleString)
         std::vector<std::string> strings;
         
         for (int j = 0; j < 10; j++)
-            strings.push_back(generator.String(i, ke::ClosedRange('a', 'z'), ke::ClosedRange('1', '9'), ke::ClosedRange('A', 'Z')));
+            strings.push_back(generator.rand_string(i, ke::ClosedRange('a', 'z'), ke::ClosedRange('1', '9'), ke::ClosedRange('A', 'Z')));
 
-        std::string separator = generator.String(1, ke::ClosedRange('!', '/'));
+        std::string separator = generator.rand_string(1, ke::ClosedRange('!', '/'));
 
         std::string expected;
         for (int j = 0; j < 10; j++)
@@ -23,7 +23,7 @@ KE_TEST(AssembleString)
         }
         expected.pop_back();
 
-        ASSERT_EQUAL(ke::assembleString(strings, separator), expected);
+        ASSERT_EQUAL(ke::assemble_string(strings, separator), expected);
     }
 
     // with separator at the end
@@ -32,9 +32,9 @@ KE_TEST(AssembleString)
         std::vector<std::string> strings;
         
         for (int j = 0; j < 10; j++)
-            strings.push_back(generator.String(i, ke::ClosedRange('a', 'z'), ke::ClosedRange('1', '9'), ke::ClosedRange('A', 'Z')));
+            strings.push_back(generator.rand_string(i, ke::ClosedRange('a', 'z'), ke::ClosedRange('1', '9'), ke::ClosedRange('A', 'Z')));
 
-        std::string separator = generator.String(1, ke::ClosedRange('!', '/'));
+        std::string separator = generator.rand_string(1, ke::ClosedRange('!', '/'));
 
         std::string expected;
         for (int j = 0; j < 10; j++)
@@ -43,7 +43,7 @@ KE_TEST(AssembleString)
             expected += separator;
         }
 
-        ASSERT_EQUAL(ke::assembleString(strings, separator, false), expected);
+        ASSERT_EQUAL(ke::assemble_string(strings, separator, false), expected);
     }
 
     // with empty separator
@@ -52,7 +52,7 @@ KE_TEST(AssembleString)
         std::vector<std::string> strings;
         
         for (int j = 0; j < 10; j++)
-            strings.push_back(generator.String(i, ke::ClosedRange('a', 'z'), ke::ClosedRange('1', '9'), ke::ClosedRange('A', 'Z')));
+            strings.push_back(generator.rand_string(i, ke::ClosedRange('a', 'z'), ke::ClosedRange('1', '9'), ke::ClosedRange('A', 'Z')));
 
         std::string separator = "";
 
@@ -60,6 +60,6 @@ KE_TEST(AssembleString)
         for (int j = 0; j < 10; j++)
             expected += strings[j];
 
-        ASSERT_EQUAL(ke::assembleString(strings, separator), expected);
+        ASSERT_EQUAL(ke::assemble_string(strings, separator), expected);
     }
 }

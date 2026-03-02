@@ -18,7 +18,7 @@ namespace ke
 		Clock m_clock;
 
 		std::string m_name;
-		bool m_isRunning;
+		bool m_is_running;
 
 
 	public:
@@ -26,7 +26,7 @@ namespace ke
 		Benchmark(TimeUnit unit = TimeUnit::microseconds)
 			: m_clock(unit)
 			, m_name("Benchmark")
-			, m_isRunning(true)
+			, m_is_running(true)
 		{
 			m_clock.start();
 		}
@@ -38,7 +38,7 @@ namespace ke
 		Benchmark(const std::string& name, TimeUnit unit = TimeUnit::microseconds)
 			: m_clock(unit)
 			, m_name(name)
-			, m_isRunning(true)
+			, m_is_running(true)
 		{
 			m_clock.start();
 		}
@@ -46,7 +46,7 @@ namespace ke
 
 		virtual ~Benchmark()
 		{
-			if (!m_isRunning)
+			if (!m_is_running)
 				return;
 
 			auto val = m_clock.stop();
@@ -59,7 +59,7 @@ namespace ke
 		 */
 		void start()
 		{
-			m_isRunning = true;
+			m_is_running = true;
 			m_clock.start();
 		}
 
@@ -72,7 +72,7 @@ namespace ke
 		long double stop(bool print = false)
 		{
 			auto val = m_clock.stop();
-			m_isRunning = false;
+			m_is_running = false;
 
 			if (print)
 			{

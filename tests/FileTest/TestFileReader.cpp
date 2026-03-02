@@ -70,26 +70,26 @@ KE_TEST(FileReader)
 
 	if (!std::filesystem::exists(basic_txt_path))
 	{
-		ke::_internal::EngineLog::Warning("Basic.txt does not exist. Skipping FileReader tests.");
-		ke::_internal::EngineLog::Info("Current directory: {}. Searching for: {}", std::filesystem::current_path().string(), basic_txt_path);
+		ke::_internal::EngineLog::warning("Basic.txt does not exist. Skipping FileReader tests.");
+		ke::_internal::EngineLog::info("Current directory: {}. Searching for: {}", std::filesystem::current_path().string(), basic_txt_path);
 		return;
 	}
 
 	ke::FileReader reader;
 
 	// temporary disable logging
-	ke::SimpleLogger::setLayer(ke::LogLayer::Off);
+	ke::SimpleLogger::set_layer(ke::LogLayer::Off);
 
 	ASSERT_FALSE(reader.open("noexisting.txt"));
-	ASSERT_FALSE(reader.isOpen());
+	ASSERT_FALSE(reader.is_open());
 
-	ke::SimpleLogger::setLayer(ke::LogLayer::Debug);
+	ke::SimpleLogger::set_layer(ke::LogLayer::Debug);
 
 	ASSERT_TRUE(reader.open(basic_txt_path));
-	ASSERT_TRUE(reader.isOpen());
+	ASSERT_TRUE(reader.is_open());
 
 
-	auto data = reader.readAll();
+	auto data = reader.read_all();
 
 	ASSERT_EQUAL(data.size(), 11);
 
@@ -116,12 +116,12 @@ KE_TEST(FileReader)
 
 	if (!reader.open(unicode_txt_path))
 	{
-		ke::_internal::EngineLog::Warning("Unicode.txt does not exist. Skipping FileReader tests.");
-		ke::_internal::EngineLog::Info("Current directory: {}", std::filesystem::current_path().string());
+		ke::_internal::EngineLog::warning("Unicode.txt does not exist. Skipping FileReader tests.");
+		ke::_internal::EngineLog::info("Current directory: {}", std::filesystem::current_path().string());
 		return;
 	}
 
-	data = reader.readAll();
+	data = reader.read_all();
 
 	ASSERT_EQUAL(data.size(), 18);
 
@@ -158,12 +158,12 @@ KE_TEST(FileReader)
 
 	if (!reader.open(lorem_ipsum_txt_path))
 	{
-		ke::_internal::EngineLog::Warning("LoremIpsum.txt does not exist. Skipping FileReader tests.");
-		ke::_internal::EngineLog::Info("Current directory: {}", std::filesystem::current_path().string());
+		ke::_internal::EngineLog::warning("LoremIpsum.txt does not exist. Skipping FileReader tests.");
+		ke::_internal::EngineLog::info("Current directory: {}", std::filesystem::current_path().string());
 		return;
 	}
 	
-	data = reader.readAll();
+	data = reader.read_all();
 
 	ASSERT_EQUAL(data.size(), 1);
 	ASSERT_EQUAL(data[0], "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");

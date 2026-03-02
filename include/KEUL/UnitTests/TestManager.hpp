@@ -24,13 +24,13 @@ namespace ke::test::_internal
 
 	public:
 
-		static void RunAllTests()
+		static void run_all_tests()
 		{
-			auto& instance = GetInstance();
+			auto& instance = get_instance();
 
 			for (auto& test : instance.m_tests)
 			{
-				test->_RunEncapsulated();
+				test->_run_encapsulated();
 				auto& result = test->m_summary;
 				auto& summary = instance.m_summary;
 
@@ -100,9 +100,9 @@ namespace ke::test::_internal
 
 
 		template<typename T> requires(std::is_base_of_v<TestBase, T>)
-			constexpr static void AddTest()
+			constexpr static void add_test()
 		{
-			auto& instance = GetInstance();
+			auto& instance = get_instance();
 			instance.m_tests.push_back(std::make_unique<T>());
 		}
 
@@ -111,20 +111,20 @@ namespace ke::test::_internal
 
 		TestManager() = default;
 
-		static TestManager& GetInstance()
+		static TestManager& get_instance()
 		{
 			static TestManager instance;
 
 			if (instance.m_destroyed)
 			{
-				OnDeadReference();
+				on_dead_reference();
 				new (&instance) TestManager;
 			}
 
 			return instance;
 		}
 
-		static void OnDeadReference()
+		static void on_dead_reference()
 		{
 			std::println("[CRITICAL ENGINE ERROR]: dead reference in TestManager - Singleton is destroyed");
 		}
@@ -159,7 +159,7 @@ struct _ke_test_##name##_register_func_ptr_t \
 { \
 	_ke_test_##name##_register_func_ptr_t() \
 	{ \
-		ke::test::_internal::TestManager::AddTest<_ke_test_##name>(); \
+		ke::test::_internal::TestManager::add_test<_ke_test_##name>(); \
 	} \
 std::function<void()> callback; \
 }; \

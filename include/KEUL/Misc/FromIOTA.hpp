@@ -13,7 +13,7 @@ namespace ke
 	 * @brief returns a vector containing std::iota(a, b) elements
 	 */
 	template <typename valT>
-	inline std::vector<valT> iotaToVec(const size_t a, const size_t b)
+	inline std::vector<valT> iota_to_vec(const size_t a, const size_t b)
 	{
 		const size_t size = (b > a) ? (b - a) : 0;
 		if (size == 0)

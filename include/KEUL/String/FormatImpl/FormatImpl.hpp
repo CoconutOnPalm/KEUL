@@ -274,14 +274,14 @@ namespace ke
 			}
 
 
-			std::vector<std::string> codes = ke::splitString<std::vector>(sequece, ';');
+			std::vector<std::string> codes = ke::split_string<std::vector>(sequece, ';');
 
 			if (codes.size() == 0)
 				return std::unexpected(ke::Error::EmptyArgument);
 
 			for (auto& code : codes)
 			{
-				ke::toLowerRef(code);
+				ke::to_lower_ref(code);
 			}
 
 			std::string ansi_str = "\033[";
