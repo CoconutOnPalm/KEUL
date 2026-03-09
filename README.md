@@ -11,7 +11,7 @@ Note: Due to its simplicity and potentially long compilation times, it is not re
 ### Getting the repository:
 ```git clone https://github.com/CoconutOnPalm/KEUL.git```
 
-Copy `include/KEUL` into your `include/` directory.  
+Copy `include/keul` into your `include/` directory.  
 No other setup is required.
 
 You can also see the `examples/` directory for reference.
@@ -87,10 +87,10 @@ ke::println("[red][[ERROR]]: [0]{}", message);
 | ... | ... | ... | ...|
 |||||
 | bg_black, backblack |               | 40   | ![BLACK](https://placehold.co/15x15/black/black.png) black background |
-| bg_red, backred     |               | 41   | ![RED](https://placehold.co/15x15/red/red.png) red bakcground |
+| bg_red, backred     |               | 41   | ![RED](https://placehold.co/15x15/red/red.png) red background |
 | ... | ... | ... | ...|
 |||||
-| bbackred   | bbackr | 101   | ![RED](https://placehold.co/15x15/EE4B2B/EE4B2B.png) bright red bakcground |
+| bbackred   | bbackr | 101   | ![RED](https://placehold.co/15x15/EE4B2B/EE4B2B.png) bright red background |
 | bbackgreen | bbackg | 102   | ![BLACK](https://placehold.co/15x15/33ff57/33ff57.png) bright green background |
 | ... | ... | ... | ...|
 | rgb(r,g,b)          |              |    | rgb(r,g,b) text color |
@@ -100,56 +100,54 @@ ke::println("[red][[ERROR]]: [0]{}", message);
 ### String Utilities
 #### string convertions
 ```
-ke::toString(10) -> "10"
+ke::to_string(10) -> "10"
 
-ke::tryToString(10, "???")              -> "10"
-ke::tryToString(NonFormattable, "???")  -> "???"
+ke::to_string_or(10, "???")              -> "10"
+ke::to_string_or(NonFormattable, "???")  -> "???"
 ```
 
 ```
-ke::fromString<int>("10")   -> 10 // inside std::expected<int, ke::Error>
-ke::fromString<int>("abcd") -> std::unexpected<ke::Error>
+ke::from_string<int>("10")   -> 10 // inside std::expected<int, ke::Error>
+ke::from_string<int>("abcd") -> std::unexpected<ke::Error>
+
+ke::from_string_or<int>("abc", 10) -> 10
+
 ```
 
 #### lowercase / uppercase
 ```
-ke::toLower("UPPERCASE") -> "uppercase"
-ke::toUpper("lowercase") -> "LOWERCASE"
+ke::to_lower("UPPERCASE") -> "uppercase"
+ke::to_upper("lowercase") -> "LOWERCASE"
 ```
 
 #### string splitting
 ```
-ke::splitString<std::vector>("apple;banana|onion;cabbage", {";", "|"}) -> std::vector<std::string> [ "apple", "banana", "onion", "cabbage" ]
-ke::splitString<std::vector>("apple;banana|onion;cabbage", {"|"}) -> std::vector<std::string> [ "apple;banana", "onion;cabbage" ]
+ke::split_string<std::vector>("apple;banana|onion;cabbage", {";", "|"}) -> std::vector<std::string> [ "apple", "banana", "onion", "cabbage" ]
+ke::split_string<std::vector>("apple;banana|onion;cabbage", {"|"}) -> std::vector<std::string> [ "apple;banana", "onion;cabbage" ]
 
-ke::splitString<std::set>("apple;banana;apple|onion;cabbage", {";", "|"}) -> std::set<std::string> [ "apple", "banana", "onion", "cabbage" ]
+ke::split_string<std::set>("apple;banana;apple|onion;cabbage", {";", "|"}) -> std::set<std::string> [ "apple", "banana", "onion", "cabbage" ]
 
-ke::splitStringToPair("key: value", { ": " }) -> ("key", "value")
+ke::split_string_to_pair("key: value", { ": " }) -> ("key", "value")
 
 
-// you can also apply direct transformation on the output
-auto toInt = [](const std::string& str) -> int { return ke::fromString<int>(str).value(); };
-ke::splitString<int>("1;2;3;4", { ";" }, toInt) -> std::vector<int> [ 1, 2, 3, 4 ]
+// you can also apply a direct transformation on the output
+auto to_int = [](const std::string& str) -> int { return ke::from_string<int>(str).value(); };
+ke::split_string<int>("1;2;3;4", { ";" }, to_int) -> std::vector<int> [ 1, 2, 3, 4 ]
 ```
 
 #### string assembling
 ```
 std::vector<std::string> vec = {"a", "b", "c", "d"};
-ke::assembleString(vec, ";") -> "a;b;c;d"
+ke::assemble_string(vec, ";") -> "a;b;c;d"
 ```
 
 #### string cleanup
 ```
-ke::shortenString("very long text", 10) -> "very lo..."     // exactly 10 characters long
+ke::trim_string("very long text", 10) -> "very lo..."     // exactly 10 characters long
 ```
 
 ```
-ke::trimString("    weirdly shifted text with newline\n") -> "weirdly shifted text with newline"
-```
-
-```
-ke::removeComments("Lorem ipsum. // comment", "//") -> "Lorem ipsum"
-ke::removeComments("Lorem ipsum. # comment", "#")   -> "Lorem ipsum"
+ke::trim_whitespaces("    weirdly shifted text with newline\n") -> "weirdly shifted text with newline"
 ```
 
 ## Logging
@@ -161,17 +159,17 @@ KEUL provides a simple logging module, which consists of two loggers:
 std::string message = "message";
 
 ke::Logger logger;
-logger.addLogFile("log");
-logger.setLoggingPolicy<ke::policies::DefaultLoggingPolicy>();
-logger.setLayer(ke::LogLayer::Warning); // only warning+ levels will be logged
-logger.logInfo("info: {}", message);
-logger.logDebug("debug: {}", message);
-logger.logWarning("warning: {}", message);
-logger.logError("error: {}", message);
-logger.logCritical("critical: {}", message);
+logger.add_log_file("log");
+logger.set_logging_policy<ke::policies::DefaultLoggingPolicy>();
+logger.set_layer(ke::LogLayer::Warning); // only Warning+ levels will be logged
+logger.log_info("info: {}", message);
+logger.log_debug("debug: {}", message);
+logger.log_warning("warning: {}", message);
+logger.log_error("error: {}", message);
+logger.log_critical("critical: {}", message);
 
 ```
-output (both in console and "log" file):
+output (both in console and `log` file):
 ```
 2025-07-03 18:09:21
 [WARNING]: warning: message
@@ -183,15 +181,15 @@ output (both in console and "log" file):
 
 ### SimpleLogger
 ```
-ke::SimpleLogger::setLoggingPolicy<ke::policies::DefaultLoggingPolicy>();
-ke::SimpleLogger::setLayer(ke::LogLayer::Warning);
-ke::SimpleLogger::logError("error");
+ke::SimpleLogger::set_logging_policy<ke::policies::DefaultLoggingPolicy>();
+ke::SimpleLogger::set_layer(ke::LogLayer::Warning);
+ke::SimpleLogger::log_error("error");
 ```
 or use a dedicated macro
 ```
 int var = -1;
 KE_LOGERROR("variable {} is invalid", var);
-KE_LOGWARNING("this it a warning");
+KE_LOGWARNING("this is a warning");
 ```
 
 ### Log Levels:
@@ -207,11 +205,11 @@ KE_LOGWARNING("this it a warning");
 
 ### Clock
 ```
-ke::Clock clock(ke::Clock::TimeUnit::miliseconds);
+ke::Clock clock(ke::Clock::TimeUnit::milliseconds);
 clock.start();
 for (size_t i = 0; i < 1'000'000'000; i++)
 {
-	// some time consuming operation
+	// some time-consuming operation
 }
 double time = clock.stop();
 std::println("time={:.3f}ms", time);
@@ -236,17 +234,17 @@ output:
 
 ### LoopBenchmark
 ```
-ke::LoopBenchmark loopBenchmark("loop benchmark", ke::Clock::TimeUnit::miliseconds);
+ke::LoopBenchmark loop_benchmark("loop benchmark", ke::Clock::TimeUnit::milliseconds);
 	
 for (size_t i = 0; i < 1000; i++)
 {
-	loopBenchmark.startIteration();
+	loop_benchmark.start_iteration();
 	for (size_t j = 0; j < 1'000'000; j++)
 		{}
-	loopBenchmark.endIteration();
+	loop_benchmark.end_iteration();
 }
 
-double avg_time = loopBenchmark.stop();
+double avg_time = loop_benchmark.stop();
 std::println("avg time: {:.3f}", avg_time);
 ```
 ```
@@ -307,7 +305,7 @@ while the condition is satisfied:
 stop
 ```
 
-both Benchmark and LoopBenchmark were created to be simple and fast to implement. For proper benchmarking, use more robust methods.
+Both `Benchmark` and `LoopBenchmark` were designed to be simple and quick to set up. For proper benchmarking, use more robust methods.
 
 ## (Very) Simple File Loading
 
@@ -320,26 +318,26 @@ radioisotope thermoelectric generator: 3
 ```
 ```
 ke::FileReader freader("data.txt");
-const std::vector<std::string> data = freader.readAll();
+const std::vector<std::string> data = freader.read_all();
 std::println("{}", data);
 ```
 ```
 output:
 [apples: 2, bananas: 5, strawberries: 10, radioisotope thermoelectric generator: 3]
 ```
-the readAll() method reads a file line-by-line, saving many lines of code if you don't have a dedicated reader. It's an easy method, for a more uncivilized age. 
+The `read_all()` method reads a file line by line, saving many lines of code if you don't have a dedicated reader. It's a simple method for a more uncivilized age.
 
 ## Other
 ### ke::Range
 a simple range abstraction
 ```
-ke::ClosedRange<int>closed(0, 1);	// [0, 1]
-ke::OpenRange<int>open(0, 1);		// (0, 1)
-ke::HalfOpenRange<int>halfopen(0, 1);	// [0, 1)
+ke::ClosedRange<int> closed(0, 1);	// [0, 1]
+ke::OpenRange<int> open(0, 1);		// (0, 1)
+ke::HalfOpenRange<int> half_open(0, 1);	// [0, 1)
 
 closed.contains(0); closed.contains(1);		// true true
 open.contains(0); open.contains(1);		// false false
-halfopen.contains(0); halfopen.contains(1);	// true false
+half_open.contains(0); half_open.contains(1);	// true false
 ```
 
 ### assertions
@@ -377,7 +375,7 @@ double bar(double x)
 }
 ```
 
-*footest.cpp*
+*foo-test.cpp*
 ```
 KE_TEST(foo_test)
 {
