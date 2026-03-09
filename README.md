@@ -28,12 +28,12 @@ f1, f2, f3 → formatting options
 0 → reset option (see table below)
 
 **Example:**
-```
+```cpp
 std::string ansi = ke::format("[red]RED [bold;blue]BOLD BLUE");
 // str = "\033[31mRED \033[1;34mBOLD BLUE\033[0m"
 ```
 or print it directly
-```
+```cpp
 ke::println("[red]RED [bold;blue]BOLD BLUE");
 ```
 ```
@@ -42,15 +42,15 @@ output: RED BOLD BLUE
           red   bold blue (in ANSI-compatible consoles)
 ```
 you can also plug in rgb values
-```
+```cpp
 ke::println("[rgb(160,82,45)] Brown Text")
 ```
 or even inject custom ANSI codes
-```
+```cpp
 ke::println("[esc(31)] RED [esc(32)] GREEN"); // ANSI code 31 = RED, 32 = GREEN
 ```
 it inherits the behavior of `std::format`
-```
+```cpp
 ke::println("[red][[ERROR]]: [0]{}", message);
 // output: "[ERROR]: <message>"
 // note: [[ ]] escapes the brackets, just like std::format's {{ }}
@@ -97,14 +97,14 @@ ke::println("[red][[ERROR]]: [0]{}", message);
 
 ### String Utilities
 #### string convertions
-```
+```cpp
 ke::to_string(10) -> "10"
 
 ke::to_string_or(10, "???")              -> "10"
 ke::to_string_or(NonFormattable, "???")  -> "???"
 ```
 
-```
+```cpp
 ke::from_string<int>("10")   -> 10 // inside std::expected<int, ke::Error>
 ke::from_string<int>("abcd") -> std::unexpected<ke::Error>
 
@@ -113,13 +113,13 @@ ke::from_string_or<int>("abc", 10) -> 10
 ```
 
 #### lowercase / uppercase
-```
+```cpp
 ke::to_lower("UPPERCASE") -> "uppercase"
 ke::to_upper("lowercase") -> "LOWERCASE"
 ```
 
 #### string splitting
-```
+```cpp
 ke::split_string<std::vector>("apple;banana|onion;cabbage", {";", "|"}) -> std::vector<std::string> [ "apple", "banana", "onion", "cabbage" ]
 ke::split_string<std::vector>("apple;banana|onion;cabbage", {"|"}) -> std::vector<std::string> [ "apple;banana", "onion;cabbage" ]
 
@@ -134,17 +134,17 @@ ke::split_string<int>("1;2;3;4", { ";" }, to_int) -> std::vector<int> [ 1, 2, 3,
 ```
 
 #### string assembling
-```
+```cpp
 std::vector<std::string> vec = {"a", "b", "c", "d"};
 ke::assemble_string(vec, ";") -> "a;b;c;d"
 ```
 
 #### string cleanup
-```
+```cpp
 ke::trim_string("very long text", 10) -> "very lo..."     // exactly 10 characters long
 ```
 
-```
+```cpp
 ke::trim_whitespaces("    weirdly shifted text with newline\n") -> "weirdly shifted text with newline"
 ```
 
@@ -153,7 +153,7 @@ ke::trim_whitespaces("    weirdly shifted text with newline\n") -> "weirdly shif
 KEUL provides a simple logging module, which consists of two loggers:
 
 ### Logger
-```
+```cpp
 std::string message = "message";
 
 ke::Logger logger;
@@ -178,13 +178,13 @@ output (both in console and `log` file):
 ```
 
 ### SimpleLogger
-```
+```cpp
 ke::SimpleLogger::set_logging_policy<ke::policies::DefaultLoggingPolicy>();
 ke::SimpleLogger::set_layer(ke::LogLayer::Warning);
 ke::SimpleLogger::log_error("error");
 ```
 or use a dedicated macro
-```
+```cpp
 int var = -1;
 KE_LOGERROR("variable {} is invalid", var);
 KE_LOGWARNING("this is a warning");
@@ -202,7 +202,7 @@ KE_LOGWARNING("this is a warning");
 ## Time Module
 
 ### Clock
-```
+```cpp
 ke::Clock clock(ke::Clock::TimeUnit::milliseconds);
 clock.start();
 for (size_t i = 0; i < 1'000'000'000; i++)
@@ -218,7 +218,7 @@ time=2011.904ms
 ```
 
 ### Benchmark
-```
+```cpp
 ke::Benchmark benchmark("benchmark name");
 for (size_t i = 0; i < 1'000'000'000; i++)
     { }
@@ -231,7 +231,7 @@ output:
 ```
 
 ### LoopBenchmark
-```
+```cpp
 ke::LoopBenchmark loop_benchmark("loop benchmark", ke::Clock::TimeUnit::milliseconds);
 	
 for (size_t i = 0; i < 1000; i++)
@@ -251,7 +251,7 @@ avg time: 1.911
 ```
 
 ### Timer
-```
+```cpp
 void foo(int x)
 {
 	std::println("{}", x);
@@ -328,7 +328,7 @@ The `read_all()` method reads a file line by line, saving many lines of code if 
 ## Other
 ### ke::Range
 a simple range abstraction
-```
+```cpp
 ke::ClosedRange<int> closed(0, 1);	// [0, 1]
 ke::OpenRange<int> open(0, 1);		// (0, 1)
 ke::HalfOpenRange<int> half_open(0, 1);	// [0, 1)
@@ -339,7 +339,7 @@ half_open.contains(0); half_open.contains(1);	// true false
 ```
 
 ### assertions
-```
+```cpp
 void foo(const int x)
 {
 	KE_ASSERT(x > 0);
@@ -361,7 +361,7 @@ output:
 
 ## Unit Tests
 *to be tested*
-```
+```cpp
 int foo(int x)
 {
 	return x * x - 3;
@@ -374,7 +374,7 @@ double bar(double x)
 ```
 
 *foo-test.cpp*
-```
+```cpp
 KE_TEST(foo_test)
 {
 	ASSERT_EQUAL(foo(0), -3);
@@ -386,7 +386,7 @@ KE_TEST(foo_test)
 ```
 
 *testing program*
-```
+```cpp
 KE_RUN_ALL_TESTS();
 ```
 Note that by calling `KE_RUN_ALL_TESTS()`, you are running **every** declared `KE_TEST` that is included in the project.
