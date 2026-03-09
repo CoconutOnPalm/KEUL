@@ -7,7 +7,7 @@ struct Point
 
 Point transform(const std::string& point_raw)
 {
-	std::string bracketless = ke::trim_string(point_raw, { '(', ')' }); // strip the point of any brackets:  "(x,y)" -> "x,y"
+	std::string bracketless = ke::trim_whitespaces(point_raw, { '(', ')' }); // strip the point of any brackets:  "(x,y)" -> "x,y"
 	auto pair = ke::split_string_to_pair(bracketless, ',', 0); // split into pair: 
 	return Point { 
 		.x = ke::from_string_or<float>(pair.first, 0), 

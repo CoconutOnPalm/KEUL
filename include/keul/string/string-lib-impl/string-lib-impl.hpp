@@ -13,30 +13,18 @@ namespace ke
 {
 	namespace _impl
 	{
-		/**
-		 * @brief removes specified whitespaces from the front and back of a string.
-		 *
-		 * @example
-		 *  str = "  hello world  " aka "\t hello wordl \t\n"
-		 *	trimString_impl(str, {' ', '\t', '\n'}): str -> "hello world"
-		 *
-		 * @param str			Input string. Lines are not trimmed.
-		 * @param whitespaces
-		 */
-		inline void trim_string_impl(std::string& str, std::initializer_list<char> whitespaces);
-
-
+		
 		/**
 		 * @brief Shortens a string to a specified length. If the string is shorter than the specified length, it is not modified.
 		 *
 		 * @example
 		 *  str = "Hello, World!"
-		 *	shortenString_impl(str, 10): str -> "Hello W..."
+		 *	shorten_string_impl(str, 10): str -> "Hello W..."
 		 *
 		 * @param str			Input string
 		 * @param max_length	Maximum length of the string
 		 */
-		inline void shorten_string_impl(std::string& str, size_t max_length)
+		inline void trim_string_impl(std::string& str, size_t max_length)
 		{
 			if (max_length <= 3 && str.length() > max_length)
 			{
@@ -100,27 +88,25 @@ namespace ke
 		}
 
 
-		
-
 		/**
 		 * @brief removes specified whitespaces from the front and back of a string.
 		 *
-		 * @param str
+		 * @example
+		 *  str = "  hello world  " aka "\t hello wordl \t\n"
+		 *	trim_whitespaces_impl(str, {' ', '\t', '\n'}): str -> "hello world"
+		 *
+		 * @param str			Input string. Lines are not trimmed.
 		 * @param whitespaces
 		 */
-		inline void trim_string_impl(std::string& str, std::initializer_list<char> whitespaces)
+		inline void trim_whitespaces_impl(std::string& str, std::initializer_list<char> whitespaces)
 		{
-			if (str.size() > static_cast<size_t>(std::numeric_limits<int64_t>::max()))
-			{
-				return;
-			}
-
 			int64_t start = 0;
 			int64_t count = str.length();
 
 			std::set<char> wsp = whitespaces;
 
-			for (int64_t i = 0; i < static_cast<int64_t>(str.length()); ++i)
+			int64_t i = 0;
+			for (; i < static_cast<int64_t>(str.length()); ++i)
 			{
 				if (wsp.find(str[i]) == wsp.end()) // not a whitespace
 				{
@@ -129,7 +115,13 @@ namespace ke
 				}
 			}
 
-			for (int64_t i = static_cast<int64_t>(str.length() - 1); i > 0; --i)
+			if (i == str.length()) // the whole string is a 'whitespace'
+			{
+				str.clear();
+				return;
+			}
+
+			for (i = static_cast<int64_t>(str.length() - 1); i > 0; --i)
 			{
 				if (wsp.find(str[i]) == wsp.end()) // not a whitespace
 				{
@@ -197,33 +189,6 @@ namespace ke
 			if (is_comment)
 				str.erase(comment_start, str.length() - comment_start);
 		}
-
-
-
-		// definitions: 
-
-		//template<_StringRangeTypeConcept ContainerType>
-		//inline auto splitString_impl(std::string_view text, std::string_view delimiters)
-		
-
-
-		//template<_StringContainerTypeConcept ContainerType>
-		//inline auto splitString_impl(std::string_view text, std::string_view delimiters)
-		
-
-
-		//template<_StringRangeTypeConcept ContainerType>
-		//inline auto splitString_impl(std::string_view text, const char delimiter)
-		
-
-
-		//template<_StringContainerTypeConcept ContainerType>
-		//inline auto splitString_impl(std::string_view text, const char delimiter)
-		
-
-
-		
-
 
 	} // namespace _impl
 

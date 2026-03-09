@@ -276,7 +276,7 @@ namespace ke
 	}
 
 	/**
-	 * @brief Shortens string to to specified length adding "..." at the end.
+	 * @brief Trims string to to specified length adding "..." at the end.
 	 * @example: 
 	 * "Hello World!", 10 -> "Hello W..."
 	 * 
@@ -285,15 +285,15 @@ namespace ke
 	 * @param length
 	 * @return 
 	 */
-	inline std::string shorten_string(std::string_view str, size_t length)
+	inline std::string trim_string(std::string_view str, size_t length)
 	{
 		std::string resoult(str);
-		_impl::shorten_string_impl(resoult, length);
+		_impl::trim_string_impl(resoult, length);
 		return resoult;
 	}
 
 	/**
-	 * @brief Shortens string to to specified length adding "..." at the end.
+	 * @brief Trims a string to to specified length adding "..." at the end.
 	 * @example: 
 	 * "Hello World!", 10 -> "Hello W..."
 	 * 
@@ -302,9 +302,9 @@ namespace ke
 	 * @param length
 	 * @return 
 	 */
-	inline std::string shorten_string_ref(std::string& str, size_t length)
+	inline std::string trim_string_ref(std::string& str, size_t length)
 	{
-		_impl::shorten_string_impl(str, length);
+		_impl::trim_string_impl(str, length);
 		return str;
 	}
 
@@ -452,10 +452,10 @@ namespace ke
 	 * @param str	text to be trimmed
 	 * @return		new trimmed text
 	 */
-	inline std::string trim_string(std::string_view str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
+	inline std::string trim_whitespaces(std::string_view str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
 	{
 		std::string resoult(str);
-		_impl::trim_string_impl(resoult, whitespaces);
+		_impl::trim_whitespaces_impl(resoult, whitespaces);
 		return resoult;
 	}
 
@@ -471,67 +471,9 @@ namespace ke
 	 *
 	 * @param str	text to be trimmed
 	 */
-	inline void trim_string_ref(std::string& str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
+	inline void trim_whitespaces_ref(std::string& str, std::initializer_list<char> whitespaces = { ' ', '\t', '\n' })
 	{
-		_impl::trim_string_impl(str, whitespaces);
-	}
-
-
-	/**
-	 * @brief Removes "//" comments from the text.
-	 *
-	 * @details
-	 * Example 1:
-	 *	for str:			"Hello There! // this is an iconic line"
-	 *	is turned into		"Hello There! "
-	 *
-	 * Example 2:
-	 *	for str:			"General Kenobi! \n"
-	 *						"// ^ this is an iconic line\n"
-	 *						"You are a bold one!"
-	 *
-	 *	is turned into		"General Kenobi! \n"
-	 *						"\n"
-	 *						"You are a bold one!"
-	 *
-	 * As you can see, removing comments leaves whitespaces. Consider using ke::trimString(str) function
-	 *
-	 *
-	 * @param str
-	 * @return		new string without comments
-	 */
-	[[deprecated]]
-	inline std::string remove_comments(std::string_view str, const std::string_view comment_indicator = "//")
-	{
-		std::string result(str);
-		_impl::remove_comments_impl(result, comment_indicator);
-		return result;
-	}
-
-	/**
-	 * @brief Removes "//" comments from the text.
-	 *
-	 * @details
-	 * Example 1:
-	 *	for str:			"Hello There! // this is an iconic line"
-	 *	is turned into		"Hello There! "
-	 *
-	 * Example 2:
-	 *	for str:			"General Kenobi! \n"
-	 *						"// ^ this is an iconic line\n"
-	 *						"You are a bold one!"
-	 *
-	 *	is turned into		"General Kenobi! \n"
-	 *						"\n"
-	 *						"You are a bold one!"
-	 *
-	 * As you can see, removing comments leaves whitespaces. Consider using ke::trimString(str) function
-	 *
-	 * @param str	reference to oryginal string
-	 */
-	inline void remove_comments_ref(std::string& str, const std::string_view comment_indicator = "//")
-	{
-		_impl::remove_comments_impl(str, comment_indicator);
+		_impl::trim_whitespaces_impl(str, whitespaces);
 	}
 
 

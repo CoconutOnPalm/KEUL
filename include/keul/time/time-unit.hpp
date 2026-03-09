@@ -18,7 +18,7 @@ namespace ke
 	{
 		nanoseconds,
 		microseconds,
-		miliseconds,
+		milliseconds,
 		seconds,
 		minutes
 	};
@@ -31,7 +31,7 @@ namespace ke
 			const static std::map<ke::TimeUnit, std::string> s_time_unit_to_string = {
 				{ke::TimeUnit::nanoseconds, "ns"},
 				{ke::TimeUnit::microseconds, "\u00B5s"}, // µs
-				{ke::TimeUnit::miliseconds, "ms"},
+				{ke::TimeUnit::milliseconds, "ms"},
 				{ke::TimeUnit::seconds, "s"},
 				{ke::TimeUnit::minutes, "min"},
 			};

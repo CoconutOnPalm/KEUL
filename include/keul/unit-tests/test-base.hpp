@@ -24,7 +24,7 @@ namespace ke::test::_internal
 		uint32_t m_test_index = 0;
 
 		bool m_benchmark_enabled = true;
-		::ke::TimeUnit m_time_unit = TimeUnit::miliseconds;
+		::ke::TimeUnit m_time_unit = TimeUnit::milliseconds;
 
 		TestSummary m_summary;
 

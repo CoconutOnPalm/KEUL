@@ -113,7 +113,7 @@ namespace ke
 			case TimeUnit::microseconds:
 				return std::chrono::duration_cast<std::chrono::microseconds>(total_ns).count();
 				break;
-			case TimeUnit::miliseconds:
+			case TimeUnit::milliseconds:
 				return std::chrono::duration_cast<std::chrono::milliseconds>(total_ns).count();
 				break;
 			case TimeUnit::seconds:
