@@ -6,8 +6,6 @@ This library is header-only.
 Note: Due to its simplicity and potentially long compilation times, it is not recommended for use in anything other than small projects.
 
 
-==WARNING: this library currently does not compile in gcc 15. Use gcc 14 instead==
-
 ### Getting the repository:
 ```git clone https://github.com/CoconutOnPalm/KEUL.git```
 
